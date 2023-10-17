@@ -1,8 +1,8 @@
-import { Pressable, StyleSheet, useColorScheme } from "react-native";
-import Entypo from "@expo/vector-icons/Entypo";
+import { StyleSheet, useColorScheme } from "react-native";
+
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 
-import { Text, View } from "../../components/Themed";
+import { View } from "../../components/Themed";
 import Colors from "../../constants/Colors";
 import { Divider } from "../../components/Divider";
 import { Section } from "../../components/Section";
