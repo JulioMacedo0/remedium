@@ -17,6 +17,7 @@ export const Section = ({ title, children }: SectionProps) => {
       <View
         style={{
           marginTop: 10,
+          marginBottom: 15,
           backgroundColor: Colors[theme].tabBackground,
           borderRadius: 8,
           borderWidth: 1,
