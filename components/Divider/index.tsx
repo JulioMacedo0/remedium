@@ -1,13 +1,14 @@
 import { useColorScheme } from "react-native";
 import { View } from "../Themed";
 import Colors from "../../constants/Colors";
+import { useTheme } from "../../context/themeContext";
 
 export const Divider = () => {
-  const colorScheme = useColorScheme();
+  const { theme } = useTheme();
   return (
     <View
       style={{
-        backgroundColor: Colors[colorScheme ?? "light"].borderColor,
+        backgroundColor: Colors[theme].borderColor,
         height: 1,
         width: "100%",
       }}

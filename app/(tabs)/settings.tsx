@@ -1,7 +1,7 @@
 import { StyleSheet, useColorScheme } from "react-native";
 
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
-
+import { useTheme } from "../../context/themeContext";
 import { View } from "../../components/Themed";
 import Colors from "../../constants/Colors";
 import { Divider } from "../../components/Divider";
@@ -9,48 +9,38 @@ import { Section } from "../../components/Section";
 import { RadioItem } from "../../components/RadioItem";
 
 export default function Config() {
-  const colorScheme = useColorScheme();
+  const { selectedtheme, changeTheme, theme } = useTheme();
+
   return (
     <View style={styles.container}>
       <Section title="Theme">
         <RadioItem
           icon={
-            <FontAwesome5
-              name="adjust"
-              size={23}
-              color={Colors[colorScheme ?? "light"].text}
-            />
+            <FontAwesome5 name="adjust" size={23} color={Colors[theme].text} />
           }
           text="Automatic"
-          isSelected={true}
+          isSelected={selectedtheme == "automatic"}
+          onPress={() => changeTheme("automatic")}
         />
 
         <Divider />
 
         <RadioItem
           icon={
-            <Ionicons
-              name="md-sunny"
-              size={23}
-              color={Colors[colorScheme ?? "light"].text}
-            />
+            <Ionicons name="md-sunny" size={23} color={Colors[theme].text} />
           }
           text="Light"
-          isSelected={false}
+          isSelected={selectedtheme == "light"}
+          onPress={() => changeTheme("light")}
         />
 
         <Divider />
 
         <RadioItem
-          icon={
-            <Ionicons
-              name="moon"
-              size={23}
-              color={Colors[colorScheme ?? "light"].text}
-            />
-          }
+          icon={<Ionicons name="moon" size={23} color={Colors[theme].text} />}
           text="Dark"
-          isSelected={false}
+          isSelected={selectedtheme == "dark"}
+          onPress={() => changeTheme("dark")}
         />
       </Section>
     </View>

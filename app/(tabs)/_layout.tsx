@@ -3,6 +3,7 @@ import { Link, Tabs } from "expo-router";
 import { Pressable, useColorScheme } from "react-native";
 
 import Colors from "../../constants/Colors";
+import { useTheme } from "../../context/themeContext";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -15,21 +16,20 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+  const { theme } = useTheme();
   return (
     <Tabs
       screenOptions={{
         headerTitleStyle: {
-          color: Colors[colorScheme ?? "light"].text,
+          color: Colors[theme].text,
         },
         headerStyle: {
-          backgroundColor: Colors[colorScheme ?? "light"].tabBackground,
+          backgroundColor: Colors[theme].tabBackground,
         },
         tabBarShowLabel: false,
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: Colors[theme].tint,
         tabBarStyle: {
-          backgroundColor: Colors[colorScheme ?? "light"].tabBackground,
+          backgroundColor: Colors[theme].tabBackground,
         },
       }}
     >
@@ -45,7 +45,7 @@ export default function TabLayout() {
                   <Entypo
                     name="info-with-circle"
                     size={25}
-                    color={Colors[colorScheme ?? "light"].text}
+                    color={Colors[theme].text}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
