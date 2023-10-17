@@ -1,50 +1,58 @@
-import { StyleSheet, useColorScheme } from "react-native";
+import { Pressable, StyleSheet, useColorScheme } from "react-native";
+import Entypo from "@expo/vector-icons/Entypo";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 
 import { Text, View } from "../../components/Themed";
 import Colors from "../../constants/Colors";
+import { Divider } from "../../components/Divider";
+import { Section } from "../../components/Section";
+import { RadioItem } from "../../components/RadioItem";
 
 export default function Config() {
   const colorScheme = useColorScheme();
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={styles.title}>Theme</Text>
-        <View
-          style={{
-            marginTop: 10,
-            backgroundColor: Colors[colorScheme ?? "light"].tabBackground,
+      <Section title="Theme">
+        <RadioItem
+          icon={
+            <FontAwesome5
+              name="adjust"
+              size={23}
+              color={Colors[colorScheme ?? "light"].text}
+            />
+          }
+          text="Automatic"
+          isSelected={true}
+        />
 
-            borderRadius: 8,
-            borderWidth: 1,
-            borderColor: Colors[colorScheme ?? "light"].borderColor,
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: Colors[colorScheme ?? "light"].tabBackground,
-              margin: 10,
-            }}
-          >
-            <Text>Automatic</Text>
-          </View>
-          <View
-            style={{
-              backgroundColor: Colors[colorScheme ?? "light"].borderColor,
-              height: 1,
-              width: "100%",
-            }}
-          />
-          <Text>Light</Text>
-          <View
-            style={{
-              backgroundColor: Colors[colorScheme ?? "light"].borderColor,
-              height: 1,
-              width: "100%",
-            }}
-          />
-          <Text>Dark</Text>
-        </View>
-      </View>
+        <Divider />
+
+        <RadioItem
+          icon={
+            <Ionicons
+              name="md-sunny"
+              size={23}
+              color={Colors[colorScheme ?? "light"].text}
+            />
+          }
+          text="Light"
+          isSelected={false}
+        />
+
+        <Divider />
+
+        <RadioItem
+          icon={
+            <Ionicons
+              name="moon"
+              size={23}
+              color={Colors[colorScheme ?? "light"].text}
+            />
+          }
+          text="Dark"
+          isSelected={false}
+        />
+      </Section>
     </View>
   );
 }
@@ -59,14 +67,5 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: "bold",
-  },
-  text: {},
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "100%",
-  },
-  itemContainer: {
-    // borderRadius: 8,
   },
 });
