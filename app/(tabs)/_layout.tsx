@@ -20,8 +20,17 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerTitleStyle: {
+          color: Colors[colorScheme ?? "light"].text,
+        },
+        headerStyle: {
+          backgroundColor: Colors[colorScheme ?? "light"].tabBackground,
+        },
         tabBarShowLabel: false,
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarStyle: {
+          backgroundColor: Colors[colorScheme ?? "light"].tabBackground,
+        },
       }}
     >
       <Tabs.Screen
@@ -46,16 +55,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="add"
         options={{
           title: "Add",
           tabBarIcon: ({ color }) => <TabBarIcon name="plus" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="config"
+        name="settings"
         options={{
-          title: "Config",
+          title: "Settings",
           tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
         }}
       />
