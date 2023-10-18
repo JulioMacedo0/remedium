@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 interface ThemeContextValue {
   theme: Theme;
   selectedtheme: SelectedTheme;
@@ -22,8 +22,27 @@ export function ThemeProvider(props: ProviderProps) {
   const theme: Theme =
     selectedtheme == "automatic" ? colorScheme ?? "light" : selectedtheme;
 
-  const changeTheme = (theme: SelectedTheme) => {
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("theme");
+
+      if (value == null) return;
+
+      setSelectedTheme(value as SelectedTheme);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  getData();
+
+  const changeTheme = async (theme: SelectedTheme) => {
     setSelectedTheme(theme);
+
+    try {
+      await AsyncStorage.setItem("theme", theme);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
