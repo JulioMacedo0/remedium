@@ -7,6 +7,7 @@ import Colors from "../../constants/Colors";
 import { Divider } from "../../components/Divider";
 import { Section } from "../../components/Section";
 import { RadioItem } from "../../components/RadioItem";
+import { SectionItem } from "../../components/SectionItem";
 
 export default function Config() {
   const { selectedtheme, changeTheme, theme } = useTheme();
@@ -41,6 +42,16 @@ export default function Config() {
           text="Dark"
           isSelected={selectedtheme == "dark"}
           onPress={() => changeTheme("dark")}
+        />
+      </Section>
+
+      <Section title="Language">
+        <SectionItem
+          icon={
+            <Ionicons name="language" size={23} color={Colors[theme].text} />
+          }
+          text="Language"
+          onPress={() => console.log()}
         />
       </Section>
     </View>
