@@ -1,0 +1,14 @@
+{
+  "HOME": {},
+
+  "ADD": {
+    "REMEDY": "Remedy"
+  },
+
+  "SETTINGS": {
+    "THEME": "Theme",
+    "AUTOMATIC": "Automatic",
+    "LIGHT": "Light",
+    "DARK": "Dark"
+  }
+}
