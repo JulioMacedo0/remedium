@@ -3,8 +3,8 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { useColorScheme } from "react-native";
 import { ThemeProvider } from "../context/themeContext";
+import { I18nProvider } from "../context/i18nContext";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -21,7 +21,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
 
@@ -42,7 +42,9 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
-      <RootLayoutNav />
+      <I18nProvider>
+        <RootLayoutNav />
+      </I18nProvider>
     </ThemeProvider>
   );
 }
