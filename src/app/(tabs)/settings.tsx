@@ -50,8 +50,9 @@ export default function Config() {
           icon={
             <Ionicons name="language" size={23} color={Colors[theme].text} />
           }
-          text="Language"
+          text="App language"
           onPress={() => console.log()}
+          subTitleTags={["choice a language"]}
         />
       </Section>
     </View>
