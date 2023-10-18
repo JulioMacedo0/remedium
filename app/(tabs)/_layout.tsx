@@ -1,6 +1,6 @@
 import Entypo from "@expo/vector-icons/Entypo";
 import { Link, Tabs } from "expo-router";
-import { Pressable, useColorScheme } from "react-native";
+import { Pressable } from "react-native";
 
 import Colors from "../../constants/Colors";
 import { useTheme } from "../../context/themeContext";
