@@ -7,10 +7,16 @@ import { useTheme } from "../../context/themeContext";
 type SectionItemProps = {
   icon: ReactNode;
   text: string;
+  subTitleTags?: string[];
   onPress: () => void;
 };
 
-export const SectionItem = ({ icon, text, onPress }: SectionItemProps) => {
+export const SectionItem = ({
+  icon,
+  text,
+  subTitleTags,
+  onPress,
+}: SectionItemProps) => {
   return (
     <Pressable
       onPress={onPress}
@@ -33,13 +39,31 @@ export const SectionItem = ({ icon, text, onPress }: SectionItemProps) => {
         }}
       >
         {icon}
-        <Text
+        <View
           style={{
-            marginLeft: 10,
+            backgroundColor: "transparent",
+            flexDirection: "column",
           }}
         >
-          {text}
-        </Text>
+          <Text
+            style={{
+              marginLeft: 10,
+            }}
+          >
+            {text}
+          </Text>
+
+          {subTitleTags && (
+            <Text
+              style={{
+                fontSize: 12,
+                marginLeft: 10,
+              }}
+            >
+              {subTitleTags.join(", ")}
+            </Text>
+          )}
+        </View>
       </View>
     </Pressable>
   );
