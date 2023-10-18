@@ -6,9 +6,12 @@
   },
 
   "SETTINGS": {
+    "TITLEPAGE": "Configurações",
     "THEME": "Tema",
     "AUTOMATIC": "Automático",
     "LIGHT": "Claro",
-    "DARK": "Escuro"
+    "DARK": "Escuro",
+    "LANGUAGE": "Idioma",
+    "APPLANGUAGE": "Idioma do Aplicativo"
   }
 }
