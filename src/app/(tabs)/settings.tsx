@@ -8,18 +8,20 @@ import { Divider } from "../../components/Divider";
 import { Section } from "../../components/Section";
 import { RadioItem } from "../../components/RadioItem";
 import { SectionItem } from "../../components/SectionItem";
+import { useI18n } from "../../context/i18nContext";
 
 export default function Config() {
   const { selectedtheme, changeTheme, theme } = useTheme();
+  const { i18n } = useI18n();
 
   return (
     <View style={styles.container}>
-      <Section title="Theme">
+      <Section title={i18n.t("SETTINGS.THEME")}>
         <RadioItem
           icon={
             <FontAwesome5 name="adjust" size={23} color={Colors[theme].text} />
           }
-          text="Automatic"
+          text={i18n.t("SETTINGS.AUTOMATIC")}
           isSelected={selectedtheme == "automatic"}
           onPress={() => changeTheme("automatic")}
         />
@@ -30,7 +32,7 @@ export default function Config() {
           icon={
             <Ionicons name="md-sunny" size={23} color={Colors[theme].text} />
           }
-          text="Light"
+          text={i18n.t("SETTINGS.LIGHT")}
           isSelected={selectedtheme == "light"}
           onPress={() => changeTheme("light")}
         />
@@ -39,20 +41,19 @@ export default function Config() {
 
         <RadioItem
           icon={<Ionicons name="moon" size={23} color={Colors[theme].text} />}
-          text="Dark"
+          text={i18n.t("SETTINGS.DARK")}
           isSelected={selectedtheme == "dark"}
           onPress={() => changeTheme("dark")}
         />
       </Section>
 
-      <Section title="Language">
+      <Section title={i18n.t("SETTINGS.LANGUAGE")}>
         <SectionItem
           icon={
             <Ionicons name="language" size={23} color={Colors[theme].text} />
           }
-          text="App language"
+          text={i18n.t("SETTINGS.APPLANGUAGE")}
           onPress={() => console.log()}
-          subTitleTags={["choice a language"]}
         />
       </Section>
     </View>

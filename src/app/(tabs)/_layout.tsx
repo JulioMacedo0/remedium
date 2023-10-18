@@ -4,6 +4,7 @@ import { Pressable } from "react-native";
 
 import Colors from "../../constants/Colors";
 import { useTheme } from "../../context/themeContext";
+import { useI18n } from "../../context/i18nContext";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -17,6 +18,7 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const { theme } = useTheme();
+  const { i18n } = useI18n();
   return (
     <Tabs
       screenOptions={{
@@ -64,7 +66,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
+          title: `${i18n.t("SETTINGS.TITLEPAGE")}`,
           tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
         }}
       />
