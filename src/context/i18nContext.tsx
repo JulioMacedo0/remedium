@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import * as Localization from "expo-localization";
 import { I18n } from "i18n-js";
 import { translations } from "../i18n";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 interface I18nContextValue {
   i18n: I18n;
   changeLaguange: (language: string) => void;
@@ -21,8 +21,22 @@ export function I18nProvider(props: ProviderProps) {
   i18n.enableFallback = true;
   i18n.defaultLocale = "en";
 
-  const changeLaguange = (language: string) => {
+  const getData = async () => {
+    try {
+      const locale = await AsyncStorage.getItem("laguage");
+
+      if (locale == null) return;
+
+      setLocale(locale as string);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  getData();
+
+  const changeLaguange = async (language: string) => {
     setLocale(language);
+    await AsyncStorage.setItem("laguage", language);
   };
 
   return (
