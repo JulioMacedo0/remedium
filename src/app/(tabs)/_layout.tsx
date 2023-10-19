@@ -22,6 +22,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerTitleAlign: "center",
         headerTitleStyle: {
           color: Colors[theme].text,
         },
