@@ -12,6 +12,11 @@
     "LIGHT": "Light",
     "DARK": "Dark",
     "LANGUAGE": "Language",
-    "APPLANGUAGE": "App Language"
+    "APPLANGUAGE": "App Language",
+    "BOTTOMSHEET": {
+      "APPLANGUAGE": "App Language",
+      "EN": "English",
+      "PT": "Portuguese"
+    }
   }
 }
