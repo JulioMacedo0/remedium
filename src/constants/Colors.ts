@@ -10,6 +10,8 @@ export default {
     tabIconSelected: tintColorLight,
     tabBackground: "#ffffff",
     borderColor: "#CBD5E1",
+    tabBarActiveTintColor: "#2f95dc",
+    tabBarInactiveTintColor: "#ccc",
   },
   dark: {
     text: "#fff",
@@ -19,5 +21,7 @@ export default {
     tabIconSelected: tintColorDark,
     tabBackground: "#1F2937",
     borderColor: "#4B5563",
+    tabBarActiveTintColor: "#2f95dc",
+    tabBarInactiveTintColor: "#ccc",
   },
 };
