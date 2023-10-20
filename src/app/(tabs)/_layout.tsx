@@ -30,7 +30,8 @@ export default function TabLayout() {
           backgroundColor: Colors[theme].tabBackground,
         },
         tabBarShowLabel: false,
-        tabBarActiveTintColor: Colors[theme].tint,
+        tabBarActiveTintColor: Colors[theme].tabBarActiveTintColor,
+        tabBarInactiveTintColor: Colors[theme].tabBarInactiveTintColor,
         tabBarStyle: {
           backgroundColor: Colors[theme].tabBackground,
         },
@@ -41,26 +42,12 @@ export default function TabLayout() {
         options={{
           title: "Remedium",
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <Entypo
-                    name="info-with-circle"
-                    size={25}
-                    color={Colors[theme].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
         }}
       />
       <Tabs.Screen
         name="add"
         options={{
-          title: "Add",
+          title: `${i18n.t("ADD.TITLEPAGE")}`,
           tabBarIcon: ({ color }) => <TabBarIcon name="plus" color={color} />,
         }}
       />
