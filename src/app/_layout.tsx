@@ -5,6 +5,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { ThemeProvider } from "../context/themeContext";
 import { I18nProvider } from "../context/i18nContext";
+import * as Notifications from "expo-notifications";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -23,6 +24,14 @@ export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
+  });
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+    }),
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
