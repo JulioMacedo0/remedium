@@ -117,7 +117,7 @@ export default function Config() {
               onPress={() => bottomSheetRef.current?.close()}
             />
             <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-              App Language
+              {i18n.t("SETTINGS.BOTTOMSHEET.APPLANGUAGE")}
             </Text>
           </View>
           <Divider />
