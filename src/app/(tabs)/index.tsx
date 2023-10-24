@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { View } from "../../components/View";
-import { Text } from "../../components/Text";
+import { View, Text } from "@/components";
 import { useEffect } from "react";
 
 export default function Home() {

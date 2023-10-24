@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Text } from "../Text";
-import { View } from "../View";
+import { View, Text } from "@/components";
 import Colors from "../../constants/Colors";
 import { ReactNode } from "react";
 import { useTheme } from "../../context/themeContext";

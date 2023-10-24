@@ -1,6 +1,5 @@
 import { Pressable } from "react-native";
-import { Text } from "../Text";
-import { View } from "../View";
+import { View, Text } from "@/components";
 import { ReactNode } from "react";
 
 type SectionItemProps = {

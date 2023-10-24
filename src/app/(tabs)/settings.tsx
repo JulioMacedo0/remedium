@@ -1,19 +1,20 @@
 import { StyleSheet } from "react-native";
-
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useTheme } from "../../context/themeContext";
-import { View } from "../../components/View";
 import Colors from "../../constants/Colors";
-import { Divider } from "../../components/Divider";
-import { Section } from "../../components/Section";
-import { RadioItem } from "../../components/RadioItem";
-import { SectionItem } from "../../components/SectionItem";
 import { useI18n } from "../../context/i18nContext";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { useCallback, useMemo, useRef } from "react";
-import { Text } from "../../components/Text";
 import { BottomSheetDefaultBackdropProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types";
-import { LaguageItem } from "../../components/LanguageItem";
+import {
+  View,
+  Text,
+  Section,
+  RadioItem,
+  Divider,
+  SectionItem,
+  LaguageItem,
+} from "@/components";
 
 export default function Config() {
   const { selectedtheme, changeTheme, theme } = useTheme();
@@ -143,20 +144,5 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 30,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  footerContainer: {
-    padding: 12,
-    margin: 12,
-    borderRadius: 12,
-    backgroundColor: "#80f",
-  },
-  footerText: {
-    textAlign: "center",
-    color: "white",
-    fontWeight: "800",
   },
 });

@@ -1,4 +1,4 @@
-import { View } from "../View";
+import { View } from "@/components";
 import Colors from "../../constants/Colors";
 import { useTheme } from "../../context/themeContext";
 

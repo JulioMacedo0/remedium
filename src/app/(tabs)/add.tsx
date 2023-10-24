@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
-import { View } from "../../components/View";
-import { Text } from "../../components/Text";
+import { View, Text } from "@/components";
+
 export default function Add() {
   return (
     <View style={styles.container}>
