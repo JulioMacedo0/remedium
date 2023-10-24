@@ -22,7 +22,7 @@ export function ThemeProvider(props: ProviderProps) {
   const theme: Theme =
     selectedtheme == "automatic" ? colorScheme ?? "light" : selectedtheme;
 
-  const getData = async () => {
+  (async function () {
     try {
       const value = await AsyncStorage.getItem("theme");
 
@@ -32,8 +32,7 @@ export function ThemeProvider(props: ProviderProps) {
     } catch (e) {
       console.log(e);
     }
-  };
-  getData();
+  })();
 
   const changeTheme = async (theme: SelectedTheme) => {
     setSelectedTheme(theme);
