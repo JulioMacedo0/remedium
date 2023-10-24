@@ -1,5 +1,4 @@
-import { useColorScheme } from "react-native";
-import { View } from "../Themed";
+import { View } from "../View";
 import Colors from "../../constants/Colors";
 import { useTheme } from "../../context/themeContext";
 

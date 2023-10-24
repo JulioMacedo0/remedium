@@ -1,7 +1,8 @@
 import Colors from "../../constants/Colors";
-import { Pressable, useColorScheme } from "react-native";
-import { View, Text } from "../Themed";
-import { ReactNode } from "react";
+import { Pressable } from "react-native";
+import { Text } from "../Text";
+import { View } from "../View";
+
 import { useTheme } from "../../context/themeContext";
 
 type LaguageItemProps = {
