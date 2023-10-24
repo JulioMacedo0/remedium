@@ -3,8 +3,8 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { ThemeProvider } from "../context/themeContext";
-import { I18nProvider } from "../context/i18nContext";
+import { ThemeProvider, I18nProvider } from "@/context";
+
 import * as Notifications from "expo-notifications";
 
 export {
@@ -62,7 +62,6 @@ function RootLayoutNav() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="modal" options={{ presentation: "modal" }} />
     </Stack>
   );
 }

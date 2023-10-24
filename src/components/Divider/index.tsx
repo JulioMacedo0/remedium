@@ -1,13 +1,12 @@
-import { View } from "@/components";
-import Colors from "../../constants/Colors";
-import { useTheme } from "../../context/themeContext";
+import { View } from "../View";
+
+import { useThemeColor } from "@/hooks";
 
 export const Divider = () => {
-  const { theme } = useTheme();
   return (
     <View
       style={{
-        backgroundColor: Colors[theme].borderColor,
+        backgroundColor: useThemeColor({}, "borderColor"),
         height: 1,
         width: "100%",
       }}

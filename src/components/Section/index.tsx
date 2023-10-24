@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
-import { View, Text } from "@/components";
-import Colors from "../../constants/Colors";
+import { View } from "@/components/View";
+import { Text } from "@/components/Text";
 import { ReactNode } from "react";
-import { useTheme } from "../../context/themeContext";
+import { useThemeColor } from "@/hooks";
 
 type SectionProps = {
   title: string;
@@ -10,7 +10,6 @@ type SectionProps = {
 };
 
 export const Section = ({ title, children }: SectionProps) => {
-  const { theme } = useTheme();
   return (
     <View>
       <Text style={styles.title}>{title}</Text>
@@ -18,10 +17,10 @@ export const Section = ({ title, children }: SectionProps) => {
         style={{
           marginTop: 10,
           marginBottom: 15,
-          backgroundColor: Colors[theme].tabBackground,
+          backgroundColor: useThemeColor({}, "tabBackground"),
           borderRadius: 8,
           borderWidth: 1,
-          borderColor: Colors[theme].borderColor,
+          borderColor: useThemeColor({}, "tabBackground"),
         }}
       >
         {children}

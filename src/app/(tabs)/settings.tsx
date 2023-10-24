@@ -1,8 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
-import { useTheme } from "../../context/themeContext";
-import Colors from "../../constants/Colors";
-import { useI18n } from "../../context/i18nContext";
+import { useTheme, useI18n } from "@/context";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { useCallback, useMemo, useRef } from "react";
 import { BottomSheetDefaultBackdropProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types";
@@ -15,6 +13,7 @@ import {
   SectionItem,
   LaguageItem,
 } from "@/components";
+import { useThemeColor } from "@/hooks";
 
 export default function Config() {
   const { selectedtheme, changeTheme, theme } = useTheme();
@@ -49,7 +48,11 @@ export default function Config() {
       <Section title={i18n.t("SETTINGS.THEME")}>
         <RadioItem
           icon={
-            <FontAwesome5 name="adjust" size={23} color={Colors[theme].text} />
+            <FontAwesome5
+              name="adjust"
+              size={23}
+              color={useThemeColor({}, "text")}
+            />
           }
           text={i18n.t("SETTINGS.AUTOMATIC")}
           isSelected={selectedtheme == "automatic"}
@@ -60,7 +63,11 @@ export default function Config() {
 
         <RadioItem
           icon={
-            <Ionicons name="md-sunny" size={23} color={Colors[theme].text} />
+            <Ionicons
+              name="md-sunny"
+              size={23}
+              color={useThemeColor({}, "text")}
+            />
           }
           text={i18n.t("SETTINGS.LIGHT")}
           isSelected={selectedtheme == "light"}
@@ -70,7 +77,9 @@ export default function Config() {
         <Divider />
 
         <RadioItem
-          icon={<Ionicons name="moon" size={23} color={Colors[theme].text} />}
+          icon={
+            <Ionicons name="moon" size={23} color={useThemeColor({}, "text")} />
+          }
           text={i18n.t("SETTINGS.DARK")}
           isSelected={selectedtheme == "dark"}
           onPress={() => changeTheme("dark")}
@@ -79,7 +88,13 @@ export default function Config() {
 
       <Section title={i18n.t("SETTINGS.LANGUAGE")}>
         <SectionItem
-          icon={<Ionicons name="globe" size={23} color={Colors[theme].text} />}
+          icon={
+            <Ionicons
+              name="globe"
+              size={23}
+              color={useThemeColor({}, "text")}
+            />
+          }
           text={i18n.t("SETTINGS.APPLANGUAGE")}
           onPress={() => openBottomSheet()}
         />
@@ -90,14 +105,14 @@ export default function Config() {
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         backdropComponent={renderBackdrop}
-        handleIndicatorStyle={{ backgroundColor: Colors[theme].text }}
+        handleIndicatorStyle={{ backgroundColor: useThemeColor({}, "text") }}
         backgroundStyle={{
-          backgroundColor: Colors[theme].tabBackground,
+          backgroundColor: useThemeColor({}, "tabBackground"),
         }}
       >
         <View
           style={{
-            backgroundColor: Colors[theme].tabBackground,
+            backgroundColor: useThemeColor({}, "tabBackground"),
           }}
         >
           <View
@@ -107,13 +122,13 @@ export default function Config() {
               marginTop: 10,
               marginBottom: 20,
               flexDirection: "row",
-              backgroundColor: Colors[theme].tabBackground,
+              backgroundColor: useThemeColor({}, "tabBackground"),
             }}
           >
             <Ionicons
               name="close"
               size={26}
-              color={Colors[theme].text}
+              color={useThemeColor({}, "text")}
               style={{ marginRight: 20 }}
               onPress={() => bottomSheetRef.current?.close()}
             />

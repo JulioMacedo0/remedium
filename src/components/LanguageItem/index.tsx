@@ -1,8 +1,8 @@
-import Colors from "../../constants/Colors";
 import { Pressable } from "react-native";
-import { View, Text } from "@/components";
-
-import { useTheme } from "../../context/themeContext";
+import { View } from "@/components/View";
+import { Text } from "@/components/Text";
+import { useTheme } from "../../context/theme-context";
+import { useThemeColor } from "@/hooks";
 
 type LaguageItemProps = {
   text: string;
@@ -31,9 +31,9 @@ export const LaguageItem = ({
     >
       <View
         style={{
-          backgroundColor: Colors[theme].tabBackground,
+          backgroundColor: useThemeColor({}, "tabBackground"),
           borderWidth: 2.5,
-          borderColor: isSelected ? "#06a684" : Colors[theme].text,
+          borderColor: isSelected ? "#06a684" : useThemeColor({}, "text"),
           width: 25,
           height: 25,
           borderRadius: 999,
@@ -44,7 +44,9 @@ export const LaguageItem = ({
           <View
             style={{
               flex: 1,
-              backgroundColor: isSelected ? "#06a684" : Colors[theme].text,
+              backgroundColor: isSelected
+                ? "#06a684"
+                : useThemeColor({}, "text"),
               borderRadius: 999,
             }}
           />

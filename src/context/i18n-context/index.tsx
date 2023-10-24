@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import * as Localization from "expo-localization";
 import { I18n } from "i18n-js";
-import { translations } from "../i18n";
+import { translations } from "../../i18n";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 interface I18nContextValue {
   i18n: I18n;

@@ -1,7 +1,7 @@
 import { View as DefaultView } from "react-native";
 
-import { useThemeColor } from "../../app/hooks/use-theme-color";
-import { ThemeProps } from "../../types/theme-props-type";
+import { ThemeProps } from "@/types";
+import { useThemeColor } from "@/hooks";
 
 type ViewProps = ThemeProps & DefaultView["props"];
 

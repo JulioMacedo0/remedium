@@ -1,10 +1,8 @@
 import Entypo from "@expo/vector-icons/Entypo";
-import { Link, Tabs } from "expo-router";
-import { Pressable } from "react-native";
+import { Tabs } from "expo-router";
 
-import Colors from "../../constants/Colors";
-import { useTheme } from "../../context/themeContext";
-import { useI18n } from "../../context/i18nContext";
+import { useI18n } from "@/context";
+import { useThemeColor } from "@/hooks";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -17,23 +15,22 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const { theme } = useTheme();
   const { i18n } = useI18n();
   return (
     <Tabs
       screenOptions={{
         headerTitleAlign: "center",
         headerTitleStyle: {
-          color: Colors[theme].text,
+          color: useThemeColor({}, "text"),
         },
         headerStyle: {
-          backgroundColor: Colors[theme].tabBackground,
+          backgroundColor: useThemeColor({}, "tabBackground"),
         },
         tabBarShowLabel: false,
-        tabBarActiveTintColor: Colors[theme].tabBarActiveTintColor,
-        tabBarInactiveTintColor: Colors[theme].tabBarInactiveTintColor,
+        tabBarActiveTintColor: useThemeColor({}, "tabBarActiveTintColor"),
+        tabBarInactiveTintColor: useThemeColor({}, "tabBarInactiveTintColor"),
         tabBarStyle: {
-          backgroundColor: Colors[theme].tabBackground,
+          backgroundColor: useThemeColor({}, "tabBackground"),
         },
       }}
     >
