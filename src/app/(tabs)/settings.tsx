@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useTheme } from "../../context/themeContext";
-import { View } from "../../components/Themed";
+import { View } from "../../components/View";
 import Colors from "../../constants/Colors";
 import { Divider } from "../../components/Divider";
 import { Section } from "../../components/Section";
@@ -11,7 +11,7 @@ import { SectionItem } from "../../components/SectionItem";
 import { useI18n } from "../../context/i18nContext";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { useCallback, useMemo, useRef } from "react";
-import { Text } from "../../components/Themed";
+import { Text } from "../../components/Text";
 import { BottomSheetDefaultBackdropProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types";
 import { LaguageItem } from "../../components/LanguageItem";
 
