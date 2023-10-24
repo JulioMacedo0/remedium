@@ -14,6 +14,7 @@ import {
   LaguageItem,
 } from "@/components";
 import { useThemeColor } from "@/hooks";
+import { Colors } from "@/constants";
 
 export default function Config() {
   const { selectedtheme, changeTheme, theme } = useTheme();
@@ -48,11 +49,7 @@ export default function Config() {
       <Section title={i18n.t("SETTINGS.THEME")}>
         <RadioItem
           icon={
-            <FontAwesome5
-              name="adjust"
-              size={23}
-              color={useThemeColor({}, "text")}
-            />
+            <FontAwesome5 name="adjust" size={23} color={Colors[theme].text} />
           }
           text={i18n.t("SETTINGS.AUTOMATIC")}
           isSelected={selectedtheme == "automatic"}
@@ -63,11 +60,7 @@ export default function Config() {
 
         <RadioItem
           icon={
-            <Ionicons
-              name="md-sunny"
-              size={23}
-              color={useThemeColor({}, "text")}
-            />
+            <Ionicons name="md-sunny" size={23} color={Colors[theme].text} />
           }
           text={i18n.t("SETTINGS.LIGHT")}
           isSelected={selectedtheme == "light"}
@@ -77,9 +70,7 @@ export default function Config() {
         <Divider />
 
         <RadioItem
-          icon={
-            <Ionicons name="moon" size={23} color={useThemeColor({}, "text")} />
-          }
+          icon={<Ionicons name="moon" size={23} color={Colors[theme].text} />}
           text={i18n.t("SETTINGS.DARK")}
           isSelected={selectedtheme == "dark"}
           onPress={() => changeTheme("dark")}
@@ -88,13 +79,7 @@ export default function Config() {
 
       <Section title={i18n.t("SETTINGS.LANGUAGE")}>
         <SectionItem
-          icon={
-            <Ionicons
-              name="globe"
-              size={23}
-              color={useThemeColor({}, "text")}
-            />
-          }
+          icon={<Ionicons name="globe" size={23} color={Colors[theme].text} />}
           text={i18n.t("SETTINGS.APPLANGUAGE")}
           onPress={() => openBottomSheet()}
         />
@@ -105,14 +90,14 @@ export default function Config() {
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         backdropComponent={renderBackdrop}
-        handleIndicatorStyle={{ backgroundColor: useThemeColor({}, "text") }}
+        handleIndicatorStyle={{ backgroundColor: Colors[theme].text }}
         backgroundStyle={{
-          backgroundColor: useThemeColor({}, "tabBackground"),
+          backgroundColor: Colors[theme].tabBackground,
         }}
       >
         <View
           style={{
-            backgroundColor: useThemeColor({}, "tabBackground"),
+            backgroundColor: Colors[theme].tabBackground,
           }}
         >
           <View
@@ -122,13 +107,13 @@ export default function Config() {
               marginTop: 10,
               marginBottom: 20,
               flexDirection: "row",
-              backgroundColor: useThemeColor({}, "tabBackground"),
+              backgroundColor: Colors[theme].tabBackground,
             }}
           >
             <Ionicons
               name="close"
               size={26}
-              color={useThemeColor({}, "text")}
+              color={Colors[theme].text}
               style={{ marginRight: 20 }}
               onPress={() => bottomSheetRef.current?.close()}
             />

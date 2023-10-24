@@ -1,8 +1,9 @@
 import Entypo from "@expo/vector-icons/Entypo";
 import { Tabs } from "expo-router";
 
-import { useI18n } from "@/context";
+import { useI18n, useTheme } from "@/context";
 import { useThemeColor } from "@/hooks";
+import { Colors } from "@/constants";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -16,21 +17,22 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const { i18n } = useI18n();
+  const { theme } = useTheme();
   return (
     <Tabs
       screenOptions={{
         headerTitleAlign: "center",
         headerTitleStyle: {
-          color: useThemeColor({}, "text"),
+          color: Colors[theme].text,
         },
         headerStyle: {
-          backgroundColor: useThemeColor({}, "tabBackground"),
+          backgroundColor: Colors[theme].tabBackground,
         },
         tabBarShowLabel: false,
         tabBarActiveTintColor: useThemeColor({}, "tabBarActiveTintColor"),
         tabBarInactiveTintColor: useThemeColor({}, "tabBarInactiveTintColor"),
         tabBarStyle: {
-          backgroundColor: useThemeColor({}, "tabBackground"),
+          backgroundColor: Colors[theme].tabBackground,
         },
       }}
     >

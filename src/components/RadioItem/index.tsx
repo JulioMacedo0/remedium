@@ -3,6 +3,8 @@ import { View } from "@/components/View";
 import { Text } from "@/components/Text";
 import { ReactNode } from "react";
 import { useThemeColor } from "@/hooks";
+import { Colors } from "@/constants";
+import { useTheme } from "@/context";
 
 type RadioItemProps = {
   icon: ReactNode;
@@ -17,6 +19,7 @@ export const RadioItem = ({
   isSelected,
   onPress,
 }: RadioItemProps) => {
+  const { theme } = useTheme();
   return (
     <Pressable
       onPress={onPress}
@@ -49,9 +52,9 @@ export const RadioItem = ({
       </View>
       <View
         style={{
-          backgroundColor: useThemeColor({}, "tabBackground"),
+          backgroundColor: Colors[theme].tabBackground,
           borderWidth: 1,
-          borderColor: useThemeColor({}, "text"),
+          borderColor: Colors[theme].text,
           width: 23,
           height: 23,
           borderRadius: 999,
@@ -62,7 +65,7 @@ export const RadioItem = ({
           <View
             style={{
               flex: 1,
-              backgroundColor: useThemeColor({}, "text"),
+              backgroundColor: Colors[theme].text,
               borderRadius: 999,
             }}
           />
