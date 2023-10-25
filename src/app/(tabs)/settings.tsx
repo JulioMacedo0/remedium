@@ -13,7 +13,7 @@ import {
   SectionItem,
   LaguageItem,
 } from "@/components";
-import { useThemeColor } from "@/hooks";
+
 import { Colors } from "@/constants";
 
 export default function Config() {
