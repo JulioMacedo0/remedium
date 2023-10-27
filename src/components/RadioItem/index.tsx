@@ -10,7 +10,8 @@ type RadioItemProps = {
   icon: ReactNode;
   text: string;
   isSelected: boolean;
-  onPress: () => void;
+  onPress?: () => void;
+  withoutFeedback?: boolean;
 };
 
 export const RadioItem = ({
@@ -18,6 +19,7 @@ export const RadioItem = ({
   text,
   isSelected,
   onPress,
+  withoutFeedback,
 }: RadioItemProps) => {
   const { theme } = useTheme();
   return (
@@ -25,7 +27,7 @@ export const RadioItem = ({
       onPress={onPress}
       style={({ pressed }) => [
         {
-          opacity: pressed ? 0.6 : 1,
+          opacity: withoutFeedback ? 1 : pressed ? 0.6 : 1,
           paddingHorizontal: 15,
           paddingVertical: 15,
           flexDirection: "row",
