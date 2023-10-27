@@ -89,7 +89,7 @@ export default function Config() {
             }
             text={i18n.t("SETTINGS.AUTOMATIC")}
             isSelected={selectedtheme == "automatic"}
-            onPress={() => console.log("automatic press")}
+            withoutFeedback
           />
         </GestureDetector>
         <Divider />
@@ -101,7 +101,7 @@ export default function Config() {
             }
             text={i18n.t("SETTINGS.LIGHT")}
             isSelected={selectedtheme == "light"}
-            onPress={() => console.log("light press")}
+            withoutFeedback
           />
         </GestureDetector>
         <Divider />
@@ -110,7 +110,7 @@ export default function Config() {
             icon={<Ionicons name="moon" size={23} color={Colors[theme].text} />}
             text={i18n.t("SETTINGS.DARK")}
             isSelected={selectedtheme == "dark"}
-            onPress={() => console.log("dark press")}
+            withoutFeedback
           />
         </GestureDetector>
       </Section>
