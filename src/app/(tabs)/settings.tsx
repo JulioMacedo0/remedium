@@ -15,6 +15,7 @@ import {
 } from "@/components";
 
 import { Colors } from "@/constants";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 export default function Config() {
   const { selectedtheme, changeTheme, theme } = useTheme();
@@ -44,37 +45,74 @@ export default function Config() {
 
   const language = i18n.locale.split("-")[0];
 
+  const panAutomatic = Gesture.Pan()
+    .runOnJS(true)
+    .onBegin((e) => {
+      changeTheme({
+        theme: "automatic",
+        x: e.absoluteX,
+        y: e.absoluteY,
+      });
+    });
+
+  const panLight = Gesture.Pan()
+    .runOnJS(true)
+    .onBegin((e) => {
+      changeTheme({
+        theme: "light",
+        x: e.absoluteX,
+        y: e.absoluteY,
+      });
+    });
+
+  const panDark = Gesture.Pan()
+    .runOnJS(true)
+    .onBegin((e) => {
+      changeTheme({
+        theme: "dark",
+        x: e.absoluteX,
+        y: e.absoluteY,
+      });
+    });
+
   return (
     <View style={styles.container}>
       <Section title={i18n.t("SETTINGS.THEME")}>
-        <RadioItem
-          icon={
-            <FontAwesome5 name="adjust" size={23} color={Colors[theme].text} />
-          }
-          text={i18n.t("SETTINGS.AUTOMATIC")}
-          isSelected={selectedtheme == "automatic"}
-          onPress={() => changeTheme("automatic")}
-        />
-
+        <GestureDetector gesture={panAutomatic}>
+          <RadioItem
+            icon={
+              <FontAwesome5
+                name="adjust"
+                size={23}
+                color={Colors[theme].text}
+              />
+            }
+            text={i18n.t("SETTINGS.AUTOMATIC")}
+            isSelected={selectedtheme == "automatic"}
+            onPress={() => console.log("automatic press")}
+          />
+        </GestureDetector>
         <Divider />
 
-        <RadioItem
-          icon={
-            <Ionicons name="md-sunny" size={23} color={Colors[theme].text} />
-          }
-          text={i18n.t("SETTINGS.LIGHT")}
-          isSelected={selectedtheme == "light"}
-          onPress={() => changeTheme("light")}
-        />
-
+        <GestureDetector gesture={panLight}>
+          <RadioItem
+            icon={
+              <Ionicons name="md-sunny" size={23} color={Colors[theme].text} />
+            }
+            text={i18n.t("SETTINGS.LIGHT")}
+            isSelected={selectedtheme == "light"}
+            onPress={() => console.log("light press")}
+          />
+        </GestureDetector>
         <Divider />
-
-        <RadioItem
-          icon={<Ionicons name="moon" size={23} color={Colors[theme].text} />}
-          text={i18n.t("SETTINGS.DARK")}
-          isSelected={selectedtheme == "dark"}
-          onPress={() => changeTheme("dark")}
-        />
+        <GestureDetector gesture={panDark}>
+          <RadioItem
+            icon={<Ionicons name="moon" size={23} color={Colors[theme].text} />}
+            text={i18n.t("SETTINGS.DARK")}
+            isSelected={selectedtheme == "dark"}
+            onPress={() => console.log("dark press")}
+          />
+        </GestureDetector>
       </Section>
 
       <Section title={i18n.t("SETTINGS.LANGUAGE")}>
