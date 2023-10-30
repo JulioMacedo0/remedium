@@ -2,7 +2,6 @@ import { Pressable } from "react-native";
 import { View } from "@/components/View";
 import { Text } from "@/components/Text";
 import { ReactNode } from "react";
-import { useThemeColor } from "@/hooks";
 import { Colors } from "@/constants";
 import { useTheme } from "@/context";
 
