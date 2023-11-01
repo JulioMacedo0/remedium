@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { View, useColorScheme } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { storageService } from "../../services/storage/storageService";
 const wait = async (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 interface ThemeContextValue {
@@ -35,11 +34,11 @@ export function ThemeProvider(props: ProviderProps) {
   useEffect(() => {
     (async function () {
       try {
-        const value = await AsyncStorage.getItem("theme");
-
+        const value = await storageService.getItem<SelectedTheme>("theme");
+        console.log(value);
         if (value == null) return;
 
-        setSelectedTheme(value as SelectedTheme);
+        setSelectedTheme(value);
       } catch (e) {
         console.log(e);
       }
@@ -50,9 +49,10 @@ export function ThemeProvider(props: ProviderProps) {
     setSelectedTheme(theme);
 
     try {
-      await AsyncStorage.setItem("theme", theme);
+      console.log("changeTheme");
+      await storageService.setItem("theme", theme);
     } catch (e) {
-      console.log(e);
+      console.log(e, "test");
     }
   };
 
