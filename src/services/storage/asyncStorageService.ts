@@ -6,14 +6,15 @@ export const asyncStorage: StorageService = {
     const item = await AsyncStorage.getItem(key);
 
     if (item) {
-      return JSON.parse(item);
+      return item as any;
     }
     return null;
   },
   setItem: async (key, value) => {
-    await asyncStorage.setItem(key, value);
+    const valueAux = String(value);
+    await AsyncStorage.setItem(key, valueAux);
   },
   removeItem: async (key) => {
-    await asyncStorage.removeItem(key);
+    await AsyncStorage.removeItem(key);
   },
 };

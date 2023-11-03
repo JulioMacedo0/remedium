@@ -35,7 +35,7 @@ export function ThemeProvider(props: ProviderProps) {
     (async function () {
       try {
         const value = await storageService.getItem<SelectedTheme>("theme");
-        console.log(value);
+
         if (value == null) return;
 
         setSelectedTheme(value);
