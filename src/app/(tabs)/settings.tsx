@@ -16,6 +16,7 @@ import {
 
 import { Colors } from "@/constants";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { ThemedStatusBar } from "@/components/ThemedStatusBar";
 
 export default function Config() {
   const { selectedtheme, changeTheme, theme } = useTheme();
@@ -77,6 +78,7 @@ export default function Config() {
 
   return (
     <View style={styles.container}>
+      <ThemedStatusBar />
       <Section title={i18n.t("SETTINGS.THEME")}>
         <GestureDetector gesture={panAutomatic}>
           <RadioItem

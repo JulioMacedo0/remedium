@@ -7,6 +7,8 @@ import { useState } from "react";
 import { useTheme } from "@/context";
 import * as Notifications from "expo-notifications";
 import DropDownPicker from "react-native-dropdown-picker";
+
+import { ThemedStatusBar } from "@/components/ThemedStatusBar";
 export default function Add() {
   const { theme } = useTheme();
   const [date, setDate] = useState(new Date());
@@ -16,10 +18,10 @@ export default function Add() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    { label: "Daily", value: "apple" },
-    { label: "Weekly", value: "banana" },
-    { label: "Weekends", value: "banana" },
-    { label: "Custom", value: "banana" },
+    { label: "Daily", value: "t1" },
+    { label: "Weekly", value: "t2" },
+    { label: "Weekends", value: "t3" },
+    { label: "Custom", value: "t4" },
   ]);
 
   const onChange = (event, selectedDate) => {
@@ -54,6 +56,7 @@ export default function Add() {
 
   return (
     <View style={styles.container}>
+      <ThemedStatusBar />
       <View
         style={{
           marginTop: 10,
@@ -136,6 +139,7 @@ export default function Add() {
           }}
         >
           <DropDownPicker
+            onClose={() => console.log("close")}
             placeholder="How often?"
             style={{}}
             open={open}
