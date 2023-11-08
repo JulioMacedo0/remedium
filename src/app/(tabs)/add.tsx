@@ -1,7 +1,9 @@
-import { Pressable, StyleSheet, TextInput } from "react-native";
+import { Button, Pressable, StyleSheet, TextInput } from "react-native";
 
 import { View, Text } from "@/components";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 import { useState } from "react";
 
 import { useTheme } from "@/context";
@@ -9,22 +11,26 @@ import * as Notifications from "expo-notifications";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import { ThemedStatusBar } from "@/components/ThemedStatusBar";
+
+type NotifyTrigger = "Hourly" | "Daily" | "Weekly" | "Weekends" | "Custom";
+
 export default function Add() {
-  const { theme } = useTheme();
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
+  const [selectedItem, SetSelectedItem] = useState(null);
   const [items, setItems] = useState([
-    { label: "Daily", value: "t1" },
-    { label: "Weekly", value: "t2" },
-    { label: "Weekends", value: "t3" },
-    { label: "Custom", value: "t4" },
+    { label: "Hourly", value: "Hourly" },
+    { label: "Daily", value: "Daily", disabled: false },
+    { label: "Weekly", value: "Weekly", disabled: true },
+    { label: "Weekends", value: "Weekends", disabled: true },
+    { label: "Custom", value: "Custom", disabled: true },
   ]);
 
-  const onChange = (event, selectedDate) => {
+  const onChange = (event: DateTimePickerEvent, selectedDate: Date) => {
     const currentDate = selectedDate;
     setShow(false);
     setDate(currentDate);
@@ -50,7 +56,7 @@ export default function Add() {
         body: "Here is the notification body",
         data: { data: "goes here" },
       },
-      trigger: {},
+      trigger: { date: date.setSeconds(0) },
     });
   }
 
@@ -101,17 +107,19 @@ export default function Add() {
             marginBottom: 15,
           }}
         >
-          <Pressable onPress={showTimepicker}>
+          <Pressable
+            disabled={selectedItem == "Hourly"}
+            onPress={showTimepicker}
+          >
             <TextInput
               style={{
                 textAlign: "center",
                 borderRadius: 12,
                 padding: 12,
-                backgroundColor: "#fff",
+                backgroundColor: selectedItem == "Hourly" ? "#CCCCCC" : "#fff",
                 color: "#000",
               }}
               editable={false}
-              placeholder="Type here to translate!"
               defaultValue={`${date
                 .getHours()
                 .toString()
@@ -134,13 +142,14 @@ export default function Add() {
         <View
           transparent
           style={{
+            flexDirection: "row",
             marginTop: 10,
             marginBottom: 15,
           }}
         >
           <DropDownPicker
-            onClose={() => console.log("close")}
             placeholder="How often?"
+            onChangeValue={SetSelectedItem}
             style={{}}
             open={open}
             value={value}
@@ -148,9 +157,15 @@ export default function Add() {
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}
+            itemSeparator
+            disabledItemContainerStyle={{
+              backgroundColor: "#ccc",
+            }}
           />
         </View>
       </View>
+
+      <Button title="test" onPress={schedulePushNotification} />
 
       {show && (
         <DateTimePicker
