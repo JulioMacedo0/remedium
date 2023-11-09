@@ -7,6 +7,7 @@ interface ThemeContextValue {
   theme: Theme;
   selectedtheme: SelectedTheme;
   changeTheme: (args: changeThemeArgs) => void;
+  getInvertedTheme: () => Theme;
 }
 
 interface ProviderProps {
@@ -37,7 +38,7 @@ export function ThemeProvider(props: ProviderProps) {
         const value = await storageService.getItem<SelectedTheme>("theme");
 
         if (value == null) return;
-
+        console.log(`new value theme: ${value}`);
         setSelectedTheme(value);
       } catch (e) {
         console.log(e);
@@ -56,10 +57,16 @@ export function ThemeProvider(props: ProviderProps) {
     }
   };
 
+  const getInvertedTheme = () => {
+    return theme == "dark" ? "light" : "dark";
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }} ref={imageRef} collapsable={false}>
-        <ThemeContext.Provider value={{ theme, selectedtheme, changeTheme }}>
+        <ThemeContext.Provider
+          value={{ theme, selectedtheme, changeTheme, getInvertedTheme }}
+        >
           {props.children}
         </ThemeContext.Provider>
       </View>

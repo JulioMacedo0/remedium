@@ -12,7 +12,13 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 import { ThemedStatusBar } from "@/components/ThemedStatusBar";
 
-type NotifyTrigger = "Hourly" | "Daily" | "Weekly" | "Weekends" | "Custom";
+type NotifyTrigger =
+  | "Interval"
+  | "Daily"
+  | "Weekly"
+  | "Weekends"
+  | "Custom"
+  | null;
 
 export default function Add() {
   const [date, setDate] = useState(new Date());
@@ -21,9 +27,12 @@ export default function Add() {
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [selectedItem, SetSelectedItem] = useState(null);
+  const [selectedItem, SetSelectedItem] = useState<NotifyTrigger>(null);
+  const [hour, setHour] = useState(0);
+  const [minute, setMinute] = useState(0);
+
   const [items, setItems] = useState([
-    { label: "Hourly", value: "Hourly" },
+    { label: "Interval", value: "Interval" },
     { label: "Daily", value: "Daily", disabled: false },
     { label: "Weekly", value: "Weekly", disabled: true },
     { label: "Weekends", value: "Weekends", disabled: true },
@@ -49,15 +58,43 @@ export default function Add() {
     showMode("time");
   };
 
-  async function schedulePushNotification() {
+  async function schedulePushNotification(frequence: NotifyTrigger) {
+    console.log("clickou no pinto");
+    if (selectedItem == null) {
+      alert("Schedule missing");
+      return;
+    }
+
+    let trigger: Notifications.NotificationTriggerInput = null;
+
+    if (frequence == "Daily") {
+      trigger = {
+        hour: date.getHours(),
+        minute: date.getMinutes(),
+        repeats: true,
+      };
+    } else if (frequence == "Interval") {
+      console.log(`trigger ${frequence}`);
+
+      const seconds = hour * 3600 + minute * 60;
+      console.log(seconds);
+      trigger = {
+        seconds,
+        repeats: true,
+      };
+    }
     const id = await Notifications.scheduleNotificationAsync({
       content: {
         title: "You've got mail! 📬",
+        subtitle: "subtitle",
         body: "Here is the notification body",
+
         data: { data: "goes here" },
       },
-      trigger: { date: date.setSeconds(0) },
+      trigger,
     });
+
+    console.log(`scheduleNotificationAsync ${id}`);
   }
 
   return (
@@ -105,30 +142,86 @@ export default function Add() {
           style={{
             marginTop: 10,
             marginBottom: 15,
+            alignItems: "center",
           }}
         >
-          <Pressable
-            disabled={selectedItem == "Hourly"}
-            onPress={showTimepicker}
-          >
-            <TextInput
+          {selectedItem != "Interval" ? (
+            <Pressable onPress={showTimepicker}>
+              <TextInput
+                style={{
+                  textAlign: "center",
+                  borderRadius: 12,
+                  padding: 12,
+                  backgroundColor: "#fff",
+                  color: "#000",
+                }}
+                editable={false}
+                defaultValue={`${date
+                  .getHours()
+                  .toString()
+                  .padStart(2, "0")}:${date
+                  .getMinutes()
+                  .toString()
+                  .padStart(2, "0")}`}
+              />
+            </Pressable>
+          ) : (
+            <View
               style={{
-                textAlign: "center",
-                borderRadius: 12,
-                padding: 12,
-                backgroundColor: selectedItem == "Hourly" ? "#CCCCCC" : "#fff",
-                color: "#000",
+                flexDirection: "row",
+                gap: 10,
               }}
-              editable={false}
-              defaultValue={`${date
-                .getHours()
-                .toString()
-                .padStart(2, "0")}:${date
-                .getMinutes()
-                .toString()
-                .padStart(2, "0")}`}
-            />
-          </Pressable>
+            >
+              <TextInput
+                style={{
+                  width: 60,
+                  textAlign: "center",
+                  borderRadius: 12,
+                  padding: 12,
+                  backgroundColor: "#fff",
+                  color: "#000",
+                }}
+                keyboardType="numeric"
+                defaultValue={hour.toString()}
+                onChangeText={(text) => setHour(Number(text))}
+              />
+              <View
+                style={{
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style={{
+                    width: 15,
+                    height: 15,
+                    backgroundColor: "#fff",
+                    borderRadius: 999,
+                  }}
+                />
+                <View
+                  style={{
+                    width: 15,
+                    height: 15,
+                    backgroundColor: "#fff",
+                    borderRadius: 999,
+                  }}
+                />
+              </View>
+              <TextInput
+                style={{
+                  width: 60,
+                  textAlign: "center",
+                  borderRadius: 12,
+                  padding: 12,
+                  backgroundColor: "#fff",
+                  color: "#000",
+                }}
+                keyboardType="numeric"
+                defaultValue={minute.toString()}
+                onChangeText={(text) => setMinute(Number(text))}
+              />
+            </View>
+          )}
         </View>
       </View>
 
@@ -136,6 +229,7 @@ export default function Add() {
         style={{
           marginTop: 10,
           width: "90%",
+          zIndex: 2000,
         }}
       >
         <Text style={styles.title}>Schedule</Text>
@@ -165,7 +259,10 @@ export default function Add() {
         </View>
       </View>
 
-      <Button title="test" onPress={schedulePushNotification} />
+      <Button
+        title="test"
+        onPress={() => schedulePushNotification(selectedItem)}
+      />
 
       {show && (
         <DateTimePicker

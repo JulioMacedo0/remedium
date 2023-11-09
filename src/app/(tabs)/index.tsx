@@ -1,14 +1,19 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Button, FlatList } from "react-native";
 import { View } from "@/components";
 import { useEffect, useState } from "react";
 import * as Notifications from "expo-notifications";
 
 import { useTheme } from "@/context";
 import { PermissionModal } from "@/components/Modal/permissionModal";
+import { ThemedStatusBar } from "@/components/ThemedStatusBar";
+
+import { NotificationCard } from "@/components/NotificationCard";
 
 export default function Home() {
-  const { theme } = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
+  const [notifications, setNotifications] = useState<
+    Notifications.NotificationRequest[]
+  >([]);
 
   const closeModal = () => {
     setModalVisible(false);
@@ -32,8 +37,29 @@ export default function Home() {
     })();
   }, []);
 
+  useEffect(() => {
+    getAllScheduledNotifications();
+  }, []);
+
+  const getAllScheduledNotifications = async () => {
+    const notifications =
+      await Notifications.getAllScheduledNotificationsAsync();
+
+    console.log(notifications);
+    setNotifications(notifications);
+  };
   return (
     <View style={styles.container}>
+      <ThemedStatusBar />
+      <FlatList
+        style={{
+          width: "90%",
+          paddingTop: 18,
+        }}
+        data={notifications}
+        renderItem={({ item }) => <NotificationCard Notification={item} />}
+        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+      />
       <PermissionModal
         onRequestClose={() => closeModal()}
         visible={modalVisible}
@@ -48,5 +74,6 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
   },
 });
