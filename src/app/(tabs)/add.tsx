@@ -101,13 +101,48 @@ export default function Add() {
   return (
     <View style={styles.container}>
       <ThemedStatusBar />
+
+      <View
+        style={{
+          marginTop: 10,
+          width: "90%",
+          zIndex: 2000,
+        }}
+      >
+        <Text style={styles.title}>Schedule</Text>
+        <View
+          transparent
+          style={{
+            flexDirection: "row",
+            marginTop: 10,
+            marginBottom: 15,
+          }}
+        >
+          <DropDownPicker
+            placeholder="How often?"
+            onChangeValue={(value) => SetSelectedItem(value)}
+            style={{}}
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+            itemSeparator
+            disabledItemContainerStyle={{
+              backgroundColor: "#ccc",
+            }}
+          />
+        </View>
+      </View>
+
       <View
         style={{
           marginTop: 10,
           width: "90%",
         }}
       >
-        <Text style={styles.title}>Start Date</Text>
+        <Text style={styles.title}>Day</Text>
         <View
           style={{
             marginTop: 10,
@@ -224,40 +259,6 @@ export default function Add() {
               />
             </View>
           )}
-        </View>
-      </View>
-
-      <View
-        style={{
-          marginTop: 10,
-          width: "90%",
-          zIndex: 2000,
-        }}
-      >
-        <Text style={styles.title}>Schedule</Text>
-        <View
-          transparent
-          style={{
-            flexDirection: "row",
-            marginTop: 10,
-            marginBottom: 15,
-          }}
-        >
-          <DropDownPicker
-            placeholder="How often?"
-            onChangeValue={(value) => SetSelectedItem(value)}
-            style={{}}
-            open={open}
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
-            itemSeparator
-            disabledItemContainerStyle={{
-              backgroundColor: "#ccc",
-            }}
-          />
         </View>
       </View>
 
