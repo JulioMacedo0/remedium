@@ -136,35 +136,36 @@ export default function Add() {
         </View>
       </View>
 
-      <View
-        style={{
-          marginTop: 10,
-          width: "90%",
-        }}
-      >
-        <Text style={styles.title}>Day</Text>
+      {selectedItem == "One-time" && (
         <View
           style={{
             marginTop: 10,
-            marginBottom: 15,
+            width: "90%",
           }}
         >
-          <Pressable style={{}} onPress={showDatepicker}>
-            <TextInput
-              style={{
-                textAlign: "center",
-                padding: 12,
-                backgroundColor: "#fff",
-                color: "#000",
-                borderRadius: 8,
-              }}
-              editable={false}
-              placeholder="Type here to translate!"
-              defaultValue={date.toLocaleDateString()}
-            />
-          </Pressable>
+          <Text style={styles.title}>Day</Text>
+          <View
+            style={{
+              marginTop: 10,
+              marginBottom: 15,
+            }}
+          >
+            <Pressable style={{}} onPress={showDatepicker}>
+              <TextInput
+                style={{
+                  textAlign: "center",
+                  padding: 12,
+                  backgroundColor: "#fff",
+                  color: "#000",
+                  borderRadius: 8,
+                }}
+                editable={false}
+                defaultValue={date.toLocaleDateString()}
+              />
+            </Pressable>
+          </View>
         </View>
-      </View>
+      )}
 
       <View
         style={{
