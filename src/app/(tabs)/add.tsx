@@ -11,6 +11,7 @@ import * as Notifications from "expo-notifications";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import { ThemedStatusBar } from "@/components/ThemedStatusBar";
+import { InputSection } from "@/components/InputSection";
 
 type NotifyTrigger = "Interval" | "Daily" | "Weekly" | "One-time" | null;
 
@@ -24,6 +25,8 @@ export default function Add() {
   const [selectedItem, SetSelectedItem] = useState<NotifyTrigger>(null);
   const [hour, setHour] = useState(0);
   const [minute, setMinute] = useState(0);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
   const [items, setItems] = useState([
     { label: "Interval", value: "Interval" },
@@ -219,7 +222,7 @@ export default function Add() {
                   color: "#000",
                 }}
                 keyboardType="numeric"
-                defaultValue={hour.toString()}
+                defaultValue={hour.toString().padStart(2, "0")}
                 onChangeText={(text) => setHour(Number(text))}
               />
               <View
@@ -255,13 +258,43 @@ export default function Add() {
                   color: "#000",
                 }}
                 keyboardType="numeric"
-                defaultValue={minute.toString()}
+                defaultValue={minute.toString().padStart(2, "0")}
                 onChangeText={(text) => setMinute(Number(text))}
               />
             </View>
           )}
         </View>
       </View>
+
+      <InputSection title="Alert Title">
+        <TextInput
+          style={{
+            textAlign: "center",
+            borderRadius: 12,
+            padding: 12,
+            backgroundColor: "#fff",
+            color: "#000",
+          }}
+          defaultValue={title}
+          placeholder="Alert Title"
+          onChangeText={(text) => setTitle(text)}
+        />
+      </InputSection>
+
+      <InputSection title="Alert Body">
+        <TextInput
+          style={{
+            textAlign: "center",
+            borderRadius: 12,
+            padding: 12,
+            backgroundColor: "#fff",
+            color: "#000",
+          }}
+          defaultValue={body}
+          placeholder="Alert Body"
+          onChangeText={(text) => setBody(text)}
+        />
+      </InputSection>
 
       <Button
         title="scheduler"
