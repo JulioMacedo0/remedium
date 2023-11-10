@@ -28,7 +28,7 @@ export default function Add() {
   const [items, setItems] = useState([
     { label: "Interval", value: "Interval" },
     { label: "Daily", value: "Daily", disabled: false },
-    { label: "Weekly", value: "Weekly", disabled: true },
+    { label: "Weekly", value: "Weekly", disabled: false },
     { label: "One-time", value: "One-time", disabled: false },
   ]);
 
@@ -66,8 +66,6 @@ export default function Add() {
         repeats: true,
       };
     } else if (frequence == "Interval") {
-      console.log(`trigger ${frequence}`);
-
       const seconds = hour * 3600 + minute * 60;
       console.log(seconds);
       trigger = {
@@ -77,6 +75,13 @@ export default function Add() {
     } else if (frequence == "One-time") {
       trigger = {
         date,
+      };
+    } else if ((frequence = "Weekly")) {
+      trigger = {
+        weekday: 0,
+        hour: date.getHours(),
+        minute: date.getMinutes(),
+        repeats: true,
       };
     }
     const id = await Notifications.scheduleNotificationAsync({
@@ -257,7 +262,7 @@ export default function Add() {
       </View>
 
       <Button
-        title="test"
+        title="scheduler"
         onPress={() => schedulePushNotification(selectedItem)}
       />
 
