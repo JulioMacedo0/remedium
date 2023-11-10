@@ -52,9 +52,11 @@ export default function Home() {
     <View style={styles.container}>
       <ThemedStatusBar />
       <FlatList
+        ListHeaderComponent={<View style={{ height: 15 }} />}
+        ListFooterComponent={<View style={{ height: 15 }} />}
         style={{
+          flex: 1,
           width: "90%",
-          paddingTop: 18,
         }}
         data={notifications}
         renderItem={({ item }) => <NotificationCard Notification={item} />}
