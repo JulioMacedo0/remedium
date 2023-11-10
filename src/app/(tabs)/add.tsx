@@ -12,13 +12,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 import { ThemedStatusBar } from "@/components/ThemedStatusBar";
 
-type NotifyTrigger =
-  | "Interval"
-  | "Daily"
-  | "Weekly"
-  | "Weekends"
-  | "Custom"
-  | null;
+type NotifyTrigger = "Interval" | "Daily" | "Weekly" | "One-time" | null;
 
 export default function Add() {
   const [date, setDate] = useState(new Date());
@@ -26,7 +20,7 @@ export default function Add() {
   const [show, setShow] = useState(false);
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState<NotifyTrigger>(null);
   const [selectedItem, SetSelectedItem] = useState<NotifyTrigger>(null);
   const [hour, setHour] = useState(0);
   const [minute, setMinute] = useState(0);
@@ -35,8 +29,7 @@ export default function Add() {
     { label: "Interval", value: "Interval" },
     { label: "Daily", value: "Daily", disabled: false },
     { label: "Weekly", value: "Weekly", disabled: true },
-    { label: "Weekends", value: "Weekends", disabled: true },
-    { label: "Custom", value: "Custom", disabled: true },
+    { label: "One-time", value: "One-time", disabled: false },
   ]);
 
   const onChange = (event: DateTimePickerEvent, selectedDate: Date) => {
@@ -59,7 +52,6 @@ export default function Add() {
   };
 
   async function schedulePushNotification(frequence: NotifyTrigger) {
-    console.log("clickou no pinto");
     if (selectedItem == null) {
       alert("Schedule missing");
       return;
@@ -81,6 +73,10 @@ export default function Add() {
       trigger = {
         seconds,
         repeats: true,
+      };
+    } else if (frequence == "One-time") {
+      trigger = {
+        date,
       };
     }
     const id = await Notifications.scheduleNotificationAsync({
@@ -188,20 +184,21 @@ export default function Add() {
               <View
                 style={{
                   justifyContent: "space-between",
+                  marginVertical: 12,
                 }}
               >
                 <View
                   style={{
-                    width: 15,
-                    height: 15,
+                    width: 8,
+                    height: 8,
                     backgroundColor: "#fff",
                     borderRadius: 999,
                   }}
                 />
                 <View
                   style={{
-                    width: 15,
-                    height: 15,
+                    width: 8,
+                    height: 8,
                     backgroundColor: "#fff",
                     borderRadius: 999,
                   }}
@@ -243,7 +240,7 @@ export default function Add() {
         >
           <DropDownPicker
             placeholder="How often?"
-            onChangeValue={SetSelectedItem}
+            onChangeValue={(value) => SetSelectedItem(value)}
             style={{}}
             open={open}
             value={value}
