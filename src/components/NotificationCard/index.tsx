@@ -11,16 +11,40 @@ type NotificationCardProps = {
 export const NotificationCard = ({ Notification }: NotificationCardProps) => {
   const { theme, getInvertedTheme } = useTheme();
 
-  const timestamp = Notification.trigger.value;
-  const data = new Date(timestamp);
+  let dataFormatada: String = "";
 
-  const dataFormatada = data.toLocaleString("pt-BR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  if (Notification.trigger.type == "timeInterval") {
+    const hour = Math.floor(Notification.trigger.seconds / 3600);
+    const minute = Math.floor((Notification.trigger.seconds % 3600) / 60);
+
+    if (hour > 0 || minute > 0) {
+      dataFormatada += "Every ";
+    }
+
+    if (hour > 0) {
+      dataFormatada += `${hour}h`;
+    }
+
+    if (minute > 0) {
+      dataFormatada += ` ${minute}m`;
+    }
+  } else if (Notification.trigger.type == "daily") {
+    dataFormatada = `Every day at ${
+      Notification.trigger.hour
+    }:${Notification.trigger.minute.toString().padStart(2, "0")}`;
+  } else if (Notification.trigger.type == "date") {
+    const timestamp = Notification.trigger.value;
+    const data = new Date(timestamp);
+    dataFormatada = `One time at ${data.toLocaleString("pt-BR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
+  } else if (Notification.trigger.type == "weekly") {
+  }
+
   return (
     <View
       style={{
@@ -54,9 +78,7 @@ export const NotificationCard = ({ Notification }: NotificationCardProps) => {
               body: Notification.content.body,
               data: Notification.content.data,
             },
-            trigger: {
-              seconds: 1,
-            },
+            trigger: null,
           });
           console.log(id);
         }}
