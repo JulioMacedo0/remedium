@@ -28,7 +28,9 @@ export default function Add() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  const [items, setItems] = useState([
+  const [items, setItems] = useState<
+    { label: string; value: NotifyTrigger; disabled?: boolean }[]
+  >([
     { label: "Interval", value: "Interval" },
     { label: "Daily", value: "Daily", disabled: false },
     { label: "Weekly", value: "Weekly", disabled: false },
@@ -89,9 +91,9 @@ export default function Add() {
     }
     const id = await Notifications.scheduleNotificationAsync({
       content: {
-        title: "You've got mail! 📬",
+        title: title,
         subtitle: "subtitle",
-        body: "Here is the notification body",
+        body: body,
 
         data: { data: "goes here" },
       },
@@ -123,7 +125,9 @@ export default function Add() {
         >
           <DropDownPicker
             placeholder="How often?"
-            onChangeValue={(value) => SetSelectedItem(value)}
+            onChangeValue={(value: NotifyTrigger) => {
+              SetSelectedItem(value);
+            }}
             style={{}}
             open={open}
             value={value}
