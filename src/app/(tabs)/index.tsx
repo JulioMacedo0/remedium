@@ -35,9 +35,6 @@ export default function Home() {
         return;
       }
     })();
-  }, []);
-
-  useEffect(() => {
     getAllScheduledNotifications();
   }, []);
 
