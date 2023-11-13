@@ -120,10 +120,7 @@ export default function Add() {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         <ThemedStatusBar />
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ alignItems: "center" }}
-        >
+        <ScrollView contentContainerStyle={{ alignItems: "center" }}>
           <InputSection
             title="Schedule"
             style={{
