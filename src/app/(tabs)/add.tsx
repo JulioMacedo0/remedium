@@ -44,9 +44,9 @@ export default function Add() {
     { label: string; value: NotifyTrigger; disabled?: boolean }[]
   >([
     { label: "Interval", value: "Interval" },
-    { label: "Daily", value: "Daily", disabled: false },
-    { label: "Weekly", value: "Weekly", disabled: false },
-    { label: "One-time", value: "One-time", disabled: false },
+    { label: "Daily", value: "Daily" },
+    { label: "Weekly", value: "Weekly" },
+    { label: "One-time", value: "One-time" },
   ]);
 
   const [isOpenWeekDropdownValue, setIsOpenWeekDropdownValue] = useState(false);
@@ -96,7 +96,6 @@ export default function Add() {
       };
     } else if (frequence == "Interval") {
       const seconds = hour * 3600 + minute * 60;
-      console.log(seconds);
       trigger = {
         seconds,
         repeats: true,
