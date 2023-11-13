@@ -21,6 +21,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         headerTitleAlign: "center",
         headerTitleStyle: {
           color: Colors[theme].text,

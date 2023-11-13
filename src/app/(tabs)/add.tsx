@@ -1,6 +1,7 @@
 import {
   Button,
   KeyboardAvoidingView,
+  Platform,
   Pressable,
   StyleSheet,
   TextInput,
@@ -19,10 +20,12 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { ThemedStatusBar } from "@/components/ThemedStatusBar";
 import { InputSection } from "@/components/InputSection";
 import { ScrollView } from "react-native-gesture-handler";
+import { Colors } from "@/constants";
 
 type NotifyTrigger = "Interval" | "Daily" | "Weekly" | "One-time" | null;
 
 export default function Add() {
+  const { theme } = useTheme();
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
@@ -111,167 +114,184 @@ export default function Add() {
   }
 
   return (
-    <View style={styles.container}>
-      <ThemedStatusBar />
-
-      <InputSection
-        title="Schedule"
-        style={{
-          zIndex: 2000,
-        }}
+    <View style={styles.flex}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <DropDownPicker
-          placeholder="How often?"
-          onChangeValue={(value: NotifyTrigger) => {
-            SetSelectedItem(value);
-          }}
-          style={{}}
-          open={open}
-          value={value}
-          items={items}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setItems}
-          itemSeparator
-          disabledItemContainerStyle={{
-            backgroundColor: "#ccc",
-          }}
-        />
-      </InputSection>
-
-      {selectedItem == "One-time" && (
-        <InputSection title="Day">
-          <Pressable style={{}} onPress={showDatepicker}>
-            <TextInput
-              style={{
-                textAlign: "center",
-                padding: 12,
-                backgroundColor: "#fff",
-                color: "#000",
-                borderRadius: 8,
-              }}
-              editable={false}
-              defaultValue={date.toLocaleDateString()}
-            />
-          </Pressable>
-        </InputSection>
-      )}
-
-      <InputSection title="Time" style={{ alignItems: "center" }}>
-        {selectedItem != "Interval" ? (
-          <Pressable onPress={showTimepicker}>
-            <TextInput
-              style={{
-                textAlign: "center",
-                borderRadius: 12,
-                padding: 12,
-                backgroundColor: "#fff",
-                color: "#000",
-              }}
-              editable={false}
-              defaultValue={`${date
-                .getHours()
-                .toString()
-                .padStart(2, "0")}:${date
-                .getMinutes()
-                .toString()
-                .padStart(2, "0")}`}
-            />
-          </Pressable>
-        ) : (
-          <View
+        <ThemedStatusBar />
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ alignItems: "center" }}
+        >
+          <InputSection
+            title="Schedule"
             style={{
-              flexDirection: "row",
-              gap: 10,
+              zIndex: 2000,
             }}
           >
+            <DropDownPicker
+              placeholder="How often?"
+              onChangeValue={(value: NotifyTrigger) => {
+                SetSelectedItem(value);
+              }}
+              style={{}}
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+              itemSeparator
+              disabledItemContainerStyle={{
+                backgroundColor: "#ccc",
+              }}
+            />
+          </InputSection>
+
+          {selectedItem == "One-time" && (
+            <InputSection title="Day">
+              <Pressable style={{}} onPress={showDatepicker}>
+                <TextInput
+                  style={{
+                    textAlign: "center",
+                    padding: 12,
+                    backgroundColor: "#fff",
+                    color: "#000",
+                    borderRadius: 8,
+                  }}
+                  editable={false}
+                  defaultValue={date.toLocaleDateString()}
+                />
+              </Pressable>
+            </InputSection>
+          )}
+
+          <InputSection title="Time" style={{ alignItems: "center" }}>
+            {selectedItem != "Interval" ? (
+              <Pressable onPress={showTimepicker}>
+                <TextInput
+                  style={{
+                    textAlign: "center",
+                    borderRadius: 8,
+                    padding: 12,
+                    backgroundColor: "#fff",
+                    color: "#000",
+                  }}
+                  editable={false}
+                  defaultValue={`${date
+                    .getHours()
+                    .toString()
+                    .padStart(2, "0")}:${date
+                    .getMinutes()
+                    .toString()
+                    .padStart(2, "0")}`}
+                />
+              </Pressable>
+            ) : (
+              <View
+                style={{
+                  flexDirection: "row",
+                  gap: 10,
+                }}
+              >
+                <TextInput
+                  style={{
+                    width: 60,
+                    textAlign: "center",
+                    borderRadius: 12,
+                    padding: 12,
+                    backgroundColor: "#fff",
+                    color: "#000",
+                  }}
+                  keyboardType="numeric"
+                  defaultValue={hour.toString().padStart(2, "0")}
+                  onChangeText={(text) => setHour(Number(text))}
+                />
+                <View
+                  style={{
+                    justifyContent: "space-between",
+                    marginVertical: 12,
+                  }}
+                >
+                  <View
+                    style={{
+                      width: 8,
+                      height: 8,
+                      backgroundColor: "#fff",
+                      borderRadius: 999,
+                    }}
+                  />
+                  <View
+                    style={{
+                      width: 8,
+                      height: 8,
+                      backgroundColor: "#fff",
+                      borderRadius: 999,
+                    }}
+                  />
+                </View>
+                <TextInput
+                  style={{
+                    width: 60,
+                    textAlign: "center",
+                    borderRadius: 12,
+                    padding: 12,
+                    backgroundColor: "#fff",
+                    color: "#000",
+                  }}
+                  keyboardType="numeric"
+                  defaultValue={minute.toString().padStart(2, "0")}
+                  onChangeText={(text) => setMinute(Number(text))}
+                />
+              </View>
+            )}
+          </InputSection>
+
+          <InputSection title="Alert Title">
             <TextInput
               style={{
-                width: 60,
                 textAlign: "center",
                 borderRadius: 12,
                 padding: 12,
                 backgroundColor: "#fff",
                 color: "#000",
               }}
-              keyboardType="numeric"
-              defaultValue={hour.toString().padStart(2, "0")}
-              onChangeText={(text) => setHour(Number(text))}
+              defaultValue={title}
+              placeholder="Alert Title"
+              onChangeText={(text) => setTitle(text)}
             />
-            <View
-              style={{
-                justifyContent: "space-between",
-                marginVertical: 12,
-              }}
-            >
-              <View
-                style={{
-                  width: 8,
-                  height: 8,
-                  backgroundColor: "#fff",
-                  borderRadius: 999,
-                }}
-              />
-              <View
-                style={{
-                  width: 8,
-                  height: 8,
-                  backgroundColor: "#fff",
-                  borderRadius: 999,
-                }}
-              />
-            </View>
+          </InputSection>
+
+          <InputSection title="Alert Body">
             <TextInput
               style={{
-                width: 60,
                 textAlign: "center",
                 borderRadius: 12,
                 padding: 12,
                 backgroundColor: "#fff",
                 color: "#000",
               }}
-              keyboardType="numeric"
-              defaultValue={minute.toString().padStart(2, "0")}
-              onChangeText={(text) => setMinute(Number(text))}
+              defaultValue={body}
+              placeholder="Alert Body"
+              onChangeText={(text) => setBody(text)}
             />
-          </View>
-        )}
-      </InputSection>
+          </InputSection>
 
-      <InputSection title="Alert Title">
-        <TextInput
-          style={{
-            textAlign: "center",
-            borderRadius: 12,
-            padding: 12,
-            backgroundColor: "#fff",
-            color: "#000",
-          }}
-          defaultValue={title}
-          placeholder="Alert Title"
-          onChangeText={(text) => setTitle(text)}
-        />
-      </InputSection>
-
-      <InputSection title="Alert Body">
-        <TextInput
-          style={{
-            textAlign: "center",
-            borderRadius: 12,
-            padding: 12,
-            backgroundColor: "#fff",
-            color: "#000",
-          }}
-          defaultValue={body}
-          placeholder="Alert Body"
-          onChangeText={(text) => setBody(text)}
-        />
-      </InputSection>
-
-      <Button
-        title="scheduler"
-        onPress={() => schedulePushNotification(selectedItem)}
-      />
+          <Pressable
+            style={{
+              backgroundColor: Colors[theme].tabBarActiveTintColor,
+              paddingVertical: 8,
+              paddingHorizontal: 12,
+              borderRadius: 12,
+            }}
+            onPress={() => schedulePushNotification(selectedItem)}
+          >
+            <Text style={{ color: "#fff" }}>scheduler</Text>
+          </Pressable>
+          <View style={{ height: 10 }} />
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       {show && (
         <DateTimePicker
@@ -290,11 +310,7 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    paddingBottom: 15,
-  },
+
   title: {
     fontSize: 16,
     fontWeight: "bold",
