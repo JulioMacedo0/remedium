@@ -30,21 +30,35 @@ export default function Add() {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<NotifyTrigger>(null);
   const [selectedItem, SetSelectedItem] = useState<NotifyTrigger>(null);
   const [hour, setHour] = useState(0);
   const [minute, setMinute] = useState(0);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  const [items, setItems] = useState<
+  const [isOpenScheduleDropdownValue, setIsOpenScheduleDropdownValue] =
+    useState(false);
+  const [scheduleDropdownValue, setScheduleDropdownValue] =
+    useState<NotifyTrigger>(null);
+  const [scheduleDropdownItems, setScheduleDropdownItems] = useState<
     { label: string; value: NotifyTrigger; disabled?: boolean }[]
   >([
     { label: "Interval", value: "Interval" },
     { label: "Daily", value: "Daily", disabled: false },
     { label: "Weekly", value: "Weekly", disabled: false },
     { label: "One-time", value: "One-time", disabled: false },
+  ]);
+
+  const [isOpenWeekDropdownValue, setIsOpenWeekDropdownValue] = useState(false);
+  const [weekDropdownValue, setWeekDropdownValue] = useState(0);
+  const [weekDropdownItems, setWeekDropdownItems] = useState([
+    { label: "Sunday", value: 1 },
+    { label: "Monday", value: 2 },
+    { label: "Tuesday", value: 3 },
+    { label: "Wednesday", value: 4 },
+    { label: "Thursday", value: 5 },
+    { label: "Friday", value: 6 },
+    { label: "Saturday", value: 7 },
   ]);
 
   const onChange = (event: DateTimePickerEvent, selectedDate: Date) => {
@@ -93,7 +107,7 @@ export default function Add() {
       };
     } else if ((frequence = "Weekly")) {
       trigger = {
-        weekday: 0,
+        weekday: weekDropdownValue,
         hour: date.getHours(),
         minute: date.getMinutes(),
         repeats: true,
@@ -102,7 +116,7 @@ export default function Add() {
     const id = await Notifications.scheduleNotificationAsync({
       content: {
         title: title,
-        subtitle: "subtitle",
+
         body: body,
 
         data: { data: "goes here" },
@@ -124,7 +138,7 @@ export default function Add() {
           <InputSection
             title="Schedule"
             style={{
-              zIndex: 2000,
+              zIndex: 101,
             }}
           >
             <DropDownPicker
@@ -133,18 +147,40 @@ export default function Add() {
                 SetSelectedItem(value);
               }}
               style={{}}
-              open={open}
-              value={value}
-              items={items}
-              setOpen={setOpen}
-              setValue={setValue}
-              setItems={setItems}
+              open={isOpenScheduleDropdownValue}
+              value={scheduleDropdownValue}
+              items={scheduleDropdownItems}
+              setOpen={setIsOpenScheduleDropdownValue}
+              setValue={setScheduleDropdownValue}
+              setItems={setScheduleDropdownItems}
               itemSeparator
               disabledItemContainerStyle={{
                 backgroundColor: "#ccc",
               }}
             />
           </InputSection>
+
+          {selectedItem == "Weekly" && (
+            <InputSection title="Week" style={{ zIndex: 100 }}>
+              <DropDownPicker
+                placeholder="How week?"
+                onChangeValue={(value) => {
+                  setWeekDropdownValue(value);
+                }}
+                style={{}}
+                open={isOpenWeekDropdownValue}
+                value={weekDropdownValue}
+                items={weekDropdownItems}
+                setOpen={setIsOpenWeekDropdownValue}
+                setValue={setWeekDropdownValue}
+                setItems={setWeekDropdownItems}
+                itemSeparator
+                disabledItemContainerStyle={{
+                  backgroundColor: "#ccc",
+                }}
+              />
+            </InputSection>
+          )}
 
           {selectedItem == "One-time" && (
             <InputSection title="Day">
@@ -164,7 +200,12 @@ export default function Add() {
             </InputSection>
           )}
 
-          <InputSection title="Time" style={{ alignItems: "center" }}>
+          <InputSection
+            title={"Time"}
+            style={{
+              alignItems: selectedItem == "Interval" ? "center" : undefined,
+            }}
+          >
             {selectedItem != "Interval" ? (
               <Pressable onPress={showTimepicker}>
                 <TextInput
