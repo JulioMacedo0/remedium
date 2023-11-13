@@ -1,19 +1,29 @@
 import { View } from "../View";
 import { Text } from "@components/Text";
 import { ReactNode } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View as ViewProps } from "react-native";
+
 type InputSectionProps = {
   title: string;
   children: ReactNode;
-};
+} & ViewProps["props"];
 
-export const InputSection = ({ title, children }: InputSectionProps) => {
+export const InputSection = ({
+  title,
+  children,
+  style,
+  ...props
+}: InputSectionProps) => {
   return (
     <View
-      style={{
-        marginTop: 10,
-        width: "90%",
-      }}
+      style={[
+        {
+          marginTop: 10,
+          width: "90%",
+        },
+        style,
+      ]}
+      {...props}
     >
       <Text style={styles.title}>{title}</Text>
       <View
