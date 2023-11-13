@@ -114,41 +114,30 @@ export default function Add() {
     <View style={styles.container}>
       <ThemedStatusBar />
 
-      <View
+      <InputSection
+        title="Schedule"
         style={{
-          marginTop: 10,
-          width: "90%",
           zIndex: 2000,
         }}
       >
-        <Text style={styles.title}>Schedule</Text>
-        <View
-          transparent
-          style={{
-            flexDirection: "row",
-            marginTop: 10,
-            marginBottom: 15,
+        <DropDownPicker
+          placeholder="How often?"
+          onChangeValue={(value: NotifyTrigger) => {
+            SetSelectedItem(value);
           }}
-        >
-          <DropDownPicker
-            placeholder="How often?"
-            onChangeValue={(value: NotifyTrigger) => {
-              SetSelectedItem(value);
-            }}
-            style={{}}
-            open={open}
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
-            itemSeparator
-            disabledItemContainerStyle={{
-              backgroundColor: "#ccc",
-            }}
-          />
-        </View>
-      </View>
+          style={{}}
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          itemSeparator
+          disabledItemContainerStyle={{
+            backgroundColor: "#ccc",
+          }}
+        />
+      </InputSection>
 
       {selectedItem == "One-time" && (
         <InputSection title="Day">
@@ -168,7 +157,7 @@ export default function Add() {
         </InputSection>
       )}
 
-      <InputSection title="Time">
+      <InputSection title="Time" style={{ alignItems: "center" }}>
         {selectedItem != "Interval" ? (
           <Pressable onPress={showTimepicker}>
             <TextInput
