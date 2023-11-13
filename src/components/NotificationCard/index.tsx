@@ -43,6 +43,21 @@ export const NotificationCard = ({ Notification }: NotificationCardProps) => {
       minute: "2-digit",
     })}`;
   } else if (Notification.trigger.type == "weekly") {
+    const weeks = {
+      1: "Sunday",
+      2: "Monday",
+      3: "Tuesday",
+      4: "Wednesday",
+      5: "Thursday",
+      6: "Friday",
+      7: "Saturday",
+    };
+
+    const weekDay = Notification.trigger.weekday;
+
+    dataFormatada = `Every ${weeks[weekDay]} at  ${
+      Notification.trigger.hour
+    }:${Notification.trigger.minute.toString().padStart(2, "0")}`;
   }
 
   return (
