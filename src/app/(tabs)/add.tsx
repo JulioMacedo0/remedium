@@ -1,5 +1,4 @@
 import {
-  Button,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -34,6 +33,7 @@ export default function Add() {
   const [hour, setHour] = useState(0);
   const [minute, setMinute] = useState(0);
   const [title, setTitle] = useState("");
+  const [subtitle, setsubtitle] = useState("");
   const [body, setBody] = useState("");
 
   const [isOpenScheduleDropdownValue, setIsOpenScheduleDropdownValue] =
@@ -115,9 +115,8 @@ export default function Add() {
     const id = await Notifications.scheduleNotificationAsync({
       content: {
         title: title,
-
+        subtitle: subtitle,
         body: body,
-
         data: { data: "goes here" },
       },
       trigger,
@@ -285,7 +284,7 @@ export default function Add() {
             )}
           </InputSection>
 
-          <InputSection title="Alert Title">
+          <InputSection title="Remedy name">
             <TextInput
               style={{
                 textAlign: "center",
@@ -295,12 +294,27 @@ export default function Add() {
                 color: "#000",
               }}
               defaultValue={title}
-              placeholder="Alert Title"
+              placeholder="Dipirona"
               onChangeText={(text) => setTitle(text)}
             />
           </InputSection>
 
-          <InputSection title="Alert Body">
+          <InputSection title="Remedy Weight">
+            <TextInput
+              style={{
+                textAlign: "center",
+                borderRadius: 12,
+                padding: 12,
+                backgroundColor: "#fff",
+                color: "#000",
+              }}
+              defaultValue={subtitle}
+              placeholder="500mg"
+              onChangeText={(text) => setsubtitle(text)}
+            />
+          </InputSection>
+
+          <InputSection title="Instructions">
             <TextInput
               style={{
                 textAlign: "center",
@@ -310,7 +324,7 @@ export default function Add() {
                 color: "#000",
               }}
               defaultValue={body}
-              placeholder="Alert Body"
+              placeholder="Take after breakfast"
               onChangeText={(text) => setBody(text)}
             />
           </InputSection>
