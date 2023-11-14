@@ -121,7 +121,7 @@ export default function Add() {
           body: body,
           data: { data: "goes here" },
         },
-        trigger: {},
+        trigger,
       });
       console.log(`scheduleNotificationAsync ${id}`);
     } catch (error) {
