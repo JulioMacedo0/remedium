@@ -6,43 +6,48 @@ import { useTheme } from "@/context";
 import { Colors } from "@/constants";
 
 type NotificationCardProps = {
-  Notification: Notifications.NotificationRequest;
+  notification: Notifications.NotificationRequest;
 };
-export const NotificationCard = ({ Notification }: NotificationCardProps) => {
+
+type weeksValues = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+export const NotificationCard = ({ notification }: NotificationCardProps) => {
   const { theme, getInvertedTheme } = useTheme();
 
-  let dataFormatada: String = "";
+  let dateInfo: String = "";
 
-  if (Notification.trigger.type == "timeInterval") {
-    const hour = Math.floor(Notification.trigger.seconds / 3600);
-    const minute = Math.floor((Notification.trigger.seconds % 3600) / 60);
+  const trigger = notification.trigger;
+
+  if (trigger.type == "timeInterval") {
+    const hour = Math.floor(trigger.seconds / 3600);
+    const minute = Math.floor((trigger.seconds % 3600) / 60);
 
     if (hour > 0 || minute > 0) {
-      dataFormatada += "Every ";
+      dateInfo += "Every ";
     }
 
     if (hour > 0) {
-      dataFormatada += `${hour}h`;
+      dateInfo += `${hour}h`;
     }
 
     if (minute > 0) {
-      dataFormatada += ` ${minute}m`;
+      dateInfo += ` ${minute}m`;
     }
-  } else if (Notification.trigger.type == "daily") {
-    dataFormatada = `Every day at ${
-      Notification.trigger.hour
-    }:${Notification.trigger.minute.toString().padStart(2, "0")}`;
-  } else if (Notification.trigger.type == "date") {
-    const timestamp = Notification.trigger.value;
+  } else if (trigger.type == "daily") {
+    dateInfo = `Every day at ${trigger.hour}:${trigger.minute
+      .toString()
+      .padStart(2, "0")}`;
+  } else if (trigger == Notifications.date) {
+    const timestamp = trigger.value;
     const data = new Date(timestamp);
-    dataFormatada = `One time at ${data.toLocaleString("pt-BR", {
+    dateInfo = `One time at ${data.toLocaleString("pt-BR", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
       hour: "2-digit",
       minute: "2-digit",
     })}`;
-  } else if (Notification.trigger.type == "weekly") {
+  } else if (trigger.type == "weekly") {
     const weeks = {
       1: "Sunday",
       2: "Monday",
@@ -53,11 +58,11 @@ export const NotificationCard = ({ Notification }: NotificationCardProps) => {
       7: "Saturday",
     };
 
-    const weekDay = Notification.trigger.weekday;
+    const weekDay = trigger.weekday as weeksValues;
 
-    dataFormatada = `Every ${weeks[weekDay]} at  ${
-      Notification.trigger.hour
-    }:${Notification.trigger.minute.toString().padStart(2, "0")}`;
+    dateInfo = `Every ${weeks[weekDay]} at  ${trigger.hour}:${trigger.minute
+      .toString()
+      .padStart(2, "0")}`;
   }
 
   return (
@@ -77,8 +82,8 @@ export const NotificationCard = ({ Notification }: NotificationCardProps) => {
           },
         ]}
       >
-        <Text style={[styles.titleButton]}>{Notification.content.title}</Text>
-        <Text>{Notification.trigger.type}</Text>
+        <Text style={[styles.titleButton]}>{notification.content.title}</Text>
+        <Text>{notification.trigger.type}</Text>
       </View>
 
       <View
@@ -89,11 +94,11 @@ export const NotificationCard = ({ Notification }: NotificationCardProps) => {
           },
         ]}
       >
-        <Text>{Notification.content.body}</Text>
+        <Text>{notification.content.body}</Text>
 
         <View transparent style={[styles.row, styles.footer]}>
           <View transparent style={[styles.row, styles.trigger]}>
-            <Text>{dataFormatada}</Text>
+            <Text>{dateInfo}</Text>
           </View>
 
           <View
@@ -115,7 +120,7 @@ export const NotificationCard = ({ Notification }: NotificationCardProps) => {
               ]}
               onPress={() => {
                 Notifications.cancelScheduledNotificationAsync(
-                  Notification.identifier
+                  notification.identifier
                 );
               }}
             >
@@ -132,10 +137,10 @@ export const NotificationCard = ({ Notification }: NotificationCardProps) => {
               onPress={async () => {
                 const id = await Notifications.scheduleNotificationAsync({
                   content: {
-                    title: Notification.content.title,
-                    subtitle: Notification.content.subtitle,
-                    body: Notification.content.body,
-                    data: Notification.content.data,
+                    title: notification.content.title,
+                    subtitle: notification.content.subtitle,
+                    body: notification.content.body,
+                    data: notification.content.data,
                   },
                   trigger: null,
                 });
