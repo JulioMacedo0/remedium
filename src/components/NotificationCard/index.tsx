@@ -37,7 +37,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
     dateInfo = `Every day at ${trigger.hour}:${trigger.minute
       .toString()
       .padStart(2, "0")}`;
-  } else if (trigger == Notifications.date) {
+  } else if (trigger.type == "date") {
     const timestamp = trigger.value;
     const data = new Date(timestamp);
     dateInfo = `One time at ${data.toLocaleString("pt-BR", {
