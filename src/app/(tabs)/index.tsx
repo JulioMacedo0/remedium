@@ -56,7 +56,7 @@ export default function Home() {
           width: "90%",
         }}
         data={notifications}
-        renderItem={({ item }) => <NotificationCard Notification={item} />}
+        renderItem={({ item }) => <NotificationCard notification={item} />}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       />
       <PermissionModal
