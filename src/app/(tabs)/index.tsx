@@ -1,13 +1,9 @@
-import { StyleSheet, Button, FlatList } from "react-native";
-import { View } from "@/components";
+import { StyleSheet, FlatList } from "react-native";
+import { View, ThemedStatusBar, NotificationCard } from "@/components";
 import { useEffect, useState } from "react";
 import * as Notifications from "expo-notifications";
 
-import { useTheme } from "@/context";
 import { PermissionModal } from "@/components/Modal/permissionModal";
-import { ThemedStatusBar } from "@/components/ThemedStatusBar";
-
-import { NotificationCard } from "@/components/NotificationCard";
 
 export default function Home() {
   const [modalVisible, setModalVisible] = useState(false);
