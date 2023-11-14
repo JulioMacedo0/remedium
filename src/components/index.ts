@@ -5,3 +5,5 @@ export * from "@components/Section";
 export * from "@components/SectionItem";
 export * from "@components/Text";
 export * from "@components/View";
+export * from "@components/InputSection";
+export * from "@components/ThemedStatusBar";

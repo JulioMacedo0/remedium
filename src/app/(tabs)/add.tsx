@@ -6,20 +6,18 @@ import {
   TextInput,
 } from "react-native";
 
-import { View, Text } from "@/components";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
-import { useState } from "react";
-
-import { useTheme } from "@/context";
+import { ScrollView } from "react-native-gesture-handler";
 import * as Notifications from "expo-notifications";
 import DropDownPicker from "react-native-dropdown-picker";
 
-import { ThemedStatusBar } from "@/components/ThemedStatusBar";
-import { InputSection } from "@/components/InputSection";
-import { ScrollView } from "react-native-gesture-handler";
+import { InputSection, ThemedStatusBar, View, Text } from "@/components/";
+import { useTheme } from "@/context";
 import { Colors } from "@/constants";
+
+import { useState } from "react";
 
 type NotifyTrigger = "Interval" | "Daily" | "Weekly" | "One-time" | null;
 
