@@ -80,7 +80,7 @@ export default function Add() {
     showMode("time");
   };
 
-  async function schedulePushNotification(frequence: NotifyTrigger) {
+  async function scheduleNotification(frequence: NotifyTrigger) {
     if (selectedItem == null) {
       alert("Schedule missing");
       return;
@@ -112,17 +112,21 @@ export default function Add() {
         repeats: true,
       };
     }
-    const id = await Notifications.scheduleNotificationAsync({
-      content: {
-        title: title,
-        subtitle: subtitle,
-        body: body,
-        data: { data: "goes here" },
-      },
-      trigger,
-    });
 
-    console.log(`scheduleNotificationAsync ${id}`);
+    try {
+      const id = await Notifications.scheduleNotificationAsync({
+        content: {
+          title: title,
+          subtitle: subtitle,
+          body: body,
+          data: { data: "goes here" },
+        },
+        trigger: {},
+      });
+      console.log(`scheduleNotificationAsync ${id}`);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -336,7 +340,7 @@ export default function Add() {
               paddingHorizontal: 12,
               borderRadius: 12,
             }}
-            onPress={() => schedulePushNotification(selectedItem)}
+            onPress={() => scheduleNotification(selectedItem)}
           >
             <Text style={{ color: "#fff" }}>scheduler</Text>
           </Pressable>
