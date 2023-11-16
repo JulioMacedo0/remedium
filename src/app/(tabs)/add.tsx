@@ -24,6 +24,7 @@ type AndroidMode = "date" | "time";
 
 export default function Add() {
   const { theme } = useTheme();
+
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState<AndroidMode>("date");
   const [show, setShow] = useState(false);
@@ -39,6 +40,7 @@ export default function Add() {
     useState(false);
   const [scheduleDropdownValue, setScheduleDropdownValue] =
     useState<NotifyTrigger>(null);
+
   const [scheduleDropdownItems, setScheduleDropdownItems] = useState<
     { label: string; value: NotifyTrigger; disabled?: boolean }[]
   >([
@@ -66,7 +68,7 @@ export default function Add() {
     setDate(currentDate);
   };
 
-  const showMode = (currentMode) => {
+  const showMode = (currentMode: AndroidMode) => {
     setShow(true);
     setMode(currentMode);
   };
