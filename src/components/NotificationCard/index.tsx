@@ -9,7 +9,7 @@ type NotificationCardProps = {
   notification: Notifications.NotificationRequest;
 };
 
-type weeksValues = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type weeksValues = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 export const NotificationCard = ({ notification }: NotificationCardProps) => {
   const { theme, getInvertedTheme } = useTheme();
