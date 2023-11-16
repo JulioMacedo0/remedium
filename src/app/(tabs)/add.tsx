@@ -54,10 +54,10 @@ export default function Add() {
       value: NotifyTrigger;
     }[]
   >([
-    { label: "Interval", value: "Interval" },
-    { label: "Daily", value: "Daily" },
-    { label: "Weekly", value: "Weekly" },
-    { label: "One-time", value: "One-time" },
+    { label: i18n.t("ADD.FREQUENCYDROPDOWN.INTERVAL"), value: "Interval" },
+    { label: i18n.t("ADD.FREQUENCYDROPDOWN.DAILY"), value: "Daily" },
+    { label: i18n.t("ADD.FREQUENCYDROPDOWN.WEEKLY"), value: "Weekly" },
+    { label: i18n.t("ADD.FREQUENCYDROPDOWN.ONETIME"), value: "One-time" },
   ]);
 
   const [isOpenWeekDropdownValue, setIsOpenWeekDropdownValue] = useState(false);
@@ -69,13 +69,13 @@ export default function Add() {
       value: weeksValues;
     }[]
   >([
-    { label: "Sunday", value: 1 },
-    { label: "Monday", value: 2 },
-    { label: "Tuesday", value: 3 },
-    { label: "Wednesday", value: 4 },
-    { label: "Thursday", value: 5 },
-    { label: "Friday", value: 6 },
-    { label: "Saturday", value: 7 },
+    { label: i18n.t("ADD.WEEKDROPDOWN.SUNDAY"), value: 1 },
+    { label: i18n.t("ADD.WEEKDROPDOWN.MONDAY"), value: 2 },
+    { label: i18n.t("ADD.WEEKDROPDOWN.TUESDAY"), value: 3 },
+    { label: i18n.t("ADD.WEEKDROPDOWN.WEDNESDAY"), value: 4 },
+    { label: i18n.t("ADD.WEEKDROPDOWN.THURSDAY"), value: 5 },
+    { label: i18n.t("ADD.WEEKDROPDOWN.FRIDAY"), value: 6 },
+    { label: i18n.t("ADD.WEEKDROPDOWN.SATURDAY"), value: 7 },
   ]);
 
   const resetForm = () => {
@@ -176,7 +176,7 @@ export default function Add() {
             }}
           >
             <DropDownPicker
-              placeholder="How often?"
+              placeholder={i18n.t("ADD.FREQUENCYDROPDOWN.PLACEHOLDER")}
               onChangeValue={(frequence) => {
                 SetSelectedItem(frequence);
               }}
@@ -194,9 +194,9 @@ export default function Add() {
           </InputSection>
 
           {selectedItem == "Weekly" && (
-            <InputSection title="Week" style={{ zIndex: 100 }}>
+            <InputSection title={i18n.t("ADD.WEEK")} style={{ zIndex: 100 }}>
               <DropDownPicker
-                placeholder="How week?"
+                placeholder={i18n.t("ADD.WEEKDROPDOWN.PLACEHOLDER")}
                 onChangeValue={(weekDay) => {
                   setWeekDropdownValue(weekDay);
                 }}
@@ -215,7 +215,7 @@ export default function Add() {
           )}
 
           {selectedItem == "One-time" && (
-            <InputSection title="Day">
+            <InputSection title={i18n.t("ADD.FREQUENCYDROPDOWN.DAY")}>
               <Pressable style={{}} onPress={showDatepicker}>
                 <TextInput
                   style={{
