@@ -25,7 +25,7 @@ import { Colors } from "@/constants";
 
 import { useState } from "react";
 
-type NotifyTrigger = "Interval" | "Daily" | "Weekly" | "One-time" | null;
+type NotifyTrigger = "Interval" | "Daily" | "Weekly" | "One-time";
 type AndroidMode = "date" | "time";
 
 export default function Add() {
@@ -35,7 +35,7 @@ export default function Add() {
   const [mode, setMode] = useState<AndroidMode>("date");
   const [show, setShow] = useState(false);
 
-  const [selectedItem, SetSelectedItem] = useState<NotifyTrigger>(null);
+  const [selectedItem, SetSelectedItem] = useState<NotifyTrigger | null>(null);
   const [hour, setHour] = useState(0);
   const [minute, setMinute] = useState(0);
   const [title, setTitle] = useState("");
@@ -45,9 +45,14 @@ export default function Add() {
   const [isOpenScheduleDropdownValue, setIsOpenScheduleDropdownValue] =
     useState(false);
   const [scheduleDropdownValue, setScheduleDropdownValue] =
-    useState<NotifyTrigger>(null);
+    useState<NotifyTrigger | null>(null);
 
-  const [scheduleDropdownItems, setScheduleDropdownItems] = useState([
+  const [scheduleDropdownItems, setScheduleDropdownItems] = useState<
+    {
+      label: string;
+      value: NotifyTrigger;
+    }[]
+  >([
     { label: "Interval", value: "Interval" },
     { label: "Daily", value: "Daily" },
     { label: "Weekly", value: "Weekly" },
@@ -169,10 +174,9 @@ export default function Add() {
           >
             <DropDownPicker
               placeholder="How often?"
-              onChangeValue={(value: NotifyTrigger) => {
-                SetSelectedItem(value);
+              onChangeValue={(frequence) => {
+                SetSelectedItem(frequence);
               }}
-              style={{}}
               open={isOpenScheduleDropdownValue}
               value={scheduleDropdownValue}
               items={scheduleDropdownItems}
@@ -193,7 +197,6 @@ export default function Add() {
                 onChangeValue={(weekDay) => {
                   setWeekDropdownValue(weekDay);
                 }}
-                style={{}}
                 open={isOpenWeekDropdownValue}
                 value={weekDropdownValue}
                 items={weekDropdownItems}
