@@ -3,7 +3,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { ThemeProvider, I18nProvider } from "@/context";
+import { ThemeProvider, I18nProvider, NotificationProvider } from "@/context";
 
 import * as Notifications from "expo-notifications";
 
@@ -52,7 +52,9 @@ export default function RootLayout() {
   return (
     <ThemeProvider>
       <I18nProvider>
-        <RootLayoutNav />
+        <NotificationProvider>
+          <RootLayoutNav />
+        </NotificationProvider>
       </I18nProvider>
     </ThemeProvider>
   );
