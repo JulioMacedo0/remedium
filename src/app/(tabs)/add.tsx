@@ -20,7 +20,7 @@ import {
   Text,
   weeksValues,
 } from "@/components/";
-import { useTheme } from "@/context";
+import { useNotification, useTheme } from "@/context";
 import { Colors } from "@/constants";
 
 import { useState } from "react";
@@ -30,7 +30,7 @@ type AndroidMode = "date" | "time";
 
 export default function Add() {
   const { theme } = useTheme();
-
+  const { updateNotification } = useNotification();
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState<AndroidMode>("date");
   const [show, setShow] = useState(false);
@@ -154,6 +154,7 @@ export default function Add() {
       });
       console.log(`scheduleNotificationAsync ${id}`);
       resetForm();
+      updateNotification();
     } catch (error) {
       console.log(error);
     }

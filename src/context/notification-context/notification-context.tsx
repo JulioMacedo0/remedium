@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import * as Notifications from "expo-notifications";
 interface NotificationContextValue {
   notifications: Notifications.NotificationRequest[];
-  addNotification: (notification: Notifications.NotificationRequest) => void;
+  updateNotification: () => void;
   removeNotification: (identifier: string) => void;
 }
 
@@ -23,7 +23,6 @@ export function NotificationProvider(props: ProviderProps) {
     const notifications =
       await Notifications.getAllScheduledNotificationsAsync();
 
-    console.log(notifications);
     setNotifications(notifications);
   };
 
@@ -31,8 +30,11 @@ export function NotificationProvider(props: ProviderProps) {
     getAllScheduledNotifications();
   }, []);
 
-  const addNotification = (notification: Notifications.NotificationRequest) => {
-    setNotifications((previousValue) => [...previousValue, notification]);
+  const updateNotification = async () => {
+    const notifications =
+      await Notifications.getAllScheduledNotificationsAsync();
+
+    setNotifications(notifications);
   };
   const removeNotification = (identifier: string) => {
     setNotifications((previousValue) =>
@@ -44,7 +46,7 @@ export function NotificationProvider(props: ProviderProps) {
 
   return (
     <NotificationContext.Provider
-      value={{ notifications, addNotification, removeNotification }}
+      value={{ notifications, updateNotification, removeNotification }}
     >
       {props.children}
     </NotificationContext.Provider>
