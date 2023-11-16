@@ -4,13 +4,11 @@ import { useEffect, useState } from "react";
 import * as Notifications from "expo-notifications";
 
 import { PermissionModal } from "@/components/Modal/permissionModal";
+import { useNotification } from "@/context";
 
 export default function Home() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [notifications, setNotifications] = useState<
-    Notifications.NotificationRequest[]
-  >([]);
-
+  const { notifications } = useNotification();
   const closeModal = () => {
     setModalVisible(false);
   };
@@ -31,16 +29,8 @@ export default function Home() {
         return;
       }
     })();
-    getAllScheduledNotifications();
   }, []);
 
-  const getAllScheduledNotifications = async () => {
-    const notifications =
-      await Notifications.getAllScheduledNotificationsAsync();
-
-    console.log(notifications);
-    setNotifications(notifications);
-  };
   return (
     <View style={styles.container}>
       <ThemedStatusBar />
