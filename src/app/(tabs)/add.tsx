@@ -57,7 +57,12 @@ export default function Add() {
   const [isOpenWeekDropdownValue, setIsOpenWeekDropdownValue] = useState(false);
   const [weekDropdownValue, setWeekDropdownValue] =
     useState<weeksValues | null>(null);
-  const [weekDropdownItems, setWeekDropdownItems] = useState([
+  const [weekDropdownItems, setWeekDropdownItems] = useState<
+    {
+      label: string;
+      value: weeksValues;
+    }[]
+  >([
     { label: "Sunday", value: 1 },
     { label: "Monday", value: 2 },
     { label: "Tuesday", value: 3 },
@@ -185,8 +190,8 @@ export default function Add() {
             <InputSection title="Week" style={{ zIndex: 100 }}>
               <DropDownPicker
                 placeholder="How week?"
-                onChangeValue={(value) => {
-                  setWeekDropdownValue(value);
+                onChangeValue={(weekDay) => {
+                  setWeekDropdownValue(weekDay);
                 }}
                 style={{}}
                 open={isOpenWeekDropdownValue}
