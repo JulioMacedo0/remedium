@@ -106,7 +106,8 @@ export default function Add() {
     showMode("time");
   };
 
-  async function scheduleNotification(frequence: NotifyTrigger) {
+  async function scheduleNotification(frequence: NotifyTrigger | null) {
+    if (frequence == null) return;
     if (selectedItem == null) {
       alert("Schedule missing");
       return;
