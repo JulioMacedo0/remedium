@@ -62,7 +62,7 @@ export default function Add() {
     { label: "Saturday", value: 7 },
   ]);
 
-  const onChange = (event, selectedDate) => {
+  const onChange = (event: DateTimePickerEvent, selectedDate: Date) => {
     const currentDate = selectedDate;
     setShow(false);
     setDate(currentDate);
@@ -355,7 +355,9 @@ export default function Add() {
           value={date}
           mode={mode}
           is24Hour={true}
-          onChange={onChange}
+          onChange={(event, selectedDate) =>
+            onChange(event, selectedDate as Date)
+          }
         />
       )}
     </View>
