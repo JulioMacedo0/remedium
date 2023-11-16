@@ -2,7 +2,7 @@ import { TouchableOpacity, StyleSheet } from "react-native";
 import { View } from "@components/View";
 import * as Notifications from "expo-notifications";
 import { Text } from "@components/Text";
-import { useTheme } from "@/context";
+import { useNotification, useTheme } from "@/context";
 import { Colors } from "@/constants";
 
 type NotificationCardProps = {
@@ -13,7 +13,7 @@ export type weeksValues = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 export const NotificationCard = ({ notification }: NotificationCardProps) => {
   const { theme, getInvertedTheme } = useTheme();
-
+  const { removeNotification } = useNotification();
   let dateInfo: String = "";
 
   const trigger = notification.trigger;
@@ -122,6 +122,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
                 Notifications.cancelScheduledNotificationAsync(
                   notification.identifier
                 );
+                removeNotification(notification.identifier);
               }}
             >
               <Text style={styles.titleButton}>DELETE</Text>
