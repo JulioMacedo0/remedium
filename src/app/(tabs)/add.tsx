@@ -13,7 +13,13 @@ import { ScrollView } from "react-native-gesture-handler";
 import * as Notifications from "expo-notifications";
 import DropDownPicker from "react-native-dropdown-picker";
 
-import { InputSection, ThemedStatusBar, View, Text } from "@/components/";
+import {
+  InputSection,
+  ThemedStatusBar,
+  View,
+  Text,
+  weeksValues,
+} from "@/components/";
 import { useTheme } from "@/context";
 import { Colors } from "@/constants";
 
@@ -41,9 +47,7 @@ export default function Add() {
   const [scheduleDropdownValue, setScheduleDropdownValue] =
     useState<NotifyTrigger>(null);
 
-  const [scheduleDropdownItems, setScheduleDropdownItems] = useState<
-    { label: string; value: NotifyTrigger; disabled?: boolean }[]
-  >([
+  const [scheduleDropdownItems, setScheduleDropdownItems] = useState([
     { label: "Interval", value: "Interval" },
     { label: "Daily", value: "Daily" },
     { label: "Weekly", value: "Weekly" },
@@ -51,7 +55,8 @@ export default function Add() {
   ]);
 
   const [isOpenWeekDropdownValue, setIsOpenWeekDropdownValue] = useState(false);
-  const [weekDropdownValue, setWeekDropdownValue] = useState(0);
+  const [weekDropdownValue, setWeekDropdownValue] =
+    useState<weeksValues | null>(null);
   const [weekDropdownItems, setWeekDropdownItems] = useState([
     { label: "Sunday", value: 1 },
     { label: "Monday", value: 2 },
@@ -62,6 +67,16 @@ export default function Add() {
     { label: "Saturday", value: 7 },
   ]);
 
+  const resetForm = () => {
+    setWeekDropdownValue(null);
+    setScheduleDropdownValue(null);
+    SetSelectedItem(null);
+    setHour(0);
+    setMinute(0);
+    setTitle("");
+    setsubtitle("");
+    setBody("");
+  };
   const onChange = (event: DateTimePickerEvent, selectedDate: Date) => {
     const currentDate = selectedDate;
     setShow(false);
@@ -106,6 +121,8 @@ export default function Add() {
         date,
       };
     } else if ((frequence = "Weekly")) {
+      if (weekDropdownValue == null) return;
+
       trigger = {
         weekday: weekDropdownValue,
         hour: date.getHours(),
@@ -125,6 +142,7 @@ export default function Add() {
         trigger,
       });
       console.log(`scheduleNotificationAsync ${id}`);
+      resetForm();
     } catch (error) {
       console.log(error);
     }
