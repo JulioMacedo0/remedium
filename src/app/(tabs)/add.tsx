@@ -20,11 +20,12 @@ import { Colors } from "@/constants";
 import { useState } from "react";
 
 type NotifyTrigger = "Interval" | "Daily" | "Weekly" | "One-time" | null;
+type AndroidMode = "date" | "time";
 
 export default function Add() {
   const { theme } = useTheme();
   const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState("date");
+  const [mode, setMode] = useState<AndroidMode>("date");
   const [show, setShow] = useState(false);
 
   const [selectedItem, SetSelectedItem] = useState<NotifyTrigger>(null);
@@ -59,7 +60,7 @@ export default function Add() {
     { label: "Saturday", value: 7 },
   ]);
 
-  const onChange = (event: DateTimePickerEvent, selectedDate: Date) => {
+  const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(false);
     setDate(currentDate);
