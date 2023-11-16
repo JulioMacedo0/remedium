@@ -20,7 +20,7 @@ import {
   Text,
   weeksValues,
 } from "@/components/";
-import { useNotification, useTheme } from "@/context";
+import { useI18n, useNotification, useTheme } from "@/context";
 import { Colors } from "@/constants";
 
 import { useState } from "react";
@@ -31,6 +31,7 @@ type AndroidMode = "date" | "time";
 export default function Add() {
   const { theme } = useTheme();
   const { updateNotification } = useNotification();
+  const { i18n } = useI18n();
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState<AndroidMode>("date");
   const [show, setShow] = useState(false);
@@ -169,7 +170,7 @@ export default function Add() {
         <ThemedStatusBar />
         <ScrollView contentContainerStyle={{ alignItems: "center" }}>
           <InputSection
-            title="Schedule"
+            title={i18n.t("ADD.FREQUENCY")}
             style={{
               zIndex: 101,
             }}
@@ -232,7 +233,7 @@ export default function Add() {
           )}
 
           <InputSection
-            title={"Time"}
+            title={i18n.t("ADD.TIME")}
             style={{
               alignItems: selectedItem == "Interval" ? "center" : undefined,
             }}
@@ -317,7 +318,7 @@ export default function Add() {
             )}
           </InputSection>
 
-          <InputSection title="Remedy name">
+          <InputSection title={i18n.t("ADD.REMEDYNAME")}>
             <TextInput
               style={{
                 textAlign: "center",
@@ -332,7 +333,7 @@ export default function Add() {
             />
           </InputSection>
 
-          <InputSection title="Remedy Weight">
+          <InputSection title={i18n.t("ADD.DOSE")}>
             <TextInput
               style={{
                 textAlign: "center",
@@ -347,7 +348,7 @@ export default function Add() {
             />
           </InputSection>
 
-          <InputSection title="Instructions">
+          <InputSection title={i18n.t("ADD.INSTRUCTIONS")}>
             <TextInput
               style={{
                 textAlign: "center",
@@ -371,7 +372,7 @@ export default function Add() {
             }}
             onPress={() => scheduleNotification(selectedItem)}
           >
-            <Text style={{ color: "#fff" }}>scheduler</Text>
+            <Text style={{ color: "#fff" }}>{i18n.t("ADD.SCHEDULER")}</Text>
           </Pressable>
           <View style={{ height: 10 }} />
         </ScrollView>

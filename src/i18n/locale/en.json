@@ -3,7 +3,12 @@
 
   "ADD": {
     "TITLEPAGE": "Add",
-    "REMEDY": "Remedy"
+    "FREQUENCY": "Frequency",
+    "TIME": "Time",
+    "REMEDYNAME": "Remedy name",
+    "DOSE": "Dosage",
+    "INSTRUCTIONS": "Instructions",
+    "SCHEDULER": "Scheduler"
   },
 
   "SETTINGS": {
