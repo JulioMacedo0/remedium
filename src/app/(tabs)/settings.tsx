@@ -165,12 +165,18 @@ export default function Config() {
           <LaguageItem
             text={i18n.t("SETTINGS.BOTTOMSHEET.EN")}
             isSelected={language == "en"}
-            onPress={() => changeLaguange("en")}
+            onPress={() => {
+              changeLaguange("en");
+              bottomSheetRef.current?.close();
+            }}
           />
           <LaguageItem
             text={i18n.t("SETTINGS.BOTTOMSHEET.PT")}
             isSelected={language == "pt"}
-            onPress={() => changeLaguange("pt")}
+            onPress={() => {
+              changeLaguange("pt");
+              bottomSheetRef.current?.close();
+            }}
           />
         </View>
       </BottomSheet>
