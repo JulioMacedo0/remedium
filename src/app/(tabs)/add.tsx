@@ -168,6 +168,15 @@ export default function Add() {
             }}
           >
             <Dropdown
+              activeColor={Colors[theme].tabBarActiveTintColor}
+              containerStyle={{
+                borderRadius: 8,
+              }}
+              style={{
+                backgroundColor: "#fff",
+                padding: 8,
+                borderRadius: 8,
+              }}
               placeholder={i18n.t("ADD.FREQUENCYDROPDOWN.PLACEHOLDER")}
               labelField="label"
               valueField="value"
@@ -180,6 +189,15 @@ export default function Add() {
           {frequencyDropdownItem?.value == "Weekly" && (
             <InputSection title={i18n.t("ADD.WEEK")} style={{ zIndex: 100 }}>
               <Dropdown
+                activeColor={Colors[theme].tabBarActiveTintColor}
+                containerStyle={{
+                  borderRadius: 8,
+                }}
+                style={{
+                  backgroundColor: "#fff",
+                  padding: 8,
+                  borderRadius: 8,
+                }}
                 placeholder={i18n.t("ADD.WEEKDROPDOWN.PLACEHOLDER")}
                 labelField="label"
                 valueField="value"
