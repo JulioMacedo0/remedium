@@ -26,7 +26,10 @@
     "TIME": "Time",
     "REMEDYNAME": "Remedy name",
     "DOSE": "Dosage",
-    "INSTRUCTIONS": "Instructions",
+    "INSTRUCTIONS": {
+      "TITLEINPUT": "Instructions",
+      "PLACEHOLDER": "Take on an empty stomach"
+    },
     "SCHEDULER": "Scheduler"
   },
 

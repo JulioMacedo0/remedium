@@ -335,7 +335,7 @@ export default function Add() {
             />
           </InputSection>
 
-          <InputSection title={i18n.t("ADD.INSTRUCTIONS")}>
+          <InputSection title={i18n.t("ADD.INSTRUCTIONS.TITLEINPUT")}>
             <TextInput
               style={{
                 textAlign: "center",
@@ -345,7 +345,7 @@ export default function Add() {
                 color: "#000",
               }}
               defaultValue={body}
-              placeholder="Take after breakfast"
+              placeholder={i18n.t("ADD.INSTRUCTIONS.PLACEHOLDER")}
               onChangeText={(text) => setBody(text)}
             />
           </InputSection>
