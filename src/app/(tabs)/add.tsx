@@ -11,8 +11,8 @@ import DateTimePicker, {
 } from "@react-native-community/datetimepicker";
 import { ScrollView } from "react-native-gesture-handler";
 import * as Notifications from "expo-notifications";
-import DropDownPicker from "react-native-dropdown-picker";
 
+import { Dropdown } from "react-native-element-dropdown";
 import {
   InputSection,
   ThemedStatusBar,
@@ -36,39 +36,33 @@ export default function Add() {
   const [mode, setMode] = useState<AndroidMode>("date");
   const [show, setShow] = useState(false);
 
-  const [selectedItem, SetSelectedItem] = useState<NotifyTrigger | null>(null);
   const [hour, setHour] = useState(0);
   const [minute, setMinute] = useState(0);
   const [title, setTitle] = useState("");
   const [subtitle, setsubtitle] = useState("");
   const [body, setBody] = useState("");
 
-  const [isOpenScheduleDropdownValue, setIsOpenScheduleDropdownValue] =
-    useState(false);
-  const [scheduleDropdownValue, setScheduleDropdownValue] =
-    useState<NotifyTrigger | null>(null);
+  type frequencyDropdownDataType = {
+    label: string;
+    value: NotifyTrigger;
+  };
 
-  const [scheduleDropdownItems, setScheduleDropdownItems] = useState<
-    {
-      label: string;
-      value: NotifyTrigger;
-    }[]
-  >([
+  type weekDropdownDataType = {
+    label: string;
+    value: weeksValues;
+  };
+
+  const frequencyDropdownData: frequencyDropdownDataType[] = [
     { label: i18n.t("ADD.FREQUENCYDROPDOWN.INTERVAL"), value: "Interval" },
     { label: i18n.t("ADD.FREQUENCYDROPDOWN.DAILY"), value: "Daily" },
     { label: i18n.t("ADD.FREQUENCYDROPDOWN.WEEKLY"), value: "Weekly" },
     { label: i18n.t("ADD.FREQUENCYDROPDOWN.ONETIME"), value: "One-time" },
-  ]);
+  ];
 
-  const [isOpenWeekDropdownValue, setIsOpenWeekDropdownValue] = useState(false);
-  const [weekDropdownValue, setWeekDropdownValue] =
-    useState<weeksValues | null>(null);
-  const [weekDropdownItems, setWeekDropdownItems] = useState<
-    {
-      label: string;
-      value: weeksValues;
-    }[]
-  >([
+  const [frequencyDropdownItem, setfrequencyDropdownItem] =
+    useState<frequencyDropdownDataType | null>(null);
+
+  const weekDropdownData: weekDropdownDataType[] = [
     { label: i18n.t("ADD.WEEKDROPDOWN.SUNDAY"), value: 1 },
     { label: i18n.t("ADD.WEEKDROPDOWN.MONDAY"), value: 2 },
     { label: i18n.t("ADD.WEEKDROPDOWN.TUESDAY"), value: 3 },
@@ -76,12 +70,14 @@ export default function Add() {
     { label: i18n.t("ADD.WEEKDROPDOWN.THURSDAY"), value: 5 },
     { label: i18n.t("ADD.WEEKDROPDOWN.FRIDAY"), value: 6 },
     { label: i18n.t("ADD.WEEKDROPDOWN.SATURDAY"), value: 7 },
-  ]);
+  ];
+  const [weekDropdownItem, setWeekDropdownItem] =
+    useState<weekDropdownDataType | null>(null);
 
   const resetForm = () => {
-    setWeekDropdownValue(null);
-    setScheduleDropdownValue(null);
-    SetSelectedItem(null);
+    setWeekDropdownItem(null);
+    setfrequencyDropdownItem(null);
+
     setHour(0);
     setMinute(0);
     setTitle("");
@@ -107,12 +103,8 @@ export default function Add() {
     showMode("time");
   };
 
-  async function scheduleNotification(frequence: NotifyTrigger | null) {
-    if (frequence == null) return;
-    if (selectedItem == null) {
-      alert("Schedule missing");
-      return;
-    }
+  async function scheduleNotification(frequence: NotifyTrigger | undefined) {
+    if (!frequence) return;
 
     let trigger: Notifications.NotificationTriggerInput = null;
 
@@ -133,10 +125,10 @@ export default function Add() {
         date,
       };
     } else if ((frequence = "Weekly")) {
-      if (weekDropdownValue == null) return;
+      if (weekDropdownItem == null) return;
 
       trigger = {
-        weekday: weekDropdownValue,
+        weekday: weekDropdownItem.value,
         hour: date.getHours(),
         minute: date.getMinutes(),
         repeats: true,
@@ -175,50 +167,30 @@ export default function Add() {
               zIndex: 101,
             }}
           >
-            <View>
-              <DropDownPicker
-                listMode="SCROLLVIEW"
-                placeholder={i18n.t("ADD.FREQUENCYDROPDOWN.PLACEHOLDER")}
-                onChangeValue={(frequence) => {
-                  SetSelectedItem(frequence);
-                }}
-                open={isOpenScheduleDropdownValue}
-                value={scheduleDropdownValue}
-                items={scheduleDropdownItems}
-                setOpen={setIsOpenScheduleDropdownValue}
-                setValue={setScheduleDropdownValue}
-                setItems={setScheduleDropdownItems}
-                itemSeparator
-                disabledItemContainerStyle={{
-                  backgroundColor: "#ccc",
-                }}
-              />
-            </View>
+            <Dropdown
+              placeholder={i18n.t("ADD.FREQUENCYDROPDOWN.PLACEHOLDER")}
+              labelField="label"
+              valueField="value"
+              value={frequencyDropdownItem}
+              onChange={setfrequencyDropdownItem}
+              data={frequencyDropdownData}
+            />
           </InputSection>
 
-          {selectedItem == "Weekly" && (
+          {frequencyDropdownItem?.value == "Weekly" && (
             <InputSection title={i18n.t("ADD.WEEK")} style={{ zIndex: 100 }}>
-              <DropDownPicker
-                listMode="SCROLLVIEW"
+              <Dropdown
                 placeholder={i18n.t("ADD.WEEKDROPDOWN.PLACEHOLDER")}
-                onChangeValue={(weekDay) => {
-                  setWeekDropdownValue(weekDay);
-                }}
-                open={isOpenWeekDropdownValue}
-                value={weekDropdownValue}
-                items={weekDropdownItems}
-                setOpen={setIsOpenWeekDropdownValue}
-                setValue={setWeekDropdownValue}
-                setItems={setWeekDropdownItems}
-                itemSeparator
-                disabledItemContainerStyle={{
-                  backgroundColor: "#ccc",
-                }}
+                labelField="label"
+                valueField="value"
+                value={weekDropdownItem}
+                onChange={setWeekDropdownItem}
+                data={weekDropdownData}
               />
             </InputSection>
           )}
 
-          {selectedItem == "One-time" && (
+          {frequencyDropdownItem?.value == "One-time" && (
             <InputSection title={i18n.t("ADD.FREQUENCYDROPDOWN.DAY")}>
               <Pressable style={{}} onPress={showDatepicker}>
                 <TextInput
@@ -239,10 +211,13 @@ export default function Add() {
           <InputSection
             title={i18n.t("ADD.TIME")}
             style={{
-              alignItems: selectedItem == "Interval" ? "center" : undefined,
+              alignItems:
+                frequencyDropdownItem?.value == "Interval"
+                  ? "center"
+                  : undefined,
             }}
           >
-            {selectedItem != "Interval" ? (
+            {frequencyDropdownItem?.value != "Interval" ? (
               <Pressable onPress={showTimepicker}>
                 <TextInput
                   style={{
@@ -374,7 +349,7 @@ export default function Add() {
               paddingHorizontal: 12,
               borderRadius: 12,
             }}
-            onPress={() => scheduleNotification(selectedItem)}
+            onPress={() => scheduleNotification(frequencyDropdownItem?.value)}
           >
             <Text style={{ color: "#fff" }}>{i18n.t("ADD.SCHEDULER")}</Text>
           </Pressable>
