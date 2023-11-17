@@ -3,12 +3,21 @@ import { Text } from "../Text";
 import { View } from "../View";
 import { useTheme } from "@/context";
 
-type DropdownItemProps = {
-  item: string;
-  currentItem: string | undefined;
+type DropdownItemProps<T> = {
+  item: {
+    label: string;
+    value: T;
+  };
+  currentItem: {
+    label: string;
+    value: T;
+  } | null;
 };
 
-export const DropdownItem = ({ item, currentItem }: DropdownItemProps) => {
+export const DropdownItem = <T,>({
+  item,
+  currentItem,
+}: DropdownItemProps<T>) => {
   const { theme } = useTheme();
   return (
     <View
@@ -18,17 +27,19 @@ export const DropdownItem = ({ item, currentItem }: DropdownItemProps) => {
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor:
-          item == currentItem ? Colors[theme].tabBarActiveTintColor : "#fff",
+          item.value == currentItem?.value
+            ? Colors[theme].tabBarActiveTintColor
+            : "#fff",
       }}
     >
       <Text
         style={{
           flex: 1,
           fontSize: 16,
-          color: item == currentItem ? "#fff" : undefined,
+          color: item.value == currentItem?.value ? "#fff" : undefined,
         }}
       >
-        {item}
+        {item.label}
       </Text>
     </View>
   );
