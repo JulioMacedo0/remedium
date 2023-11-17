@@ -175,27 +175,31 @@ export default function Add() {
               zIndex: 101,
             }}
           >
-            <DropDownPicker
-              placeholder={i18n.t("ADD.FREQUENCYDROPDOWN.PLACEHOLDER")}
-              onChangeValue={(frequence) => {
-                SetSelectedItem(frequence);
-              }}
-              open={isOpenScheduleDropdownValue}
-              value={scheduleDropdownValue}
-              items={scheduleDropdownItems}
-              setOpen={setIsOpenScheduleDropdownValue}
-              setValue={setScheduleDropdownValue}
-              setItems={setScheduleDropdownItems}
-              itemSeparator
-              disabledItemContainerStyle={{
-                backgroundColor: "#ccc",
-              }}
-            />
+            <View>
+              <DropDownPicker
+                listMode="SCROLLVIEW"
+                placeholder={i18n.t("ADD.FREQUENCYDROPDOWN.PLACEHOLDER")}
+                onChangeValue={(frequence) => {
+                  SetSelectedItem(frequence);
+                }}
+                open={isOpenScheduleDropdownValue}
+                value={scheduleDropdownValue}
+                items={scheduleDropdownItems}
+                setOpen={setIsOpenScheduleDropdownValue}
+                setValue={setScheduleDropdownValue}
+                setItems={setScheduleDropdownItems}
+                itemSeparator
+                disabledItemContainerStyle={{
+                  backgroundColor: "#ccc",
+                }}
+              />
+            </View>
           </InputSection>
 
           {selectedItem == "Weekly" && (
             <InputSection title={i18n.t("ADD.WEEK")} style={{ zIndex: 100 }}>
               <DropDownPicker
+                listMode="SCROLLVIEW"
                 placeholder={i18n.t("ADD.WEEKDROPDOWN.PLACEHOLDER")}
                 onChangeValue={(weekDay) => {
                   setWeekDropdownValue(weekDay);
