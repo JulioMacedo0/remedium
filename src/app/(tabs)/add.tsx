@@ -19,6 +19,7 @@ import {
   View,
   Text,
   weeksValues,
+  DropdownItem,
 } from "@/components/";
 import { useI18n, useNotification, useTheme } from "@/context";
 import { Colors } from "@/constants";
@@ -168,14 +169,14 @@ export default function Add() {
             }}
           >
             <Dropdown
-              activeColor={Colors[theme].tabBarActiveTintColor}
-              containerStyle={{
-                borderRadius: 8,
-              }}
               style={{
                 backgroundColor: "#fff",
                 padding: 8,
                 borderRadius: 8,
+              }}
+              containerStyle={{
+                borderRadius: 8,
+                overflow: "hidden",
               }}
               placeholder={i18n.t("ADD.FREQUENCYDROPDOWN.PLACEHOLDER")}
               labelField="label"
@@ -183,20 +184,26 @@ export default function Add() {
               value={frequencyDropdownItem}
               onChange={setfrequencyDropdownItem}
               data={frequencyDropdownData}
+              renderItem={(item) => (
+                <DropdownItem
+                  item={item.label}
+                  currentItem={frequencyDropdownItem?.label}
+                />
+              )}
             />
           </InputSection>
 
           {frequencyDropdownItem?.value == "Weekly" && (
             <InputSection title={i18n.t("ADD.WEEK")} style={{ zIndex: 100 }}>
               <Dropdown
-                activeColor={Colors[theme].tabBarActiveTintColor}
-                containerStyle={{
-                  borderRadius: 8,
-                }}
                 style={{
                   backgroundColor: "#fff",
                   padding: 8,
                   borderRadius: 8,
+                }}
+                containerStyle={{
+                  borderRadius: 8,
+                  overflow: "hidden",
                 }}
                 placeholder={i18n.t("ADD.WEEKDROPDOWN.PLACEHOLDER")}
                 labelField="label"
@@ -204,6 +211,12 @@ export default function Add() {
                 value={weekDropdownItem}
                 onChange={setWeekDropdownItem}
                 data={weekDropdownData}
+                renderItem={(item) => (
+                  <DropdownItem
+                    item={item.label}
+                    currentItem={weekDropdownItem?.label}
+                  />
+                )}
               />
             </InputSection>
           )}
