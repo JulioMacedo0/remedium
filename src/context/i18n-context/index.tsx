@@ -27,7 +27,7 @@ export function I18nProvider(props: ProviderProps) {
 
       if (locale == null) return;
 
-      setLocale(locale as string);
+      setLocale(locale);
     } catch (e) {
       console.log(e);
     }
