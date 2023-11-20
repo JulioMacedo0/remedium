@@ -11,8 +11,6 @@ import DateTimePicker, {
 } from "@react-native-community/datetimepicker";
 import { ScrollView } from "react-native-gesture-handler";
 import * as Notifications from "expo-notifications";
-
-import { Dropdown } from "react-native-element-dropdown";
 import {
   InputSection,
   ThemedStatusBar,
