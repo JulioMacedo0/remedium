@@ -89,6 +89,7 @@ export default function Add() {
     setsubtitle("");
     setBody("");
   };
+
   const onChange = (event: DateTimePickerEvent, selectedDate: Date) => {
     const currentDate = selectedDate;
     setShow(false);
@@ -158,6 +159,7 @@ export default function Add() {
     }
   }
 
+  console.log("render add");
   return (
     <View style={styles.flex}>
       <KeyboardAvoidingView
@@ -205,7 +207,7 @@ export default function Add() {
                     padding: 12,
                     backgroundColor: "#fff",
                     color: "#000",
-                    borderRadius: 8,
+                    borderRadius: 999,
                   }}
                   editable={false}
                   defaultValue={date.toLocaleDateString()}
@@ -228,7 +230,7 @@ export default function Add() {
                 <TextInput
                   style={{
                     textAlign: "center",
-                    borderRadius: 8,
+                    borderRadius: 999,
                     padding: 12,
                     backgroundColor: "#fff",
                     color: "#000",
@@ -254,7 +256,7 @@ export default function Add() {
                   style={{
                     width: 60,
                     textAlign: "center",
-                    borderRadius: 12,
+                    borderRadius: 999,
                     padding: 12,
                     backgroundColor: "#fff",
                     color: "#000",
@@ -293,7 +295,7 @@ export default function Add() {
                   style={{
                     width: 60,
                     textAlign: "center",
-                    borderRadius: 12,
+                    borderRadius: 999,
                     padding: 12,
                     backgroundColor: "#fff",
                     color: "#000",
@@ -314,7 +316,7 @@ export default function Add() {
             <TextInput
               style={{
                 textAlign: "center",
-                borderRadius: 12,
+                borderRadius: 999,
                 padding: 12,
                 backgroundColor: "#fff",
                 color: "#000",
@@ -333,7 +335,7 @@ export default function Add() {
             <TextInput
               style={{
                 textAlign: "center",
-                borderRadius: 12,
+                borderRadius: 999,
                 padding: 12,
                 backgroundColor: "#fff",
                 color: "#000",
@@ -352,7 +354,7 @@ export default function Add() {
             <TextInput
               style={{
                 textAlign: "center",
-                borderRadius: 12,
+                borderRadius: 999,
                 padding: 12,
                 backgroundColor: "#fff",
                 color: "#000",
