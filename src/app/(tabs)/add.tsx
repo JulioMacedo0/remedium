@@ -15,15 +15,14 @@ import {
   InputSection,
   ThemedStatusBar,
   View,
-  Text,
   weeksValues,
   DropdownItem,
 } from "@/components/";
 import { useI18n, useNotification, useTheme } from "@/context";
-import { Colors } from "@/constants";
 
 import { useRef, useState } from "react";
 import { StyledDropdown } from "@/components/Dropdown";
+import { Button } from "@/components/Button";
 
 type NotifyTrigger = "Interval" | "Daily" | "Weekly" | "One-time";
 type AndroidMode = "date" | "time";
@@ -43,7 +42,6 @@ export default function Add() {
   const [subtitle, setsubtitle] = useState("");
   const [body, setBody] = useState("");
 
-  const hoursRef = useRef<TextInput | null>(null);
   const minutesRef = useRef<TextInput | null>(null);
   const remedyNameRef = useRef<TextInput | null>(null);
   const doaseRef = useRef<TextInput | null>(null);
@@ -369,17 +367,10 @@ export default function Add() {
             />
           </InputSection>
 
-          <Pressable
-            style={{
-              backgroundColor: Colors[theme].tabBarActiveTintColor,
-              paddingVertical: 8,
-              paddingHorizontal: 12,
-              borderRadius: 12,
-            }}
+          <Button
+            text={i18n.t("ADD.SCHEDULER")}
             onPress={() => scheduleNotification(frequencyDropdownItem?.value)}
-          >
-            <Text style={{ color: "#fff" }}>{i18n.t("ADD.SCHEDULER")}</Text>
-          </Pressable>
+          />
           <View style={{ height: 10 }} />
         </ScrollView>
       </KeyboardAvoidingView>
