@@ -22,7 +22,7 @@ import {
 import { useI18n, useNotification, useTheme } from "@/context";
 import { Colors } from "@/constants";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { StyledDropdown } from "@/components/Dropdown";
 
 type NotifyTrigger = "Interval" | "Daily" | "Weekly" | "One-time";
@@ -32,6 +32,7 @@ export default function Add() {
   const { theme } = useTheme();
   const { updateNotification } = useNotification();
   const { i18n } = useI18n();
+
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState<AndroidMode>("date");
   const [show, setShow] = useState(false);
@@ -41,6 +42,12 @@ export default function Add() {
   const [title, setTitle] = useState("");
   const [subtitle, setsubtitle] = useState("");
   const [body, setBody] = useState("");
+
+  const hoursRef = useRef<TextInput | null>(null);
+  const minutesRef = useRef<TextInput | null>(null);
+  const remedyNameRef = useRef<TextInput | null>(null);
+  const doaseRef = useRef<TextInput | null>(null);
+  const instructionsRef = useRef<TextInput | null>(null);
 
   type frequencyDropdownDataType = {
     label: string;
@@ -257,6 +264,9 @@ export default function Add() {
                   keyboardType="numeric"
                   defaultValue={hour.toString().padStart(2, "0")}
                   onChangeText={(text) => setHour(Number(text))}
+                  onSubmitEditing={() => {
+                    minutesRef.current?.focus();
+                  }}
                 />
                 <View
                   style={{
@@ -290,6 +300,10 @@ export default function Add() {
                     backgroundColor: "#fff",
                     color: "#000",
                   }}
+                  ref={minutesRef}
+                  onSubmitEditing={() => {
+                    remedyNameRef.current?.focus();
+                  }}
                   keyboardType="numeric"
                   defaultValue={minute.toString().padStart(2, "0")}
                   onChangeText={(text) => setMinute(Number(text))}
@@ -310,6 +324,10 @@ export default function Add() {
               defaultValue={title}
               placeholder="Dipirona"
               onChangeText={(text) => setTitle(text)}
+              ref={remedyNameRef}
+              onSubmitEditing={() => {
+                doaseRef.current?.focus();
+              }}
             />
           </InputSection>
 
@@ -322,9 +340,13 @@ export default function Add() {
                 backgroundColor: "#fff",
                 color: "#000",
               }}
+              ref={doaseRef}
               defaultValue={subtitle}
               placeholder="500mg"
               onChangeText={(text) => setsubtitle(text)}
+              onSubmitEditing={() => {
+                instructionsRef.current?.focus();
+              }}
             />
           </InputSection>
 
@@ -338,8 +360,12 @@ export default function Add() {
                 color: "#000",
               }}
               defaultValue={body}
+              ref={instructionsRef}
               placeholder={i18n.t("ADD.INSTRUCTIONS.PLACEHOLDER")}
               onChangeText={(text) => setBody(text)}
+              onSubmitEditing={() => {
+                scheduleNotification(frequencyDropdownItem?.value);
+              }}
             />
           </InputSection>
 
