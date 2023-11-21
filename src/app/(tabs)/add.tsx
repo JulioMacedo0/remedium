@@ -161,12 +161,7 @@ export default function Add() {
       >
         <ThemedStatusBar />
         <ScrollView contentContainerStyle={{ alignItems: "center" }}>
-          <InputSection
-            title={i18n.t("ADD.FREQUENCY")}
-            style={{
-              zIndex: 101,
-            }}
-          >
+          <InputSection title={i18n.t("ADD.FREQUENCY")}>
             <StyledDropdown
               placeholder={i18n.t("ADD.FREQUENCYDROPDOWN.PLACEHOLDER")}
               labelField="label"
@@ -181,7 +176,7 @@ export default function Add() {
           </InputSection>
 
           {frequencyDropdownItem?.value == "Weekly" && (
-            <InputSection title={i18n.t("ADD.WEEK")} style={{ zIndex: 100 }}>
+            <InputSection title={i18n.t("ADD.WEEK")}>
               <StyledDropdown
                 placeholder={i18n.t("ADD.WEEKDROPDOWN.PLACEHOLDER")}
                 labelField="label"
