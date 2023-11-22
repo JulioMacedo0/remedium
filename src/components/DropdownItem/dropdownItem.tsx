@@ -18,7 +18,7 @@ export const DropdownItem = <T,>({
   item,
   currentItem,
 }: DropdownItemProps<T>) => {
-  const { theme } = useTheme();
+  const { theme, getInvertedTheme } = useTheme();
   return (
     <View
       style={{
@@ -29,14 +29,17 @@ export const DropdownItem = <T,>({
         backgroundColor:
           item.value == currentItem?.value
             ? Colors[theme].tabBarActiveTintColor
-            : "#fff",
+            : Colors[theme].tabBackground,
       }}
     >
       <Text
         style={{
           flex: 1,
           fontSize: 16,
-          color: item.value == currentItem?.value ? "#fff" : undefined,
+          color:
+            item.value == currentItem?.value
+              ? "#fff"
+              : Colors[getInvertedTheme()].tabBackground,
         }}
       >
         {item.label}
