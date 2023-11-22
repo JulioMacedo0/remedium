@@ -15,11 +15,11 @@ export const Colors = {
   },
   dark: {
     text: "#fff",
-    background: "#020617",
+    background: "#000",
     tint: tintColorDark,
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorDark,
-    tabBackground: "#1F2937",
+    tabBackground: "#191919",
     borderColor: "#4B5563",
     tabBarActiveTintColor: "#2f95dc",
     tabBarInactiveTintColor: "#ccc",
