@@ -17,6 +17,7 @@ import {
   View,
   weeksValues,
   DropdownItem,
+  StyledTextInput,
 } from "@/components/";
 import { useI18n, useNotification, useTheme } from "@/context";
 
@@ -201,14 +202,7 @@ export default function Add() {
           {frequencyDropdownItem?.value == "One-time" && (
             <InputSection title={i18n.t("ADD.FREQUENCYDROPDOWN.DAY")}>
               <Pressable style={{}} onPress={showDatepicker}>
-                <TextInput
-                  style={{
-                    textAlign: "center",
-                    padding: 12,
-                    backgroundColor: "#fff",
-                    color: "#000",
-                    borderRadius: 999,
-                  }}
+                <StyledTextInput
                   editable={false}
                   defaultValue={date.toLocaleDateString()}
                 />
@@ -227,14 +221,7 @@ export default function Add() {
           >
             {frequencyDropdownItem?.value != "Interval" ? (
               <Pressable onPress={showTimepicker}>
-                <TextInput
-                  style={{
-                    textAlign: "center",
-                    borderRadius: 999,
-                    padding: 12,
-                    backgroundColor: "#fff",
-                    color: "#000",
-                  }}
+                <StyledTextInput
                   editable={false}
                   defaultValue={`${date
                     .getHours()
@@ -252,14 +239,9 @@ export default function Add() {
                   gap: 10,
                 }}
               >
-                <TextInput
+                <StyledTextInput
                   style={{
-                    width: 60,
-                    textAlign: "center",
-                    borderRadius: 999,
-                    padding: 12,
-                    backgroundColor: "#fff",
-                    color: "#000",
+                    width: 70,
                   }}
                   keyboardType="numeric"
                   defaultValue={hour.toString().padStart(2, "0")}
@@ -291,14 +273,9 @@ export default function Add() {
                     }}
                   />
                 </View>
-                <TextInput
+                <StyledTextInput
                   style={{
-                    width: 60,
-                    textAlign: "center",
-                    borderRadius: 999,
-                    padding: 12,
-                    backgroundColor: "#fff",
-                    color: "#000",
+                    width: 70,
                   }}
                   ref={minutesRef}
                   onSubmitEditing={() => {
