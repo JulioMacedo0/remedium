@@ -9,3 +9,4 @@ export * from "@components/InputSection";
 export * from "@components/ThemedStatusBar";
 export * from "@components/NotificationCard";
 export * from "@components/DropdownItem";
+export * from "@components/TextInput";
