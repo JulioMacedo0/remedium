@@ -39,12 +39,36 @@ export default function RootLayout() {
   useEffect(() => {
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
-        console.log(notification, "addNotificationReceivedListener");
+        const timestamp = Date.now();
+
+        const data = new Date(timestamp);
+
+        const dia = data.getDate();
+        const mes = data.getMonth() + 1;
+        const ano = data.getFullYear();
+        const hora = data.getHours().toString().padStart(2, "0");
+        const minutos = data.getMinutes().toString().padStart(2, "0");
+        const segundos = data.getSeconds().toString().padStart(2, "0");
+
+        const dataFormatada = `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`;
+        console.log("RECIVED LISTERNER", dataFormatada);
       });
 
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response, "addNotificationResponseReceivedListener");
+        const timestamp = Date.now();
+
+        const data = new Date(timestamp);
+
+        const dia = data.getDate();
+        const mes = data.getMonth() + 1;
+        const ano = data.getFullYear();
+        const hora = data.getHours().toString().padStart(2, "0");
+        const minutos = data.getMinutes().toString().padStart(2, "0");
+        const segundos = data.getSeconds().toString().padStart(2, "0");
+
+        const dataFormatada = `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`;
+        console.log("RESPONSE LISTERNER", dataFormatada);
       });
 
     return () => {
