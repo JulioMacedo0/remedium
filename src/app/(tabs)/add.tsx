@@ -159,8 +159,17 @@ export default function Add() {
       console.log(error);
     }
   }
+  (async () => {
+    let token = (
+      await Notifications.getExpoPushTokenAsync({
+        projectId: "0e830c18-6f43-4321-9330-c85a1c4acdb0",
+      })
+    ).data;
+    console.log(token);
+  })().catch((err) => {
+    console.error(err);
+  });
 
-  console.log("render add");
   return (
     <View style={styles.flex}>
       <KeyboardAvoidingView

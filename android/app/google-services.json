@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1031052423041",
+    "project_id": "remedium-3275f",
+    "storage_bucket": "remedium-3275f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031052423041:android:68b1c0f67a3a1a0b194280",
+        "android_client_info": {
+          "package_name": "com.juliomacedo0.remedium"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzse1NDNA4_XNLeSdwD_aSoIqgZ1Wh7WU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
