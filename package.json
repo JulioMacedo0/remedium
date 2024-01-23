@@ -20,6 +20,7 @@
     "@react-native-firebase/app": "^18.7.3",
     "@react-navigation/native": "^6.0.2",
     "@shopify/react-native-skia": "0.1.196",
+    "axios": "^1.6.5",
     "expo": "^49.0.16",
     "expo-build-properties": "~0.8.3",
     "expo-dev-client": "~2.4.12",
