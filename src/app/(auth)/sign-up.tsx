@@ -83,8 +83,9 @@ const SignOut = () => {
             <Link
               style={{
                 width: "80%",
-                color: "blue",
+                fontWeight: "bold",
                 textAlign: "right",
+                color: Colors[theme].text,
               }}
               replace
               href="/(auth)/sign-in"
