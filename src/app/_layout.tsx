@@ -1,7 +1,7 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack, router } from "expo-router";
 import { useEffect, useRef } from "react";
 import { ThemeProvider, I18nProvider, NotificationProvider } from "@/context";
 
@@ -108,9 +108,9 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <Stack>
+      <Stack.Screen name="(auth)/sign-in" options={{ headerShown: false }} />
+      <Stack.Screen name="(auth)/sign-up" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)/SignIn" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)/SignUp" options={{ headerShown: false }} />
     </Stack>
   );
 }
