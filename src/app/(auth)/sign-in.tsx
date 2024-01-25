@@ -1,4 +1,4 @@
-import React from "react";
+import { useRef, useState } from "react";
 import {
   InputSection,
   StyledTextInput,
@@ -17,7 +17,10 @@ import { Colors } from "@/constants";
 
 const SignIn = () => {
   const { theme } = useTheme();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  const passwordInputRef = useRef<TextInput | null>(null);
   return (
     <SafeAreaView
       style={{
@@ -32,6 +35,9 @@ const SignIn = () => {
           <ScrollView contentContainerStyle={{ alignItems: "center" }}>
             <InputSection title="Email">
               <TextInput
+                defaultValue={email}
+                onChangeText={(value) => setEmail(value)}
+                onSubmitEditing={() => passwordInputRef.current?.focus()}
                 style={{
                   textAlign: "center",
                   borderRadius: 999,
@@ -47,6 +53,9 @@ const SignIn = () => {
               style={{ backgroundColor: "transparent" }}
             >
               <TextInput
+                defaultValue={password}
+                onChangeText={(value) => setPassword(value)}
+                ref={passwordInputRef}
                 style={{
                   textAlign: "center",
                   borderRadius: 999,
