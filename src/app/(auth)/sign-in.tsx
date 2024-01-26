@@ -1,11 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  InputSection,
-  StyledTextInput,
-  Text,
-  ThemedStatusBar,
-  View,
-} from "@/components";
+import { useRef, useState } from "react";
+import { InputSection, ThemedStatusBar, View } from "@/components";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/components/Button";
@@ -27,11 +21,6 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
 
   const passwordInputRef = useRef<TextInput | null>(null);
-
-  useEffect(() => {
-    if (error) {
-    }
-  }, [error]);
 
   return (
     <SafeAreaView
