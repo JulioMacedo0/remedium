@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   InputSection,
   StyledTextInput,
@@ -10,17 +10,29 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/components/Button";
 import { Link } from "expo-router";
-import { KeyboardAvoidingView } from "react-native";
+import { KeyboardAvoidingView, ToastAndroid } from "react-native";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { useTheme } from "@/context";
 import { Colors } from "@/constants";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 
 const SignIn = () => {
   const { theme } = useTheme();
+
+  const loading = useAuthStore((set) => set.loading);
+  const signIn = useAuthStore((set) => set.signIn);
+  const error = useAuthStore((set) => set.error);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const passwordInputRef = useRef<TextInput | null>(null);
+
+  useEffect(() => {
+    if (error) {
+    }
+  }, [error]);
+
   return (
     <SafeAreaView
       style={{
@@ -67,13 +79,16 @@ const SignIn = () => {
               />
             </InputSection>
 
-            <Button text="sign in" onPress={() => console.log("press")} />
+            <Button
+              text={loading ? "loading..." : "sign in"}
+              onPress={() => signIn({ email, password })}
+            />
             <Link
               style={{
                 width: "80%",
                 fontWeight: "bold",
                 textAlign: "right",
-                color: Colors[theme].text,
+                color: Colors[theme].tabBarActiveTintColor,
               }}
               replace
               href="/(auth)/sign-up"
