@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import { ThemeProvider, I18nProvider, NotificationProvider } from "@/context";
 
 import * as Notifications from "expo-notifications";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -21,6 +22,8 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const authenticated = useAuthStore((set) => set.authenticated);
+
   const [loaded, error] = useFonts({
     SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
@@ -86,9 +89,16 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
+      router.replace("/(auth)/sign-in");
       SplashScreen.hideAsync();
     }
   }, [loaded]);
+
+  useEffect(() => {
+    if (authenticated) {
+      router.replace("/(tabs)");
+    }
+  }, [authenticated]);
 
   if (!loaded) {
     return null;
@@ -108,8 +118,14 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <Stack>
-      <Stack.Screen name="(auth)/sign-in" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)/sign-up" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="(auth)/sign-in"
+        options={{ headerShown: false, animation: "fade_from_bottom" }}
+      />
+      <Stack.Screen
+        name="(auth)/sign-up"
+        options={{ headerShown: false, animation: "fade_from_bottom" }}
+      />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
   );
