@@ -1,6 +1,7 @@
 import { client } from "@/services/http/httpClient";
 import { create } from "zustand";
-import { AxiosError, isAxiosError } from "axios";
+import { isAxiosError } from "axios";
+import Toast from "react-native-toast-message";
 type SignInRequest = {
   email: string;
   password: string;
@@ -56,6 +57,11 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
     } catch (error) {
       if (isAxiosError(error)) {
         console.log(error.response?.data.message);
+        Toast.show({
+          type: "error",
+          text1: "Error ocurred",
+          text2: error.response?.data.message,
+        });
       }
 
       set(() => ({ loading: false }));
