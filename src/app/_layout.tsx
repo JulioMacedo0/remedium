@@ -4,7 +4,7 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack, router } from "expo-router";
 import { useEffect, useRef } from "react";
 import { ThemeProvider, I18nProvider, NotificationProvider } from "@/context";
-
+import Toast from "react-native-toast-message";
 import * as Notifications from "expo-notifications";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 
@@ -109,6 +109,7 @@ export default function RootLayout() {
       <I18nProvider>
         <NotificationProvider>
           <RootLayoutNav />
+          <Toast position="bottom" bottomOffset={20} />
         </NotificationProvider>
       </I18nProvider>
     </ThemeProvider>
