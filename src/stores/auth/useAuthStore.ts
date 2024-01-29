@@ -2,13 +2,10 @@ import { client } from "@/services/http/httpClient";
 import { create } from "zustand";
 import { isAxiosError } from "axios";
 import Toast from "react-native-toast-message";
+
 type SignInRequest = {
   email: string;
   password: string;
-};
-
-type SignUpRequest = SignInRequest & {
-  username: string;
 };
 
 type SignInResponse = {
@@ -16,13 +13,19 @@ type SignInResponse = {
   user: User;
 };
 
+type SignUpRequest = SignInRequest & {
+  username: string;
+};
+
+type SignUpResponse = User;
+
 type User = {
   id: string;
   username: string;
   email: string;
-  createdAt: string;
-  updatedAt: string;
-  expo_token: any[];
+  createdAt: Date;
+  updatedAt: Date;
+  expo_token: string[];
 };
 
 interface UseAuthStoreType {
@@ -31,7 +34,11 @@ interface UseAuthStoreType {
   authenticated: boolean;
   error: string;
   signIn: ({ email, password }: SignInRequest) => void;
-  signUp: ({ email, password, username }: SignUpRequest) => void;
+  signUp: ({
+    email,
+    password,
+    username,
+  }: SignUpRequest) => Promise<number | undefined>;
 }
 
 export const useAuthStore = create<UseAuthStoreType>((set) => ({
@@ -56,18 +63,44 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
       }));
     } catch (error) {
       if (isAxiosError(error)) {
-        console.log(error.response?.data.message);
         Toast.show({
           type: "error",
-          text1: "Error ocurred",
-          text2: error.response?.data.message,
+          text1: error.response?.data.message,
         });
       }
 
       set(() => ({ loading: false }));
     }
   },
-  signUp: ({ email, password, username }) => {
-    set((state) => ({ ...state }));
+  signUp: async ({ email, password, username }) => {
+    set((state) => ({ ...state, loading: true }));
+    try {
+      const signUpResponse = await client.post<SignUpResponse>("users", {
+        email,
+        password,
+        username,
+      });
+
+      Toast.show({
+        type: "success",
+        text1: `Account created with success! Welcome ${signUpResponse.data.username}`,
+      });
+
+      set(() => ({ loading: false }));
+      return signUpResponse.status;
+    } catch (error) {
+      if (isAxiosError(error)) {
+        Toast.show({
+          type: "error",
+          text1: error.response?.data.message[0],
+        });
+        set(() => ({ loading: false }));
+      }
+      Toast.show({
+        type: "error",
+        text1: "Unknown error",
+      });
+      set(() => ({ loading: false }));
+    }
   },
 }));
