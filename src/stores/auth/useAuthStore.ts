@@ -10,16 +10,16 @@ type SignInRequest = {
 
 type SignInResponse = {
   accessToken: string;
-  user: User;
+  user: UserType;
 };
 
 type SignUpRequest = SignInRequest & {
   username: string;
 };
 
-type SignUpResponse = User;
+type SignUpResponse = UserType;
 
-type User = {
+type UserType = {
   id: string;
   username: string;
   email: string;
