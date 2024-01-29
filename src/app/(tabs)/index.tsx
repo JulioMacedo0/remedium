@@ -1,19 +1,26 @@
 import { StyleSheet, FlatList } from "react-native";
-import { View, ThemedStatusBar, NotificationCard } from "@/components";
+import { View, ThemedStatusBar } from "@/components";
 import { useEffect, useState } from "react";
 import * as Notifications from "expo-notifications";
 
 import { PermissionModal } from "@/components/Modal/permissionModal";
 import { useNotification } from "@/context";
+import { useAlertStore } from "@/stores/alert/userAlertStore";
+import { AlertCard } from "@/components/AlertCard";
 
 export default function Home() {
   const [modalVisible, setModalVisible] = useState(false);
-  const { notifications } = useNotification();
+
+  const getAlerts = useAlertStore((set) => set.getAlerts);
+  const alerts = useAlertStore((set) => set.alerts);
+  const loading = useAlertStore((set) => set.loading);
+
   const closeModal = () => {
     setModalVisible(false);
   };
 
   useEffect(() => {
+    getAlerts();
     (async function () {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
@@ -41,8 +48,8 @@ export default function Home() {
           flex: 1,
           width: "90%",
         }}
-        data={notifications}
-        renderItem={({ item }) => <NotificationCard notification={item} />}
+        data={alerts}
+        renderItem={({ item }) => <AlertCard alerts={item} />}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       />
       <PermissionModal
