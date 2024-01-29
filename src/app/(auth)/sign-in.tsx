@@ -57,6 +57,7 @@ const SignIn = () => {
                 defaultValue={password}
                 onChangeText={(value) => setPassword(value)}
                 ref={passwordInputRef}
+                secureTextEntry
                 style={{
                   textAlign: "center",
                   borderRadius: 999,
