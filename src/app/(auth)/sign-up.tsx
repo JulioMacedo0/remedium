@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   InputSection,
   StyledTextInput,
@@ -13,9 +13,24 @@ import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/constants";
 import { useTheme } from "@/context";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 
 const SignOut = () => {
   const { theme } = useTheme();
+
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loading = useAuthStore((set) => set.loading);
+  const signUp = useAuthStore((set) => set.signUp);
+  const error = useAuthStore((set) => set.error);
+
+  const clearForm = () => {
+    setEmail("");
+    setPassword("");
+    setUserName("");
+  };
   return (
     <SafeAreaView
       style={{
@@ -37,6 +52,8 @@ const SignOut = () => {
               style={{ backgroundColor: "transparent" }}
             >
               <TextInput
+                defaultValue={userName}
+                onChangeText={(value) => setUserName(value)}
                 style={{
                   textAlign: "center",
                   borderRadius: 999,
@@ -52,6 +69,8 @@ const SignOut = () => {
               style={{ backgroundColor: "transparent" }}
             >
               <TextInput
+                defaultValue={email}
+                onChangeText={(value) => setEmail(value)}
                 style={{
                   textAlign: "center",
                   borderRadius: 999,
@@ -67,6 +86,8 @@ const SignOut = () => {
               style={{ backgroundColor: "transparent" }}
             >
               <TextInput
+                defaultValue={password}
+                onChangeText={(value) => setPassword(value)}
                 style={{
                   textAlign: "center",
                   borderRadius: 999,
@@ -79,7 +100,20 @@ const SignOut = () => {
               />
             </InputSection>
 
-            <Button text="sign up" onPress={() => console.log("press")} />
+            <Button
+              text="sign up"
+              onPress={async () => {
+                const httpStatus = await signUp({
+                  email,
+                  password,
+                  username: userName,
+                });
+
+                if (httpStatus == 201) {
+                  clearForm();
+                }
+              }}
+            />
             <Link
               style={{
                 width: "80%",
