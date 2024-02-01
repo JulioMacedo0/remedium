@@ -15,5 +15,5 @@ export type weeksValues = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export const AlertCard = ({ alerts }: AlertCardProps) => {
   const { theme, getInvertedTheme } = useTheme();
 
-  return <View>{alerts.title}</View>;
+  return <Text>{alerts.title}</Text>;
 };
