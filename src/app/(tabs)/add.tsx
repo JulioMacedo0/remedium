@@ -33,6 +33,27 @@ export default function Add() {
   const { updateNotification } = useNotification();
   const { i18n } = useI18n();
 
+  type InputType = {
+    hour: string;
+    minute: string;
+    title: string;
+    subtitle: string;
+    body: string;
+    unitOfMeasurament: string;
+    dayOfWeek: string;
+    alertType: string;
+    repeats: true;
+    date: Date;
+  };
+
+  type InputValue = keyof InputType;
+
+  const [inputs, setInputs] = useState<InputType>({} as InputType);
+
+  const handleOnchange = (text: string, input: keyof InputValue) => {
+    setInputs((prevState) => ({ ...prevState, [input]: text }));
+  };
+
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState<AndroidMode>("date");
   const [show, setShow] = useState(false);
@@ -48,9 +69,16 @@ export default function Add() {
   const doaseRef = useRef<TextInput | null>(null);
   const instructionsRef = useRef<TextInput | null>(null);
 
+  enum AlertType {
+    INTERVAL,
+    WEEKLY,
+    DAILY,
+    DATE,
+  }
+
   type frequencyDropdownDataType = {
     label: string;
-    value: NotifyTrigger;
+    value: AlertType;
   };
 
   type weekDropdownDataType = {
@@ -59,10 +87,13 @@ export default function Add() {
   };
 
   const frequencyDropdownData: frequencyDropdownDataType[] = [
-    { label: i18n.t("ADD.FREQUENCYDROPDOWN.INTERVAL"), value: "Interval" },
-    { label: i18n.t("ADD.FREQUENCYDROPDOWN.DAILY"), value: "Daily" },
-    { label: i18n.t("ADD.FREQUENCYDROPDOWN.WEEKLY"), value: "Weekly" },
-    { label: i18n.t("ADD.FREQUENCYDROPDOWN.ONETIME"), value: "One-time" },
+    {
+      label: i18n.t("ADD.FREQUENCYDROPDOWN.INTERVAL"),
+      value: AlertType.INTERVAL,
+    },
+    { label: i18n.t("ADD.FREQUENCYDROPDOWN.DAILY"), value: AlertType.DAILY },
+    { label: i18n.t("ADD.FREQUENCYDROPDOWN.WEEKLY"), value: AlertType.WEEKLY },
+    { label: i18n.t("ADD.FREQUENCYDROPDOWN.ONETIME"), value: AlertType.DATE },
   ];
 
   const [frequencyDropdownItem, setfrequencyDropdownItem] =
@@ -184,7 +215,7 @@ export default function Add() {
               labelField="label"
               valueField="value"
               value={frequencyDropdownItem}
-              onChange={setfrequencyDropdownItem}
+              onChange={(value) => handleOnchange("", "AlertType")}
               data={frequencyDropdownData}
               renderItem={(item) => (
                 <DropdownItem item={item} currentItem={frequencyDropdownItem} />
@@ -192,7 +223,7 @@ export default function Add() {
             />
           </InputSection>
 
-          {frequencyDropdownItem?.value == "Weekly" && (
+          {/* {frequencyDropdownItem?.value == "Weekly" && (
             <InputSection title={i18n.t("ADD.WEEK")}>
               <StyledDropdown
                 placeholder={i18n.t("ADD.WEEKDROPDOWN.PLACEHOLDER")}
@@ -206,7 +237,7 @@ export default function Add() {
                 )}
               />
             </InputSection>
-          )}
+          )} */}
 
           {frequencyDropdownItem?.value == "One-time" && (
             <InputSection title={i18n.t("ADD.FREQUENCYDROPDOWN.DAY")}>
@@ -286,7 +317,7 @@ export default function Add() {
                   style={{
                     width: 70,
                   }}
-                  ref={minutesRef}
+                  // ref={minutesRef}
                   onSubmitEditing={() => {
                     remedyNameRef.current?.focus();
                   }}
@@ -317,7 +348,28 @@ export default function Add() {
             />
           </InputSection>
 
-          <InputSection title={i18n.t("ADD.DOSE")}>
+          <InputSection
+            title={i18n.t("ADD.DOSE")}
+            style={{
+              display: "flex",
+            }}
+          >
+            <TextInput
+              style={{
+                textAlign: "center",
+                borderRadius: 999,
+                padding: 12,
+                backgroundColor: "#fff",
+                color: "#000",
+              }}
+              ref={doaseRef}
+              defaultValue={subtitle}
+              placeholder="500mg"
+              onChangeText={(text) => setsubtitle(text)}
+              onSubmitEditing={() => {
+                instructionsRef.current?.focus();
+              }}
+            />
             <TextInput
               style={{
                 textAlign: "center",
