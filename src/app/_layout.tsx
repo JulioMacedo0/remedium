@@ -7,7 +7,8 @@ import { ThemeProvider, I18nProvider, NotificationProvider } from "@/context";
 import Toast from "react-native-toast-message";
 import * as Notifications from "expo-notifications";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
-
+import { GluestackUIProvider } from "@gluestack-ui/themed";
+import { config } from "@gluestack-ui/config";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -106,12 +107,12 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
-      <I18nProvider>
-        <NotificationProvider>
+      <GluestackUIProvider config={config}>
+        <I18nProvider>
           <RootLayoutNav />
           <Toast position="bottom" bottomOffset={20} />
-        </NotificationProvider>
-      </I18nProvider>
+        </I18nProvider>
+      </GluestackUIProvider>
     </ThemeProvider>
   );
 }
