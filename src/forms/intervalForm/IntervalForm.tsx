@@ -29,6 +29,7 @@ import {
 import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
+import { CommomForm } from "../commomForm";
 
 export const IntervalForm = () => {
   const [showAlertDialog, setShowAlertDialog] = useState(false);
@@ -126,6 +127,7 @@ export const IntervalForm = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <CommomForm />
     </React.Fragment>
   );
 };
