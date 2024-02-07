@@ -67,6 +67,7 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
           type: "error",
           text1: error.response?.data.message,
         });
+        set(() => ({ loading: false }));
       }
 
       set(() => ({ loading: false }));
