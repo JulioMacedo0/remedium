@@ -36,42 +36,33 @@ import React from "react";
 import { CommomForm } from "../commomForm";
 import { Divider } from "@gluestack-ui/themed";
 import { useForm, Controller, FieldErrors } from "react-hook-form";
-import { Alert, AlertType } from "@/schema";
-
+import { Alert, intervalAlertType } from "@/schema";
 
 type IntervalFormProps = {
   control: ReturnType<typeof useForm<Alert>>["control"];
   errors: FieldErrors<Alert>;
-
 };
 
-export const IntervalForm = ({
-  control,
-  errors,
-  
-}: IntervalFormProps) => {
+export const IntervalForm = ({ control, errors }: IntervalFormProps) => {
   return (
     <React.Fragment>
       <HStack space="md" justifyContent="center">
         <Controller
           control={control}
           name="trigger.hour"
-          render={({ field: { onChange, onBlur, value = "" }, formState }) => {
-            if(formState.defaultValues?.trigger?.alertType == "INTERVAL"){
-              errors.trigger.
-            }
+          render={({ field: { onChange, onBlur, value = "" } }) => {
             return (
               <FormControl
                 size="lg"
                 isDisabled={false}
-                isInvalid={ !!errors.trigger?.alertType}
+                isInvalid={!!errors.trigger}
                 isReadOnly={false}
                 isRequired={false}
               >
                 <Input height={50} width={70}>
                   <InputField
                     type="text"
-                    onChangeText={onChange}
+                    onChangeText={(value) => onChange(Number(value))}
                     onBlur={onBlur}
                     value={value.toString()}
                     keyboardType="numeric"
