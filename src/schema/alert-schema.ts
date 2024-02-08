@@ -73,7 +73,7 @@ export const AlertSchema = z.object({
   unit_of_measurement: z.nativeEnum(unitOfMeasurament, {
     required_error: "field unit_of_measurement is required",
   }),
-  medicine_id: z.string({ required_error: "field medicine_id is required" }),
+  // medicine_id: z.string({ required_error: "field medicine_id is required" }),
   trigger: z.discriminatedUnion(
     "alertType",
     [intervalAlertSchema, dateAlertSchema, weeklyAlertSchema, dailyAlertSchema],
