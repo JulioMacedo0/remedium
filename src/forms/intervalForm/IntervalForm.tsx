@@ -25,44 +25,58 @@ import {
   Box,
   HStack,
   VStack,
+  RadioGroup,
+  Radio,
+  RadioIndicator,
+  RadioLabel,
 } from "@gluestack-ui/themed";
 import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { CommomForm } from "../commomForm";
+import { Divider } from "@gluestack-ui/themed";
+import { useForm, Controller, FieldErrors } from "react-hook-form";
+import { Alert, AlertType } from "@/schema";
 
-export const IntervalForm = () => {
-  const [showAlertDialog, setShowAlertDialog] = useState(false);
+
+type IntervalFormProps = {
+  control: ReturnType<typeof useForm<Alert>>["control"];
+  errors: FieldErrors<Alert>;
+
+};
+
+export const IntervalForm = ({
+  control,
+  errors,
+  
+}: IntervalFormProps) => {
   return (
     <React.Fragment>
-      <Button onPress={() => setShowAlertDialog(true)}>
-        <ButtonText>Click me</ButtonText>
-      </Button>
-      <AlertDialog
-        isOpen={showAlertDialog}
-        onClose={() => {
-          setShowAlertDialog(false);
-        }}
-      >
-        <AlertDialogBackdrop />
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <Heading size="lg">ENTER TIME</Heading>
-            <AlertDialogCloseButton>
-              <MaterialIcons name="close" size={24} color="black" />
-            </AlertDialogCloseButton>
-          </AlertDialogHeader>
-          <AlertDialogBody alignContent="center">
-            <HStack space="md" alignContent="center">
+      <HStack space="md" justifyContent="center">
+        <Controller
+          control={control}
+          name="trigger.hour"
+          render={({ field: { onChange, onBlur, value = "" }, formState }) => {
+            if(formState.defaultValues?.trigger?.alertType == "INTERVAL"){
+              errors.trigger.
+            }
+            return (
               <FormControl
                 size="lg"
                 isDisabled={false}
-                isInvalid={false}
+                isInvalid={ !!errors.trigger?.alertType}
                 isReadOnly={false}
                 isRequired={false}
               >
                 <Input height={50} width={70}>
-                  <InputField type="text" />
+                  <InputField
+                    type="text"
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    value={value.toString()}
+                    keyboardType="numeric"
+                    textAlign="center"
+                  />
                 </Input>
                 <FormControlHelper>
                   <FormControlHelperText>Hour</FormControlHelperText>
@@ -70,64 +84,52 @@ export const IntervalForm = () => {
                 <FormControlError>
                   {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
                   <FormControlErrorText>
-                    At least 6 characters are required.
+                    {errors.trigger?.message}
                   </FormControlErrorText>
                 </FormControlError>
               </FormControl>
+            );
+          }}
+        />
 
-              <VStack space="md">
-                <Box width={10} height={10} rounded="$full" bgColor="#333" />
-                <Box width={10} height={10} rounded="$full" bgColor="#333" />
-              </VStack>
+        <VStack space="md" mt={8}>
+          <Box width={10} height={10} rounded="$full" bgColor="#333" />
+          <Box width={10} height={10} rounded="$full" bgColor="#333" />
+        </VStack>
 
-              <FormControl
-                size="lg"
-                isDisabled={false}
-                isInvalid={false}
-                isReadOnly={false}
-                isRequired={false}
-              >
-                <Input height={50} width={70}>
-                  <InputField type="text" maxLength={2} />
-                </Input>
-                <FormControlHelper>
-                  <FormControlHelperText>Minute</FormControlHelperText>
-                </FormControlHelper>
-                <FormControlError>
-                  {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-                  <FormControlErrorText>
-                    At least 6 characters are required.
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
-            </HStack>
-          </AlertDialogBody>
-          <AlertDialogFooter justifyContent="space-between">
-            <MaterialIcons name="access-time" size={24} color="black" />
-            <ButtonGroup space="lg">
-              <Button
-                variant="outline"
-                action="secondary"
-                onPress={() => {
-                  setShowAlertDialog(false);
-                }}
-              >
-                <ButtonText>Cancel</ButtonText>
-              </Button>
-              <Button
-                bg="$success400"
-                action="negative"
-                onPress={() => {
-                  setShowAlertDialog(false);
-                }}
-              >
-                <ButtonText>OK</ButtonText>
-              </Button>
-            </ButtonGroup>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-      <CommomForm />
+        <FormControl
+          size="lg"
+          isDisabled={false}
+          isInvalid={false}
+          isReadOnly={false}
+          isRequired={false}
+        >
+          <Input height={50} width={70}>
+            <InputField type="text" maxLength={2} />
+          </Input>
+          <FormControlHelper>
+            <FormControlHelperText>Minute</FormControlHelperText>
+          </FormControlHelper>
+          <FormControlError>
+            {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
+            <FormControlErrorText>
+              At least 6 characters are required.
+            </FormControlErrorText>
+          </FormControlError>
+        </FormControl>
+
+        <RadioGroup borderColor="$blue900">
+          <Radio value="AM" size="md" isInvalid={false} isDisabled={false}>
+            <RadioLabel>AM</RadioLabel>
+          </Radio>
+          <Divider />
+          <Radio value="PM" size="md" isInvalid={false} isDisabled={false}>
+            <RadioLabel>PM</RadioLabel>
+          </Radio>
+        </RadioGroup>
+      </HStack>
+
+      <CommomForm control={control} errors={errors} />
     </React.Fragment>
   );
 };
