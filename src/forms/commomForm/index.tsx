@@ -1,1 +1,0 @@
-export { CommomForm } from "./commomForm";
