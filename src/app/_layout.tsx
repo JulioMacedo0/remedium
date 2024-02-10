@@ -38,7 +38,7 @@ function RootLayoutNav() {
       router.replace("/home");
     } else if (!authenticated) {
       console.log("Replace route to login");
-      router.replace("/(auth)/sign-in");
+      router.replace("/sign-in");
     }
   }, [authenticated]);
 
