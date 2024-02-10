@@ -9,6 +9,7 @@ import { useAlertStore } from "@/stores/alert/userAlertStore";
 import { AlertCard } from "@/components/AlertCard";
 
 export default function Home() {
+  console.log("HOME tabs render");
   const [modalVisible, setModalVisible] = useState(false);
 
   const getAlerts = useAlertStore((set) => set.getAlerts);
