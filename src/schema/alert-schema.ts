@@ -33,14 +33,10 @@ const intervalAlertSchema = z.object({
   minute: z.number({ required_error: "field minute is required" }),
 });
 
-export type intervalAlertType = z.infer<typeof intervalAlertSchema>;
-
 const dateAlertSchema = z.object({
   alertType: z.literal(AlertType.DATE),
   date: z.date({ required_error: "field date is required" }),
 });
-
-export type datelAlertType = z.infer<typeof dateAlertSchema>;
 
 const weeklyAlertSchema = z.object({
   alertType: z.literal(AlertType.WEEKLY),
@@ -52,17 +48,13 @@ const weeklyAlertSchema = z.object({
     .min(1, { message: "field week at least 1 element" }),
 });
 
-export type weeklylAlertType = z.infer<typeof weeklyAlertSchema>;
-
 const dailyAlertSchema = z.object({
   alertType: z.literal(AlertType.DAILY),
   hour: z.number({ required_error: "field hour is required" }),
   minute: z.number({ required_error: "field minute is required" }),
 });
 
-export type dailylAlertType = z.infer<typeof dailyAlertSchema>;
-
-export const AlertSchema = z.object({
+const baseSchema = z.object({
   title: z
     .string({
       required_error: "field title is required",
@@ -73,14 +65,33 @@ export const AlertSchema = z.object({
   unit_of_measurement: z.nativeEnum(unitOfMeasurament, {
     required_error: "field unit_of_measurement is required",
   }),
-  // medicine_id: z.string({ required_error: "field medicine_id is required" }),
-  trigger: z.discriminatedUnion(
-    "alertType",
-    [intervalAlertSchema, dateAlertSchema, weeklyAlertSchema, dailyAlertSchema],
-    {
-      required_error: "field trigger is required",
-    }
-  ),
 });
 
-export type Alert = z.infer<typeof AlertSchema>;
+export const intervalSchema = z
+  .object({
+    trigger: intervalAlertSchema,
+  })
+  .merge(baseSchema);
+
+export const dateSchema = z
+  .object({
+    trigger: dateAlertSchema,
+  })
+  .merge(baseSchema);
+
+export const weeklySchema = z
+  .object({
+    trigger: weeklyAlertSchema,
+  })
+  .merge(baseSchema);
+
+export const dailySchema = z
+  .object({
+    trigger: dailyAlertSchema,
+  })
+  .merge(baseSchema);
+
+export type IntervalSchemaType = z.infer<typeof intervalSchema>;
+export type DateSchemaType = z.infer<typeof dailySchema>;
+export type WeeklySchemaType = z.infer<typeof weeklySchema>;
+export type DailySchemaType = z.infer<typeof dailySchema>;
