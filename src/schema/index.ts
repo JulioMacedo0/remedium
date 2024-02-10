@@ -1,7 +1,11 @@
 export {
-  Alert,
-  dailylAlertType,
-  datelAlertType,
-  intervalAlertType,
-  weeklylAlertType,
+  AlertType,
+  DailySchemaType,
+  DateSchemaType,
+  IntervalSchemaType,
+  WeeklySchemaType,
+  dailySchema,
+  dateSchema,
+  intervalSchema,
+  weeklySchema,
 } from "./alert-schema";
