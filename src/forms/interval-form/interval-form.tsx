@@ -1,4 +1,5 @@
 import { IntervalSchemaType, intervalSchema } from "@/schema";
+import { useAlertStore } from "@/stores/alert/userAlertStore";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   Box,
@@ -52,8 +53,11 @@ export const IntervalForm = ({ setAlertType }: IntervalFormProps) => {
     resolver: zodResolver(intervalSchema),
   });
 
-  const onSubmit = (data: IntervalSchemaType) => {
+  const { loading, createAlerts } = useAlertStore();
+  const onSubmit = async (data: IntervalSchemaType) => {
     console.log(data);
+
+    createAlerts(data);
   };
 
   return (
@@ -111,13 +115,13 @@ export const IntervalForm = ({ setAlertType }: IntervalFormProps) => {
       <HStack space="md" justifyContent="center">
         <Controller
           control={control}
-          name="trigger.hour"
+          name="trigger.hours"
           render={({ field: { onChange, onBlur, value = "" } }) => {
             return (
               <FormControl
                 size="lg"
                 isDisabled={false}
-                isInvalid={!!errors.trigger?.hour}
+                isInvalid={!!errors.trigger?.hours}
                 isReadOnly={false}
                 isRequired={true}
               >
@@ -137,7 +141,7 @@ export const IntervalForm = ({ setAlertType }: IntervalFormProps) => {
                 <FormControlError>
                   {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
                   <FormControlErrorText>
-                    {errors.trigger?.hour?.message}
+                    {errors.trigger?.hours?.message}
                   </FormControlErrorText>
                 </FormControlError>
               </FormControl>
@@ -151,13 +155,13 @@ export const IntervalForm = ({ setAlertType }: IntervalFormProps) => {
         </VStack>
         <Controller
           control={control}
-          name="trigger.minute"
+          name="trigger.minutes"
           render={({ field: { onChange, onBlur, value = "" } }) => {
             return (
               <FormControl
                 size="lg"
                 isDisabled={false}
-                isInvalid={!!errors.trigger?.minute}
+                isInvalid={!!errors.trigger?.minutes}
                 isReadOnly={false}
                 isRequired={true}
               >
@@ -177,7 +181,7 @@ export const IntervalForm = ({ setAlertType }: IntervalFormProps) => {
                 <FormControlError>
                   {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
                   <FormControlErrorText>
-                    {errors.trigger?.minute?.message}
+                    {errors.trigger?.minutes?.message}
                   </FormControlErrorText>
                 </FormControlError>
               </FormControl>
@@ -312,8 +316,9 @@ export const IntervalForm = ({ setAlertType }: IntervalFormProps) => {
         isFocusVisible={false}
         onPress={handleSubmit(onSubmit)}
       >
-        <ButtonText>Scheluder Alert</ButtonText>
+        <ButtonText>{loading ? "Creating..." : "Scheluder Alert"}</ButtonText>
       </Button>
+      <Text>{`loading is : ${loading}`}</Text>
     </>
   );
 };

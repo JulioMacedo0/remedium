@@ -128,7 +128,7 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
       <Controller
         control={control}
         name="trigger.week"
-        render={({ field: { onChange, onBlur, value }, formState }) => (
+        render={({ field: { onChange, onBlur, value = [] }, formState }) => (
           <CheckboxGroup
             overflow="hidden"
             rounded="$full"
@@ -332,13 +332,13 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
       <HStack space="md" justifyContent="center">
         <Controller
           control={control}
-          name="trigger.hour"
+          name="trigger.hours"
           render={({ field: { onChange, onBlur, value = "" } }) => {
             return (
               <FormControl
                 size="lg"
                 isDisabled={false}
-                isInvalid={!!errors.trigger?.hour}
+                isInvalid={!!errors.trigger?.hours}
                 isReadOnly={false}
                 isRequired={true}
               >
@@ -358,7 +358,7 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
                 <FormControlError>
                   {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
                   <FormControlErrorText>
-                    {errors.trigger?.hour?.message}
+                    {errors.trigger?.hours?.message}
                   </FormControlErrorText>
                 </FormControlError>
               </FormControl>
@@ -372,13 +372,13 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
         </VStack>
         <Controller
           control={control}
-          name="trigger.minute"
+          name="trigger.minutes"
           render={({ field: { onChange, onBlur, value = "" } }) => {
             return (
               <FormControl
                 size="lg"
                 isDisabled={false}
-                isInvalid={!!errors.trigger?.minute}
+                isInvalid={!!errors.trigger?.minutes}
                 isReadOnly={false}
                 isRequired={true}
               >
@@ -398,7 +398,7 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
                 <FormControlError>
                   {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
                   <FormControlErrorText>
-                    {errors.trigger?.minute?.message}
+                    {errors.trigger?.minutes?.message}
                   </FormControlErrorText>
                 </FormControlError>
               </FormControl>

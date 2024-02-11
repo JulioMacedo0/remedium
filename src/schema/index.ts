@@ -4,6 +4,7 @@ export {
   DateSchemaType,
   IntervalSchemaType,
   WeeklySchemaType,
+  CreateAlertType,
   dailySchema,
   dateSchema,
   intervalSchema,

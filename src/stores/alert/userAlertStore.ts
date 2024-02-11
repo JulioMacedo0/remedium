@@ -1,7 +1,8 @@
-import { isAxiosError } from "axios";
+import { AxiosError, isAxiosError } from "axios";
 import { create } from "zustand";
 import Toast from "react-native-toast-message";
 import { client } from "@/services/http/httpClient";
+import { CreateAlertType } from "@/schema";
 type DayOfWeek =
   | "SUNDAY"
   | "MONDAY"
@@ -38,34 +39,59 @@ type AlertType = {
   title: string;
   subtitle: string;
   body: string;
-  unit_of_measurement: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   userId: string;
-  medicine_id: string;
+  trigger: CreateTriggerResponse;
 };
 
-export type AlertResponse = AlertType & {
-  trigger: TriggerType;
-  medicine: MedicineType;
+export type CreateAlertResponse = {
+  id: string;
+  title: string;
+  subtitle: string;
+  body: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+  trigger: CreateTriggerResponse;
 };
 
-type AlertRequest = {};
+const DayOfWeek = {
+  SUNDAY: "SUNDAY",
+  MONDAY: "MONDAY",
+  TUESDAY: "TUESDAY",
+  WEDNESDAY: "WEDNESDAY",
+  THURSDAY: "THURSDAY",
+  FRIDAY: "FRIDAY",
+  SATURDAY: "SATURDAY",
+} as const;
+
+export type CreateTriggerResponse = {
+  id: string;
+  type: string;
+  alertId: string;
+  date?: Date;
+  last_alert: string;
+  hours: number;
+  minutes: number;
+  seconds?: number;
+  week: DayOfWeek[];
+};
 
 type userAlertStoreType = {
-  alerts: AlertResponse[];
+  alerts: CreateAlertResponse[];
   loading: boolean;
   getAlerts: () => void;
+  createAlerts: (alert: CreateAlertType) => void;
 };
 
 export const useAlertStore = create<userAlertStoreType>((set) => ({
   alerts: [],
   loading: false,
   getAlerts: async () => {
-    set((state) => ({ ...state, loading: true }));
-
     try {
-      const alertsResponse = await client.get<AlertResponse[]>("alerts");
+      set((state) => ({ ...state, loading: true }));
+      const alertsResponse = await client.get<CreateAlertResponse[]>("alerts");
 
       set((state) => ({
         ...state,
@@ -80,7 +106,40 @@ export const useAlertStore = create<userAlertStoreType>((set) => ({
         });
       }
 
-      set(() => ({ loading: false }));
+      set((state) => ({ ...state, loading: false }));
     }
+    set((state) => ({ ...state, loading: false }));
+  },
+  createAlerts: async (alert) => {
+    try {
+      set((state) => ({ ...state, loading: true }));
+      const createAlertResponse = await client.post<CreateAlertResponse>(
+        "alerts",
+        alert
+      );
+
+      console.log(createAlertResponse.status);
+      console.log(createAlertResponse.data);
+
+      set((state) => ({
+        ...state,
+        alerts: [...state.alerts, createAlertResponse.data],
+        loading: false,
+      }));
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data?.message);
+        Toast.show({
+          type: "error",
+          text1: `${error.response?.data?.message}`,
+        });
+      }
+      Toast.show({
+        type: "error",
+        text1: `Uknow ${error}`,
+      });
+      set((state) => ({ ...state, loading: false }));
+    }
+    set((state) => ({ ...state, loading: false }));
   },
 }));

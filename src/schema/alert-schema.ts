@@ -29,8 +29,8 @@ const unitOfMeasurament = {
 
 const intervalAlertSchema = z.object({
   alertType: z.literal(AlertType.INTERVAL),
-  hour: z.number({ required_error: "field hour is required" }),
-  minute: z.number({ required_error: "field minute is required" }),
+  hours: z.number({ required_error: "field hour is required" }),
+  minutes: z.number({ required_error: "field minute is required" }),
 });
 
 const dateAlertSchema = z.object({
@@ -40,8 +40,8 @@ const dateAlertSchema = z.object({
 
 const weeklyAlertSchema = z.object({
   alertType: z.literal(AlertType.WEEKLY),
-  hour: z.number({ required_error: "field hour is required" }),
-  minute: z.number({ required_error: "field minute is required" }),
+  hours: z.number({ required_error: "field hour is required" }),
+  minutes: z.number({ required_error: "field minute is required" }),
   week: z
     .nativeEnum(DayOfWeek, { required_error: "field week is required" })
     .array()
@@ -50,8 +50,8 @@ const weeklyAlertSchema = z.object({
 
 const dailyAlertSchema = z.object({
   alertType: z.literal(AlertType.DAILY),
-  hour: z.number({ required_error: "field hour is required" }),
-  minute: z.number({ required_error: "field minute is required" }),
+  hours: z.number({ required_error: "field hour is required" }),
+  minutes: z.number({ required_error: "field minute is required" }),
 });
 
 const baseSchema = z.object({
@@ -62,9 +62,9 @@ const baseSchema = z.object({
     .min(1, "field title is required"),
   subtitle: z.string({ required_error: "field subtitle is required" }),
   body: z.string({ required_error: "field subtitle is required" }),
-  unit_of_measurement: z.nativeEnum(unitOfMeasurament, {
-    required_error: "field unit_of_measurement is required",
-  }),
+  // unit_of_measurement: z.nativeEnum(unitOfMeasurament, {
+  //   required_error: "field unit_of_measurement is required",
+  // }),
 });
 
 export const intervalSchema = z
@@ -90,6 +90,13 @@ export const dailySchema = z
     trigger: dailyAlertSchema,
   })
   .merge(baseSchema);
+
+export type CreateAlertType = z.infer<
+  | typeof intervalSchema
+  | typeof dateSchema
+  | typeof weeklySchema
+  | typeof dailySchema
+>;
 
 export type IntervalSchemaType = z.infer<typeof intervalSchema>;
 export type DateSchemaType = z.infer<typeof dailySchema>;

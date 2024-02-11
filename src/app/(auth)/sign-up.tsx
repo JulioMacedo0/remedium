@@ -18,9 +18,9 @@ import { useAuthStore } from "@/stores/auth/useAuthStore";
 const SignOut = () => {
   const { theme } = useTheme();
 
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("Julio Macedo");
+  const [email, setEmail] = useState("juliomacedo@gmail.com");
+  const [password, setPassword] = useState("12345678");
 
   const loading = useAuthStore((set) => set.loading);
   const signUp = useAuthStore((set) => set.signUp);

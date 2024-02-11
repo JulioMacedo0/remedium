@@ -2,7 +2,7 @@ import { client } from "@/services/http/httpClient";
 import { create } from "zustand";
 import { isAxiosError } from "axios";
 import Toast from "react-native-toast-message";
-
+import * as Notifications from "expo-notifications";
 type SignInRequest = {
   email: string;
   password: string;
@@ -76,10 +76,19 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
   signUp: async ({ email, password, username }) => {
     set((state) => ({ ...state, loading: true }));
     try {
+      const expo_token = (
+        await Notifications.getExpoPushTokenAsync({
+          projectId: "0e830c18-6f43-4321-9330-c85a1c4acdb0",
+        })
+      ).data;
+
+      console.log(expo_token);
+
       const signUpResponse = await client.post<SignUpResponse>("users", {
         email,
         password,
         username,
+        expo_token,
       });
 
       Toast.show({
@@ -100,7 +109,9 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
       Toast.show({
         type: "error",
         text1: "Unknown error",
+        text2: `${error}`,
       });
+      console.log(error);
       set(() => ({ loading: false }));
     }
   },
