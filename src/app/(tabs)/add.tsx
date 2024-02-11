@@ -33,6 +33,7 @@ import { useForm, Controller, useWatch } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { WeeklyForm } from "@/forms/weekly-from/weekly-form";
 export default function Add() {
   const [alertType, setAlertType] = useState("");
 
@@ -44,7 +45,8 @@ export default function Add() {
     switch (alertType) {
       case "INTERVAL":
         return <IntervalForm setAlertType={ChangeAlertType} />;
-
+      case "WEEKLY":
+        return <WeeklyForm setAlertType={ChangeAlertType} />;
       default:
         return <Text>Selecione um componente</Text>;
     }
