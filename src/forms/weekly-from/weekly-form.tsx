@@ -128,97 +128,202 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
       <Controller
         control={control}
         name="trigger.week"
-        render={({ field: { onChange, onBlur, value } }) => (
+        render={({ field: { onChange, onBlur, value }, formState }) => (
           <CheckboxGroup
+            overflow="hidden"
             rounded="$full"
             borderWidth={1}
             isInvalid={!!errors.trigger?.week}
             value={value}
             mb={12}
             flexDirection="row"
-            justifyContent="space-around"
             onChange={onChange}
           >
             <Checkbox
-              p={4}
+              justifyContent="center"
+              flex={1}
               aria-label="MONDAY"
               value="MONDAY"
               isInvalid={false}
               isDisabled={false}
+              p={4}
+              bgColor={
+                !!value.find((value) => value == "MONDAY")
+                  ? "$green400"
+                  : "transparent"
+              }
             >
-              <CheckboxLabel>Mon</CheckboxLabel>
+              <CheckboxLabel
+                color={
+                  !!value.find((value) => value == "MONDAY")
+                    ? "$white"
+                    : "$coolGray500"
+                }
+              >
+                Mon
+              </CheckboxLabel>
             </Checkbox>
             <Checkbox
+              justifyContent="center"
+              flex={1}
               aria-label="TUESDAY"
               value="TUESDAY"
               size="md"
               isInvalid={false}
               isDisabled={false}
+              bgColor={
+                !!value.find((value) => value == "TUESDAY")
+                  ? "$green400"
+                  : "transparent"
+              }
             >
               {/* <CheckboxIndicator mr="$2">
                 <AntDesign name="close" size={24} color="black" />
               </CheckboxIndicator> */}
-              <CheckboxLabel>Tue</CheckboxLabel>
+              <CheckboxLabel
+                color={
+                  !!value.find((value) => value == "TUESDAY")
+                    ? "$white"
+                    : "$coolGray500"
+                }
+              >
+                Tue
+              </CheckboxLabel>
             </Checkbox>
             <Checkbox
+              justifyContent="center"
+              flex={1}
               aria-label="WEDNESDAY"
               value="WEDNESDAY"
               size="md"
               isInvalid={false}
               isDisabled={false}
+              bgColor={
+                !!value.find((value) => value == "WEDNESDAY")
+                  ? "$green400"
+                  : "transparent"
+              }
             >
               {/* <CheckboxIndicator mr="$2">
                 <AntDesign name="close" size={24} color="black" />
               </CheckboxIndicator> */}
-              <CheckboxLabel>Wed</CheckboxLabel>
+              <CheckboxLabel
+                color={
+                  !!value.find((value) => value == "WEDNESDAY")
+                    ? "$white"
+                    : "$coolGray500"
+                }
+              >
+                Wed
+              </CheckboxLabel>
             </Checkbox>
             <Checkbox
+              justifyContent="center"
+              flex={1}
               aria-label="THURSDAY"
               value="THURSDAY"
               size="md"
               isInvalid={false}
               isDisabled={false}
+              bgColor={
+                !!value.find((value) => value == "THURSDAY")
+                  ? "$green400"
+                  : "transparent"
+              }
             >
               {/* <CheckboxIndicator mr="$2">
                 <AntDesign name="close" size={24} color="black" />
               </CheckboxIndicator> */}
-              <CheckboxLabel>Thu</CheckboxLabel>
+              <CheckboxLabel
+                color={
+                  !!value.find((value) => value == "THURSDAY")
+                    ? "$white"
+                    : "$coolGray500"
+                }
+              >
+                Thu
+              </CheckboxLabel>
             </Checkbox>
             <Checkbox
+              justifyContent="center"
+              flex={1}
               aria-label="FRIDAY"
               value="FRIDAY"
               size="md"
               isInvalid={false}
               isDisabled={false}
+              bgColor={
+                !!value.find((value) => value == "FRIDAY")
+                  ? "$green400"
+                  : "transparent"
+              }
             >
               {/* <CheckboxIndicator mr="$2">
                 <AntDesign name="close" size={24} color="black" />
               </CheckboxIndicator> */}
-              <CheckboxLabel>Fri</CheckboxLabel>
+              <CheckboxLabel
+                color={
+                  !!value.find((value) => value == "FRIDAY")
+                    ? "$white"
+                    : "$coolGray500"
+                }
+              >
+                Fri
+              </CheckboxLabel>
             </Checkbox>
             <Checkbox
+              justifyContent="center"
+              flex={1}
               aria-label="SATURDAY"
               value="SATURDAY"
               size="md"
               isInvalid={false}
               isDisabled={false}
+              bgColor={
+                !!value.find((value) => value == "SATURDAY")
+                  ? "$green400"
+                  : "transparent"
+              }
             >
               {/* <CheckboxIndicator mr="$2">
                 <AntDesign name="close" size={24} color="black" />
               </CheckboxIndicator> */}
-              <CheckboxLabel>Sat</CheckboxLabel>
+              <CheckboxLabel
+                color={
+                  !!value.find((value) => value == "SATURDAY")
+                    ? "$white"
+                    : "$coolGray500"
+                }
+              >
+                Sat
+              </CheckboxLabel>
             </Checkbox>
             <Checkbox
+              justifyContent="center"
+              flex={1}
               aria-label="SUNDAY"
               value="SUNDAY"
               size="md"
               isInvalid={false}
               isDisabled={false}
+              bgColor={
+                !!value.find((value) => value == "SUNDAY")
+                  ? "$green400"
+                  : "transparent"
+              }
             >
               {/* <CheckboxIndicator mr="$2">
                 <AntDesign name="close" size={24} color="black" />
               </CheckboxIndicator> */}
-              <CheckboxLabel>Sun</CheckboxLabel>
+              <CheckboxLabel
+                color={
+                  !!value.find((value) => value == "SUNDAY")
+                    ? "$white"
+                    : "$coolGray500"
+                }
+              >
+                Sun
+              </CheckboxLabel>
             </Checkbox>
           </CheckboxGroup>
         )}
