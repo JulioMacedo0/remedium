@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 import {
   Button,
   ButtonText,
@@ -42,8 +43,10 @@ const SignIn = () => {
     resolver: zodResolver(signInSchema),
   });
 
+  const { loading, signIn } = useAuthStore();
+
   const onSubmit = async (data: SignInSchemaType) => {
-    console.log(data);
+    signIn(data);
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -128,7 +131,7 @@ const SignIn = () => {
             isFocusVisible={false}
             onPress={handleSubmit(onSubmit)}
           >
-            <ButtonText>{"login"}</ButtonText>
+            <ButtonText>{loading ? "Loading..." : "login"}</ButtonText>
           </Button>
 
           <Link

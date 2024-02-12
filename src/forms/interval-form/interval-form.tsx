@@ -44,6 +44,7 @@ export const IntervalForm = ({ setAlertType }: IntervalFormProps) => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<IntervalSchemaType>({
     defaultValues: {
       trigger: {
@@ -53,13 +54,12 @@ export const IntervalForm = ({ setAlertType }: IntervalFormProps) => {
     resolver: zodResolver(intervalSchema),
   });
 
-  const onSubmit = async (data: IntervalSchemaType) => {
-    console.log(data);
+  const { loading, createAlerts } = useAlertStore();
 
+  const onSubmit = async (data: IntervalSchemaType) => {
+    reset();
     createAlerts(data);
   };
-
-  const { loading, createAlerts } = useAlertStore();
 
   return (
     <>
