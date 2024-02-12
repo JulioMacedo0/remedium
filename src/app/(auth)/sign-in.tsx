@@ -48,7 +48,9 @@ const SignIn = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView style={{ flex: 1 }} p={8}>
-        <ScrollView>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+        >
           <Heading textAlign="center">Sign in</Heading>
 
           <Controller
