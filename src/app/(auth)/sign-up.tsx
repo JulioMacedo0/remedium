@@ -1,136 +1,181 @@
-import React, { useState } from "react";
 import {
-  InputSection,
-  StyledTextInput,
-  Text,
-  ThemedStatusBar,
-  View,
-} from "@/components";
+  Button,
+  ButtonText,
+  FormControl,
+  FormControlError,
+  FormControlErrorText,
+  FormControlLabel,
+  FormControlLabelText,
+  Heading,
+  Input,
+  InputField,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "@gluestack-ui/themed";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "expo-router";
-import { KeyboardAvoidingView, Platform, TextInput } from "react-native";
-import { Button } from "@/components/Button";
-import { ScrollView } from "react-native-gesture-handler";
+import { Controller, useForm } from "react-hook-form";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Colors } from "@/constants";
-import { useTheme } from "@/context";
-import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { z } from "zod";
+const SignUp = () => {
+  const signUpSchema = z.object({
+    username: z
+      .string({ required_error: "field name is required" })
+      .min(1, { message: "field name is required" })
+      .trim(),
+    email: z
+      .string({ required_error: "field email is required" })
+      .email({
+        message: "Invalid email",
+      })
+      .toLowerCase()
+      .trim(),
+    password: z
+      .string({ required_error: "field password is required" })
+      .min(1, { message: "field password is required" })
+      .trim(),
+  });
 
-const SignOut = () => {
-  const { theme } = useTheme();
+  type SignUpSchemaType = z.infer<typeof signUpSchema>;
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpSchemaType>({
+    resolver: zodResolver(signUpSchema),
+  });
 
-  const [userName, setUserName] = useState("Julio Macedo");
-  const [email, setEmail] = useState("juliomacedo@gmail.com");
-  const [password, setPassword] = useState("12345678");
-
-  const loading = useAuthStore((set) => set.loading);
-  const signUp = useAuthStore((set) => set.signUp);
-  const error = useAuthStore((set) => set.error);
-
-  const clearForm = () => {
-    setEmail("");
-    setPassword("");
-    setUserName("");
+  const onSubmit = async (data: SignUpSchemaType) => {
+    console.log(data);
   };
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        backgroundColor: Colors[theme].tabBackground,
-      }}
-    >
-      <ThemedStatusBar />
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <KeyboardAvoidingView>
-          <ScrollView
-            contentContainerStyle={{
-              alignItems: "center",
-            }}
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView style={{ flex: 1 }} p={8}>
+        <ScrollView contentContainerStyle={{ justifyContent: "center" }}>
+          <Heading textAlign="center">Sign up</Heading>
+          <Controller
+            control={control}
+            name="username"
+            render={({ field: { onChange, onBlur, value = "" } }) => (
+              <FormControl
+                size="md"
+                isDisabled={false}
+                isInvalid={!!errors.username}
+                isReadOnly={false}
+                isRequired={true}
+              >
+                <FormControlLabel mb="$1">
+                  <FormControlLabelText>Name</FormControlLabelText>
+                </FormControlLabel>
+                <Input>
+                  <InputField
+                    type="text"
+                    placeholder="Put your name"
+                    returnKeyType="send"
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                  />
+                </Input>
+                <FormControlError>
+                  <FormControlErrorText>
+                    {errors.username?.message}
+                  </FormControlErrorText>
+                </FormControlError>
+              </FormControl>
+            )}
+          />
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { onChange, onBlur, value = "" } }) => (
+              <FormControl
+                size="md"
+                isDisabled={false}
+                isInvalid={!!errors.email}
+                isReadOnly={false}
+                isRequired={true}
+              >
+                <FormControlLabel mb="$1">
+                  <FormControlLabelText>Email</FormControlLabelText>
+                </FormControlLabel>
+                <Input>
+                  <InputField
+                    type="text"
+                    placeholder="Put your email"
+                    returnKeyType="send"
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                  />
+                </Input>
+                <FormControlError>
+                  <FormControlErrorText>
+                    {errors.email?.message}
+                  </FormControlErrorText>
+                </FormControlError>
+              </FormControl>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { onChange, onBlur, value = "" } }) => (
+              <FormControl
+                size="md"
+                isDisabled={false}
+                isInvalid={!!errors.password?.message}
+                isReadOnly={false}
+                isRequired={true}
+              >
+                <FormControlLabel mb="$1">
+                  <FormControlLabelText>Password</FormControlLabelText>
+                </FormControlLabel>
+                <Input>
+                  <InputField
+                    type="password"
+                    placeholder="Put your password"
+                    returnKeyType="next"
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    onSubmitEditing={handleSubmit(onSubmit)}
+                  />
+                </Input>
+                <FormControlError>
+                  <FormControlErrorText>
+                    {errors.password?.message}
+                  </FormControlErrorText>
+                </FormControlError>
+              </FormControl>
+            )}
+          />
+
+          <Button
+            size="md"
+            variant="solid"
+            action="primary"
+            isDisabled={false}
+            isFocusVisible={false}
+            onPress={handleSubmit(onSubmit)}
           >
-            <InputSection
-              title="Username"
-              style={{ backgroundColor: "transparent" }}
-            >
-              <TextInput
-                defaultValue={userName}
-                onChangeText={(value) => setUserName(value)}
-                style={{
-                  textAlign: "center",
-                  borderRadius: 999,
-                  padding: 12,
-                  backgroundColor: "#fff",
-                  color: "#000",
-                }}
-                placeholder="put your username...."
-              />
-            </InputSection>
-            <InputSection
-              title="Email"
-              style={{ backgroundColor: "transparent" }}
-            >
-              <TextInput
-                defaultValue={email}
-                onChangeText={(value) => setEmail(value)}
-                style={{
-                  textAlign: "center",
-                  borderRadius: 999,
-                  padding: 12,
-                  backgroundColor: "#fff",
-                  color: "#000",
-                }}
-                placeholder="put your email...."
-              />
-            </InputSection>
-            <InputSection
-              title="Password"
-              style={{ backgroundColor: "transparent" }}
-            >
-              <TextInput
-                defaultValue={password}
-                onChangeText={(value) => setPassword(value)}
-                style={{
-                  textAlign: "center",
-                  borderRadius: 999,
-                  padding: 12,
-                  backgroundColor: "#fff",
-                  color: "#000",
-                }}
-                secureTextEntry
-                placeholder="put your password...."
-              />
-            </InputSection>
-
-            <Button
-              text="sign up"
-              onPress={async () => {
-                const httpStatus = await signUp({
-                  email,
-                  password,
-                  username: userName,
-                });
-
-                if (httpStatus == 201) {
-                  clearForm();
-                }
-              }}
-            />
-            <Link
-              style={{
-                width: "80%",
-                fontWeight: "bold",
-                textAlign: "right",
-                color: Colors[theme].text,
-              }}
-              replace
-              href="/(auth)/sign-in"
-            >
-              have account?
-            </Link>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </View>
+            <ButtonText>{"sig up"}</ButtonText>
+          </Button>
+          <Link
+            style={{
+              textAlign: "right",
+              color: "blue",
+            }}
+            replace
+            href="/sign-in"
+          >
+            have account?
+          </Link>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 
-export default SignOut;
+export default SignUp;

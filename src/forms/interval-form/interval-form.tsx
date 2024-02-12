@@ -53,12 +53,13 @@ export const IntervalForm = ({ setAlertType }: IntervalFormProps) => {
     resolver: zodResolver(intervalSchema),
   });
 
-  const { loading, createAlerts } = useAlertStore();
   const onSubmit = async (data: IntervalSchemaType) => {
     console.log(data);
 
     createAlerts(data);
   };
+
+  const { loading, createAlerts } = useAlertStore();
 
   return (
     <>

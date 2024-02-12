@@ -1,37 +1,21 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
-  FormControl,
-  FormControlError,
-  FormControlErrorIcon,
-  FormControlErrorText,
-  FormControlHelper,
-  FormControlHelperText,
-  FormControlLabel,
-  FormControlLabelText,
-  Icon,
-  Input,
-  InputField,
   KeyboardAvoidingView,
   Select,
   SelectBackdrop,
   SelectContent,
   SelectDragIndicator,
   SelectDragIndicatorWrapper,
-  SelectIcon,
   SelectInput,
   SelectItem,
   SelectPortal,
   SelectTrigger,
   ScrollView,
   Text,
-  Button,
-  ButtonText,
 } from "@gluestack-ui/themed";
 import { IntervalForm } from "@/forms/interval-form/interval-form";
-import { useForm, Controller, useWatch } from "react-hook-form";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { WeeklyForm } from "@/forms/weekly-from/weekly-form";
 export default function Add() {
