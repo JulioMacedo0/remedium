@@ -32,7 +32,7 @@ const SignUp = () => {
       .trim(),
     password: z
       .string({ required_error: "field password is required" })
-      .min(1, { message: "field password is required" })
+      .min(8, { message: "the password must contain at least 8 characters" })
       .trim(),
   });
 
