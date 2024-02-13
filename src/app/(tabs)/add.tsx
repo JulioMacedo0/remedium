@@ -18,6 +18,7 @@ import { IntervalForm } from "@/forms/interval-form/interval-form";
 
 import { useState } from "react";
 import { WeeklyForm } from "@/forms/weekly-from/weekly-form";
+import { DailyForm } from "@/forms/daily-form/daily-form";
 export default function Add() {
   const [alertType, setAlertType] = useState("");
 
@@ -31,6 +32,8 @@ export default function Add() {
         return <IntervalForm setAlertType={ChangeAlertType} />;
       case "WEEKLY":
         return <WeeklyForm setAlertType={ChangeAlertType} />;
+      case "DAILY":
+        return <DailyForm setAlertType={ChangeAlertType} />;
       default:
         return <Text>Selecione um componente</Text>;
     }
