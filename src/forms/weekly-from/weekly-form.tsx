@@ -46,20 +46,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useRef } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Controller, useForm } from "react-hook-form";
+import { useAlertStore } from "@/stores/alert/userAlertStore";
 
 type WeeklyFormProps = {
   setAlertType: (value: string) => void;
 };
 
 export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
-  const [showModal, setShowModal] = useState(false);
-  console.log(showModal);
-  const ref = useRef(null);
-
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<WeeklySchemaType>({
     defaultValues: {
       trigger: {
@@ -68,9 +66,9 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
     },
     resolver: zodResolver(weeklySchema),
   });
-
+  const { loading, createAlerts } = useAlertStore();
   const onSubmit = (data: WeeklySchemaType) => {
-    console.log(data);
+    createAlerts(data, reset);
   };
 
   return (
@@ -533,7 +531,7 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
         isFocusVisible={false}
         onPress={handleSubmit(onSubmit)}
       >
-        <ButtonText>Scheluder Alert</ButtonText>
+        <ButtonText>{loading ? "loading..." : "Scheluder Alert"}</ButtonText>
       </Button>
     </>
   );

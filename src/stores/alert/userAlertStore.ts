@@ -12,38 +12,14 @@ type DayOfWeek =
   | "FRIDAY"
   | "SATURDAY";
 
-type MedicineType = {
-  id: string;
-  name: string;
-  quantity: number;
-  userId: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-type TriggerType = {
-  id: string;
-  type: string;
-  alertId: string;
-  date: Date;
-  last_alert: string;
-  hours: number;
-  minutes: number;
-  seconds: number;
-  week: DayOfWeek[];
-  repeats: boolean;
-};
-
-type AlertType = {
-  id: string;
-  title: string;
-  subtitle: string;
-  body: string;
-  createdAt: string;
-  updatedAt: string;
-  userId: string;
-  trigger: CreateTriggerResponse;
-};
+// type MedicineType = {
+//   id: string;
+//   name: string;
+//   quantity: number;
+//   userId: string;
+//   createdAt: Date;
+//   updatedAt: Date;
+// };
 
 export type CreateAlertResponse = {
   id: string;
@@ -82,7 +58,7 @@ type userAlertStoreType = {
   alerts: CreateAlertResponse[];
   loading: boolean;
   getAlerts: () => void;
-  createAlerts: (alert: CreateAlertType) => void;
+  createAlerts: (alert: CreateAlertType, succesCallBack: () => void) => void;
 };
 
 export const useAlertStore = create<userAlertStoreType>((set) => ({
@@ -110,7 +86,7 @@ export const useAlertStore = create<userAlertStoreType>((set) => ({
     }
     set((state) => ({ ...state, loading: false }));
   },
-  createAlerts: async (alert) => {
+  createAlerts: async (alert, callBack) => {
     try {
       set((state) => ({ ...state, loading: true }));
       const createAlertResponse = await client.post<CreateAlertResponse>(
@@ -118,9 +94,11 @@ export const useAlertStore = create<userAlertStoreType>((set) => ({
         alert
       );
 
-      console.log(createAlertResponse.status);
-      console.log(createAlertResponse.data);
-
+      callBack();
+      Toast.show({
+        type: "success",
+        text1: `Alert created`,
+      });
       set((state) => ({
         ...state,
         alerts: [...state.alerts, createAlertResponse.data],

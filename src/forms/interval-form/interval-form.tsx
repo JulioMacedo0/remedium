@@ -58,7 +58,7 @@ export const IntervalForm = ({ setAlertType }: IntervalFormProps) => {
 
   const onSubmit = async (data: IntervalSchemaType) => {
     reset();
-    createAlerts(data);
+    createAlerts(data, reset);
   };
 
   return (
