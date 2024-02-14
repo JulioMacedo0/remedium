@@ -3,6 +3,8 @@ import { create } from "zustand";
 import { isAxiosError } from "axios";
 import Toast from "react-native-toast-message";
 import * as Notifications from "expo-notifications";
+import { storageService } from "@/services/storage/storageService";
+import { STORAGE_KEYS } from "@/services/storage/storegesKeys";
 type SignInRequest = {
   email: string;
   password: string;
@@ -54,6 +56,12 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
         email,
         password,
       });
+
+      storageService.setItem(STORAGE_KEYS.USER, signInResponse.data.user);
+      storageService.setItem(
+        STORAGE_KEYS.TOKEN,
+        signInResponse.data.accessToken
+      );
 
       set((state) => ({
         ...state,
