@@ -7,6 +7,8 @@ import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
 import { useEffect } from "react";
+import { storageService } from "@/services/storage/storageService";
+import { STORAGE_KEYS } from "@/services/storage/storegesKeys";
 
 export default function RootLayout() {
   return (
@@ -22,7 +24,21 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const authenticated = useAuthStore((set) => set.authenticated);
+  const { authenticated, setAuthenticated } = useAuthStore((set) => set);
+
+  const getToken = async () => {
+    try {
+      const token = await storageService.getItem<string>(STORAGE_KEYS.TOKEN);
+
+      setAuthenticated(!!token);
+    } catch (error) {
+      console.error("Erro ao obter o token:", error);
+    }
+  };
+
+  useEffect(() => {
+    getToken();
+  }, []);
 
   const segments = useSegments();
   const router = useRouter();
@@ -31,7 +47,7 @@ function RootLayoutNav() {
   useEffect(() => {
     const inTabsGroup = segments[0] === "(tabs)";
 
-    console.log("User changed: ", authenticated);
+    console.log("is authenticated: ", authenticated);
 
     if (authenticated && !inTabsGroup) {
       console.log("Replace route to home");

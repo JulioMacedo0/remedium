@@ -31,10 +31,10 @@ type UserType = {
 };
 
 interface UseAuthStoreType {
-  accessToken: string;
   loading: boolean;
   authenticated: boolean;
   error: string;
+  setAuthenticated: (value: boolean) => void;
   signIn: ({ email, password }: SignInRequest) => void;
   signUp: ({
     email,
@@ -44,10 +44,12 @@ interface UseAuthStoreType {
 }
 
 export const useAuthStore = create<UseAuthStoreType>((set) => ({
-  accessToken: "",
   loading: false,
   authenticated: false,
   error: "",
+  setAuthenticated: (value) => {
+    set((state) => ({ ...state, authenticated: value }));
+  },
   signIn: async ({ email, password }) => {
     set((state) => ({ ...state, loading: true }));
 
@@ -65,7 +67,6 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
 
       set((state) => ({
         ...state,
-        accessToken: signInResponse.data.accessToken,
         authenticated: true,
         loading: false,
       }));
