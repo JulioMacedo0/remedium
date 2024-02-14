@@ -37,8 +37,10 @@ import {
   VStack,
 } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import { useState } from "react";
+import DatePicker from "react-native-date-picker";
 import { Controller, useForm } from "react-hook-form";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 type DateFormProps = {
   setAlertType: (value: string) => void;
@@ -62,9 +64,11 @@ export const DateForm = ({ setAlertType }: DateFormProps) => {
   const { loading, createAlerts } = useAlertStore();
 
   const onSubmit = async (data: DateSchemaType) => {
-    reset();
     createAlerts(data, reset);
   };
+
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -115,6 +119,57 @@ export const DateForm = ({ setAlertType }: DateFormProps) => {
               {errors.trigger?.alertType?.message}
             </Text>
           </Select>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="trigger.date"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <FormControl
+            size="md"
+            isDisabled={false}
+            isInvalid={!!errors.trigger?.date}
+            isReadOnly={false}
+            isRequired={true}
+          >
+            <FormControlLabel>
+              <FormControlLabelText>Date</FormControlLabelText>
+            </FormControlLabel>
+            <DatePicker
+              modal
+              open={open}
+              date={date}
+              onConfirm={(date) => {
+                onChange(date);
+                console.log(typeof date);
+                setOpen(false);
+                setDate(date);
+              }}
+              onCancel={() => {
+                setOpen(false);
+              }}
+            />
+
+            <TouchableOpacity onPress={() => setOpen(true)}>
+              <Input pointerEvents="none">
+                <InputField
+                  editable={false}
+                  type="text"
+                  placeholder="Date"
+                  value={value?.toString()}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                />
+              </Input>
+            </TouchableOpacity>
+            <FormControlError>
+              {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
+              <FormControlErrorText>
+                {errors.trigger?.date?.message}
+              </FormControlErrorText>
+            </FormControlError>
+          </FormControl>
         )}
       />
 

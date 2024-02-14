@@ -57,7 +57,6 @@ export const DailyForm = ({ setAlertType }: DailyFormProps) => {
   const { loading, createAlerts } = useAlertStore();
 
   const onSubmit = async (data: DailySchemaType) => {
-    reset();
     createAlerts(data, reset);
   };
 

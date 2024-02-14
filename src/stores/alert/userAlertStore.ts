@@ -112,12 +112,7 @@ export const useAlertStore = create<userAlertStoreType>((set) => ({
           text1: `${error.response?.data?.message}`,
         });
       }
-      Toast.show({
-        type: "error",
-        text1: `Uknow ${error}`,
-      });
       set((state) => ({ ...state, loading: false }));
     }
-    set((state) => ({ ...state, loading: false }));
   },
 }));
