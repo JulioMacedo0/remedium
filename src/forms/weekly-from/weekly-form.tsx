@@ -427,12 +427,12 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
             isRequired={true}
           >
             <FormControlLabel>
-              <FormControlLabelText>Title</FormControlLabelText>
+              <FormControlLabelText>Remedy name</FormControlLabelText>
             </FormControlLabel>
             <Input>
               <InputField
                 type="text"
-                placeholder="Title"
+                placeholder="Dipirona"
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -460,12 +460,12 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
             isRequired={true}
           >
             <FormControlLabel>
-              <FormControlLabelText>Subtitle</FormControlLabelText>
+              <FormControlLabelText>Dose</FormControlLabelText>
             </FormControlLabel>
             <Input>
               <InputField
                 type="text"
-                placeholder="Subtitle"
+                placeholder="1 pill"
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
@@ -498,12 +498,12 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
             isRequired={true}
           >
             <FormControlLabel>
-              <FormControlLabelText>Body</FormControlLabelText>
+              <FormControlLabelText>Instructions</FormControlLabelText>
             </FormControlLabel>
             <Input>
               <InputField
                 type="text"
-                placeholder="Body"
+                placeholder="Take before breakfast"
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
@@ -530,6 +530,7 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
         isDisabled={false}
         isFocusVisible={false}
         onPress={handleSubmit(onSubmit)}
+        mt={8}
       >
         <ButtonText>{loading ? "loading..." : "Scheluder Alert"}</ButtonText>
       </Button>
