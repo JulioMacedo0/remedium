@@ -12,9 +12,7 @@ export default function Home() {
   console.log("HOME tabs render");
   const [modalVisible, setModalVisible] = useState(false);
 
-  const getAlerts = useAlertStore((set) => set.getAlerts);
-  const alerts = useAlertStore((set) => set.alerts);
-  const loading = useAlertStore((set) => set.loading);
+  const { getAlerts, alerts, loading } = useAlertStore((set) => set);
 
   const closeModal = () => {
     setModalVisible(false);
@@ -50,7 +48,7 @@ export default function Home() {
           width: "90%",
         }}
         data={alerts}
-        renderItem={({ item }) => <AlertCard alerts={item} />}
+        renderItem={({ item }) => <AlertCard alert={item} />}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       />
       <PermissionModal
