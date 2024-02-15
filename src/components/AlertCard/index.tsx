@@ -1,19 +1,27 @@
-import { TouchableOpacity, StyleSheet } from "react-native";
-import { View } from "@components/View";
-import * as Notifications from "expo-notifications";
-import { Text } from "@components/Text";
 import { useTheme } from "@/context";
-import { Colors } from "@/constants";
-import { AlertResponse } from "@/stores/alert/userAlertStore";
-
+import { CreateAlertResponse } from "@/stores/alert/userAlertStore";
+import { Text, View, Heading, HStack, Icon } from "@gluestack-ui/themed";
+import { Pill, FilePenLine } from "lucide-react-native";
+import { TouchableOpacity } from "react-native";
 type AlertCardProps = {
-  alerts: AlertResponse;
+  alert: CreateAlertResponse;
 };
 
 export type weeksValues = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
-export const AlertCard = ({ alerts }: AlertCardProps) => {
+export const AlertCard = ({ alert }: AlertCardProps) => {
   const { theme, getInvertedTheme } = useTheme();
+  console.log(alert);
+  return (
+    <View bgColor="#b6a3f5" p={12} rounded="$lg">
+      <HStack alignItems="center" justifyContent="space-between">
+        <Icon as={Pill} color="#fff" size="lg" />
 
-  return <Text>{alerts.title}</Text>;
+        <Heading color="#fff">{alert.title}</Heading>
+        <TouchableOpacity onPress={() => console.log("FilePenLine")}>
+          <Icon as={FilePenLine} color="#fff" size="lg" />
+        </TouchableOpacity>
+      </HStack>
+    </View>
+  );
 };
