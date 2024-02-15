@@ -36,12 +36,14 @@ interface UseAuthStoreType {
   authenticated: boolean;
   error: string;
   setAuthenticated: (value: boolean) => void;
-  signIn: ({ email, password }: SignInRequest) => void;
-  signUp: ({
-    email,
-    password,
-    username,
-  }: SignUpRequest) => Promise<number | undefined>;
+  signIn: (
+    { email, password }: SignInRequest,
+    succesCallBack: () => void
+  ) => void;
+  signUp: (
+    { email, password, username }: SignUpRequest,
+    succesCallBack: () => void
+  ) => Promise<number | undefined>;
   logout: () => Promise<void>;
 }
 
@@ -57,7 +59,7 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
   setAuthenticated: (value) => {
     set((state) => ({ ...state, authenticated: value }));
   },
-  signIn: async ({ email, password }) => {
+  signIn: async ({ email, password }, succesCallBack) => {
     set((state) => ({ ...state, loading: true }));
 
     try {
@@ -71,7 +73,7 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
         STORAGE_KEYS.TOKEN,
         signInResponse.data.accessToken
       );
-
+      succesCallBack();
       set((state) => ({
         ...state,
         authenticated: true,
@@ -83,13 +85,12 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
           type: "error",
           text1: error.response?.data.message,
         });
+        console.log(error.response?.data.message);
         set(() => ({ loading: false }));
       }
-
-      set(() => ({ loading: false }));
     }
   },
-  signUp: async ({ email, password, username }) => {
+  signUp: async ({ email, password, username }, succesCallBack) => {
     set((state) => ({ ...state, loading: true }));
     try {
       const expo_token = (
@@ -111,7 +112,7 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
         type: "success",
         text1: `Account created with success! Welcome ${signUpResponse.data.username}`,
       });
-
+      succesCallBack();
       set(() => ({ loading: false }));
       return signUpResponse.status;
     } catch (error) {

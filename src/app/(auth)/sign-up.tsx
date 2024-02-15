@@ -42,6 +42,7 @@ const SignUp = () => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SignUpSchemaType>({
     resolver: zodResolver(signUpSchema),
   });
@@ -49,7 +50,7 @@ const SignUp = () => {
   const { loading, signUp } = useAuthStore();
 
   const onSubmit = async (data: SignUpSchemaType) => {
-    signUp(data);
+    signUp(data, reset);
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
