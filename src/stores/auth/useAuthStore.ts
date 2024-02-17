@@ -5,6 +5,7 @@ import Toast from "react-native-toast-message";
 import * as Notifications from "expo-notifications";
 import { storageService } from "@/services/storage/storageService";
 import { STORAGE_KEYS } from "@/services/storage/storegesKeys";
+import { asyncStorage } from "@/services/storage/asyncStorageService";
 type SignInRequest = {
   email: string;
   password: string;
@@ -41,12 +42,18 @@ interface UseAuthStoreType {
     password,
     username,
   }: SignUpRequest) => Promise<number | undefined>;
+  logout: () => Promise<void>;
 }
 
 export const useAuthStore = create<UseAuthStoreType>((set) => ({
   loading: false,
   authenticated: false,
   error: "",
+  logout: async () => {
+    await asyncStorage.removeItem(STORAGE_KEYS.TOKEN);
+    await asyncStorage.removeItem(STORAGE_KEYS.USER);
+    set((state) => ({ ...state, authenticated: false }));
+  },
   setAuthenticated: (value) => {
     set((state) => ({ ...state, authenticated: value }));
   },
