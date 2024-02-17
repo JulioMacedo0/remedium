@@ -17,6 +17,7 @@ import {
 import { Colors } from "@/constants";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { ThemedStatusBar } from "@/components/ThemedStatusBar";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 
 export default function Config() {
   const { selectedtheme, changeTheme, theme } = useTheme();
@@ -76,6 +77,8 @@ export default function Config() {
       });
     });
 
+  const { logout } = useAuthStore((set) => set);
+
   return (
     <View style={styles.container}>
       <ThemedStatusBar />
@@ -122,6 +125,13 @@ export default function Config() {
           icon={<Ionicons name="globe" size={23} color={Colors[theme].text} />}
           text={i18n.t("SETTINGS.APPLANGUAGE")}
           onPress={() => openBottomSheet()}
+        />
+      </Section>
+      <Section title={"Session"}>
+        <SectionItem
+          icon={<Ionicons name="exit-outline" size={23} color={"red"} />}
+          text={"Exit"}
+          onPress={() => logout()}
         />
       </Section>
       <BottomSheet
