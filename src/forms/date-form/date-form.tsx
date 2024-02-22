@@ -142,7 +142,6 @@ export const DateForm = ({ setAlertType }: DateFormProps) => {
               date={date}
               onConfirm={(date) => {
                 onChange(date);
-                console.log(typeof date);
                 setOpen(false);
                 setDate(date);
               }}
