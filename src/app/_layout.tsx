@@ -1,4 +1,4 @@
-import { Slot, useRouter, useSegments } from "expo-router";
+import { Slot, useRouter, useSegments, Stack } from "expo-router";
 
 import { ThemeProvider, I18nProvider } from "@/context";
 import Toast from "react-native-toast-message";
@@ -29,7 +29,12 @@ function RootLayoutNav() {
   const getToken = async () => {
     try {
       const token = await storageService.getItem<string>(STORAGE_KEYS.TOKEN);
-
+      // await new Promise<void>((resolve) => {
+      //   setTimeout(() => {
+      //     console.log("Operação assíncrona concluída");
+      //     resolve(); // Resolvendo a Promise após a simulação da operação
+      //   }, 6000); // 2 segundos de espera
+      // });
       setAuthenticated(!!token);
     } catch (error) {
       console.error("Erro ao obter o token:", error);
@@ -58,5 +63,21 @@ function RootLayoutNav() {
     }
   }, [authenticated]);
 
-  return <Slot />;
+  return (
+    <Stack screenOptions={{}}>
+      <Stack.Screen
+        name="(tabs)"
+        options={{ headerShown: false, animation: "fade_from_bottom" }}
+      />
+      <Stack.Screen name="edit-alert" />
+      <Stack.Screen
+        name="(auth)/sign-in"
+        options={{ headerShown: false, animation: "fade_from_bottom" }}
+      />
+      <Stack.Screen
+        name="(auth)/sign-up"
+        options={{ headerShown: false, animation: "fade_from_bottom" }}
+      />
+    </Stack>
+  );
 }
