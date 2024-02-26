@@ -36,10 +36,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 
 type DailyFormProps = {
-  setAlertType: (value: string) => void;
+  setAlertType?: (value: string) => void;
+  initialValue?: {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    userId: string;
+    trigger: {
+      id: string;
+      alertId: string;
+    };
+  } & DailySchemaType;
 };
 
-export const DailyForm = ({ setAlertType }: DailyFormProps) => {
+export const DailyForm = ({ setAlertType, initialValue }: DailyFormProps) => {
   const {
     control,
     handleSubmit,
@@ -70,7 +80,10 @@ export const DailyForm = ({ setAlertType }: DailyFormProps) => {
             isRequired
             isInvalid={!!errors.trigger?.alertType?.message}
             onValueChange={(value) => {
-              setAlertType(value);
+              if (!!setAlertType) {
+                setAlertType(value);
+              }
+
               onChange(value);
             }}
             onClose={onBlur}
@@ -116,7 +129,13 @@ export const DailyForm = ({ setAlertType }: DailyFormProps) => {
         <Controller
           control={control}
           name="trigger.hours"
-          render={({ field: { onChange, onBlur, value = "" } }) => {
+          render={({
+            field: {
+              onChange,
+              onBlur,
+              value = initialValue?.trigger.hours ?? "",
+            },
+          }) => {
             return (
               <FormControl
                 size="lg"
@@ -133,6 +152,7 @@ export const DailyForm = ({ setAlertType }: DailyFormProps) => {
                     value={value.toString()}
                     keyboardType="numeric"
                     textAlign="center"
+                    placeholder={String(initialValue?.trigger.hours ?? "00")}
                   />
                 </Input>
                 <FormControlHelper>
@@ -156,7 +176,13 @@ export const DailyForm = ({ setAlertType }: DailyFormProps) => {
         <Controller
           control={control}
           name="trigger.minutes"
-          render={({ field: { onChange, onBlur, value = "" } }) => {
+          render={({
+            field: {
+              onChange,
+              onBlur,
+              value = initialValue?.trigger.minutes ?? "00",
+            },
+          }) => {
             return (
               <FormControl
                 size="lg"
@@ -203,7 +229,9 @@ export const DailyForm = ({ setAlertType }: DailyFormProps) => {
       <Controller
         control={control}
         name="title"
-        render={({ field: { onChange, onBlur, value = "" } }) => (
+        render={({
+          field: { onChange, onBlur, value = initialValue?.title ?? "" },
+        }) => (
           <FormControl
             size="md"
             isDisabled={false}
@@ -217,7 +245,7 @@ export const DailyForm = ({ setAlertType }: DailyFormProps) => {
             <Input>
               <InputField
                 type="text"
-                placeholder="Dipirona"
+                placeholder={initialValue?.title ?? "Dipirona"}
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -236,7 +264,9 @@ export const DailyForm = ({ setAlertType }: DailyFormProps) => {
       <Controller
         control={control}
         name="subtitle"
-        render={({ field: { onChange, onBlur, value = "" } }) => (
+        render={({
+          field: { onChange, onBlur, value = initialValue?.subtitle ?? "" },
+        }) => (
           <FormControl
             size="md"
             isDisabled={false}
@@ -250,7 +280,7 @@ export const DailyForm = ({ setAlertType }: DailyFormProps) => {
             <Input>
               <InputField
                 type="text"
-                placeholder="1 pill"
+                placeholder={initialValue?.subtitle ?? "1 pill"}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
@@ -274,7 +304,9 @@ export const DailyForm = ({ setAlertType }: DailyFormProps) => {
       <Controller
         control={control}
         name="body"
-        render={({ field: { onChange, onBlur, value = "" } }) => (
+        render={({
+          field: { onChange, onBlur, value = initialValue?.body ?? "" },
+        }) => (
           <FormControl
             size="md"
             isDisabled={false}
@@ -288,7 +320,7 @@ export const DailyForm = ({ setAlertType }: DailyFormProps) => {
             <Input>
               <InputField
                 type="text"
-                placeholder="Take before breakfast"
+                placeholder={initialValue?.body ?? "Take before breakfast"}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
@@ -319,7 +351,6 @@ export const DailyForm = ({ setAlertType }: DailyFormProps) => {
       >
         <ButtonText>{loading ? "Creating..." : "Scheluder Alert"}</ButtonText>
       </Button>
-      <Text>{`loading is : ${loading}`}</Text>
     </>
   );
 };

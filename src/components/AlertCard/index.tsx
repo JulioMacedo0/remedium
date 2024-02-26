@@ -15,7 +15,6 @@ export const AlertCard = ({ alert }: AlertCardProps) => {
     <View bgColor="#b6a3f5" p={12} rounded="$lg">
       <HStack alignItems="center" justifyContent="space-between">
         <Icon as={Pill} color="#fff" size="lg" />
-
         <Heading color="#fff">{alert.title}</Heading>
         <TouchableOpacity onPress={() => router.push("/edit-alert")}>
           <Icon as={FilePenLine} color="#fff" size="lg" />

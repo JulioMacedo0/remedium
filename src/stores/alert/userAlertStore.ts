@@ -23,14 +23,14 @@ type DayOfWeek =
 
 export type CreateAlertResponse = {
   id: string;
-  title: string;
-  subtitle: string;
-  body: string;
   createdAt: string;
   updatedAt: string;
   userId: string;
-  trigger: CreateTriggerResponse;
-};
+  trigger: {
+    id: string;
+    alertId: string;
+  };
+} & CreateAlertType;
 
 const DayOfWeek = {
   SUNDAY: "SUNDAY",
@@ -41,18 +41,6 @@ const DayOfWeek = {
   FRIDAY: "FRIDAY",
   SATURDAY: "SATURDAY",
 } as const;
-
-export type CreateTriggerResponse = {
-  id: string;
-  type: string;
-  alertId: string;
-  date?: Date;
-  last_alert: string;
-  hours: number;
-  minutes: number;
-  seconds?: number;
-  week: DayOfWeek[];
-};
 
 type userAlertStoreType = {
   alerts: CreateAlertResponse[];

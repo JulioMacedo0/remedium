@@ -45,8 +45,6 @@ export default function Add() {
   return (
     <KeyboardAvoidingView px={10} py={10} style={{ flex: 1, zIndex: 999 }}>
       <ScrollView>
-        <Text>{}</Text>
-
         {!alertType && (
           <Select onValueChange={setAlertType}>
             <SelectTrigger variant="rounded" size="md" px={10} py={8}>
