@@ -84,7 +84,8 @@ function RootLayoutNav() {
       <Stack.Screen
         name="edit-alert"
         options={{
-          presentation: "modal",
+          title: "Eddit your alert",
+          headerTitleAlign: "center",
         }}
       />
       <Stack.Screen
