@@ -43,7 +43,17 @@ import { Controller, useForm } from "react-hook-form";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 type DateFormProps = {
-  setAlertType: (value: string) => void;
+  setAlertType?: (value: string) => void;
+  initialValue?: {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    userId: string;
+    trigger: {
+      id: string;
+      alertId: string;
+    };
+  } & DateSchemaType;
 };
 
 export const DateForm = ({ setAlertType }: DateFormProps) => {
@@ -80,7 +90,10 @@ export const DateForm = ({ setAlertType }: DateFormProps) => {
             isRequired
             isInvalid={!!errors.trigger?.alertType?.message}
             onValueChange={(value) => {
-              setAlertType(value);
+              if (setAlertType) {
+                setAlertType(value);
+              }
+
               onChange(value);
             }}
             onClose={onBlur}

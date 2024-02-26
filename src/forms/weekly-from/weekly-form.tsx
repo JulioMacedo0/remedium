@@ -49,7 +49,17 @@ import { Controller, useForm } from "react-hook-form";
 import { useAlertStore } from "@/stores/alert/userAlertStore";
 
 type WeeklyFormProps = {
-  setAlertType: (value: string) => void;
+  setAlertType?: (value: string) => void;
+  initialValue?: {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    userId: string;
+    trigger: {
+      id: string;
+      alertId: string;
+    };
+  } & WeeklySchemaType;
 };
 
 export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
@@ -81,7 +91,10 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
             isRequired
             isInvalid={!!errors.trigger?.alertType?.message}
             onValueChange={(value) => {
-              setAlertType(value);
+              if (setAlertType) {
+                setAlertType(value);
+              }
+
               onChange(value);
             }}
             onClose={onBlur}

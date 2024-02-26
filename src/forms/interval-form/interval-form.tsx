@@ -36,7 +36,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 
 type IntervalFormProps = {
-  setAlertType: (value: string) => void;
+  setAlertType?: (value: string) => void;
+  initialValue?: {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    userId: string;
+    trigger: {
+      id: string;
+      alertId: string;
+    };
+  } & IntervalSchemaType;
 };
 
 export const IntervalForm = ({ setAlertType }: IntervalFormProps) => {
@@ -70,7 +80,10 @@ export const IntervalForm = ({ setAlertType }: IntervalFormProps) => {
             isRequired
             isInvalid={!!errors.trigger?.alertType?.message}
             onValueChange={(value) => {
-              setAlertType(value);
+              if (setAlertType) {
+                setAlertType(value);
+              }
+
               onChange(value);
             }}
             onClose={onBlur}
