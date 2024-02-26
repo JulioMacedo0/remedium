@@ -34,8 +34,10 @@ type UserType = {
 interface UseAuthStoreType {
   loading: boolean;
   authenticated: boolean;
+  authenticating: boolean;
   error: string;
   setAuthenticated: (value: boolean) => void;
+  setAuthenticating: (value: boolean) => void;
   signIn: (
     { email, password }: SignInRequest,
     succesCallBack: () => void
@@ -48,6 +50,7 @@ interface UseAuthStoreType {
 }
 
 export const useAuthStore = create<UseAuthStoreType>((set) => ({
+  authenticating: true,
   loading: false,
   authenticated: false,
   error: "",
@@ -58,6 +61,9 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
   },
   setAuthenticated: (value) => {
     set((state) => ({ ...state, authenticated: value }));
+  },
+  setAuthenticating: (value) => {
+    set((state) => ({ ...state, authenticating: value }));
   },
   signIn: async ({ email, password }, succesCallBack) => {
     set((state) => ({ ...state, loading: true }));
