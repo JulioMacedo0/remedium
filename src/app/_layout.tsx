@@ -9,6 +9,9 @@ import { config } from "@gluestack-ui/config";
 import { useEffect } from "react";
 import { storageService } from "@/services/storage/storageService";
 import { STORAGE_KEYS } from "@/services/storage/storegesKeys";
+import * as SplashScreen from "expo-splash-screen";
+
+// SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   return (
@@ -24,7 +27,8 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const { authenticated, setAuthenticated } = useAuthStore((set) => set);
+  const { authenticated, setAuthenticated, setAuthenticating, authenticating } =
+    useAuthStore((set) => set);
 
   const getToken = async () => {
     try {
@@ -35,7 +39,9 @@ function RootLayoutNav() {
       //     resolve(); // Resolvendo a Promise após a simulação da operação
       //   }, 6000); // 2 segundos de espera
       // });
+      console.log("token do krl", token);
       setAuthenticated(!!token);
+      setAuthenticating(false);
     } catch (error) {
       console.error("Erro ao obter o token:", error);
     }
@@ -49,33 +55,48 @@ function RootLayoutNav() {
   const router = useRouter();
   console.log("Current route:", segments);
 
-  useEffect(() => {
+  const initFirstScreenApp = async () => {
     const inTabsGroup = segments[0] === "(tabs)";
 
     console.log("is authenticated: ", authenticated);
 
-    if (authenticated && !inTabsGroup) {
+    if (authenticated && !inTabsGroup && !authenticating) {
       console.log("Replace route to home");
       router.replace("/home");
-    } else if (!authenticated) {
+      // await SplashScreen.hideAsync();
+    } else if (!authenticated && !authenticating) {
       console.log("Replace route to login");
       router.replace("/sign-in");
+      // await SplashScreen.hideAsync();
     }
-  }, [authenticated]);
+  };
+
+  useEffect(() => {
+    initFirstScreenApp();
+  }, [authenticated, authenticating]);
 
   return (
     <Stack screenOptions={{}}>
       <Stack.Screen
         name="(tabs)"
-        options={{ headerShown: false, animation: "fade_from_bottom" }}
+        options={{ headerShown: false, animation: "fade" }}
       />
-      <Stack.Screen name="edit-alert" />
+      <Stack.Screen
+        name="edit-alert"
+        options={{
+          presentation: "modal",
+        }}
+      />
       <Stack.Screen
         name="(auth)/sign-in"
-        options={{ headerShown: false, animation: "fade_from_bottom" }}
+        options={{ headerShown: false, animation: "slide_from_right" }}
       />
       <Stack.Screen
         name="(auth)/sign-up"
+        options={{ headerShown: false, animation: "fade_from_bottom" }}
+      />
+      <Stack.Screen
+        name="index"
         options={{ headerShown: false, animation: "fade_from_bottom" }}
       />
     </Stack>
