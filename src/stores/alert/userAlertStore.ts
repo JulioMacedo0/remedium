@@ -47,6 +47,7 @@ type userAlertStoreType = {
   loading: boolean;
   getAlerts: () => void;
   createAlerts: (alert: CreateAlertType, succesCallBack: () => void) => void;
+  updateAlerts: (alert: CreateAlertType, succesCallBack: () => void) => void;
 };
 
 export const useAlertStore = create<userAlertStoreType>((set) => ({
@@ -86,6 +87,35 @@ export const useAlertStore = create<userAlertStoreType>((set) => ({
       Toast.show({
         type: "success",
         text1: `Alert created`,
+      });
+      set((state) => ({
+        ...state,
+        alerts: [...state.alerts, createAlertResponse.data],
+        loading: false,
+      }));
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data?.message);
+        Toast.show({
+          type: "error",
+          text1: `${error.response?.data?.message}`,
+        });
+      }
+      set((state) => ({ ...state, loading: false }));
+    }
+  },
+  updateAlerts: async (alert, callBack) => {
+    try {
+      set((state) => ({ ...state, loading: true }));
+      const createAlertResponse = await client.post<CreateAlertResponse>(
+        "alerts",
+        alert
+      );
+
+      callBack();
+      Toast.show({
+        type: "success",
+        text1: `Alert updated`,
       });
       set((state) => ({
         ...state,
