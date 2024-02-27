@@ -32,8 +32,10 @@ import {
   VStack,
 } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRef } from "react";
 
 import { Controller, useForm } from "react-hook-form";
+import { TextInput } from "react-native";
 
 type DailyFormProps = {
   setAlertType?: (value: string) => void;
@@ -64,6 +66,11 @@ export const DailyForm = ({ setAlertType, initialValue }: DailyFormProps) => {
     resolver: zodResolver(dailySchema),
   });
 
+  const hourInputRef = useRef<TextInput | null>(null);
+  const minuteInputRef = useRef<TextInput | null>(null);
+  const remedyNameInputRef = useRef<TextInput | null>(null);
+  const DoseNameInputRef = useRef<TextInput | null>(null);
+  const insctructionsRef = useRef<TextInput | null>(null);
   const { loading, createAlerts } = useAlertStore();
 
   const onSubmit = async (data: DailySchemaType) => {
@@ -146,13 +153,24 @@ export const DailyForm = ({ setAlertType, initialValue }: DailyFormProps) => {
               >
                 <Input height={50} width={70}>
                   <InputField
+                    returnKeyType="next"
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => minuteInputRef.current?.focus()}
+                    ref={hourInputRef}
+                    maxLength={2}
                     type="text"
-                    onChangeText={(value) => onChange(Number(value))}
+                    onChangeText={(value) => {
+                      onChange(Number(value));
+
+                      if (value.length >= 2) {
+                        minuteInputRef.current?.focus();
+                      }
+                    }}
                     onBlur={onBlur}
                     value={value.toString()}
                     keyboardType="numeric"
                     textAlign="center"
-                    placeholder={String(initialValue?.trigger.hours ?? "00")}
+                    placeholder={initialValue?.trigger.hours.toString() ?? "00"}
                   />
                 </Input>
                 <FormControlHelper>
@@ -180,7 +198,7 @@ export const DailyForm = ({ setAlertType, initialValue }: DailyFormProps) => {
             field: {
               onChange,
               onBlur,
-              value = initialValue?.trigger.minutes ?? "00",
+              value = initialValue?.trigger.minutes ?? "",
             },
           }) => {
             return (
@@ -193,12 +211,25 @@ export const DailyForm = ({ setAlertType, initialValue }: DailyFormProps) => {
               >
                 <Input height={50} width={70}>
                   <InputField
+                    returnKeyType="next"
+                    ref={minuteInputRef}
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => remedyNameInputRef.current?.focus()}
+                    maxLength={2}
                     type="text"
-                    onChangeText={(value) => onChange(Number(value))}
+                    onChangeText={(value) => {
+                      onChange(Number(value));
+                      if (value.length == 0) {
+                        hourInputRef.current?.focus();
+                      } else if (value.length >= 2) {
+                        remedyNameInputRef.current?.focus();
+                      }
+                    }}
                     onBlur={onBlur}
                     value={value.toString()}
                     keyboardType="numeric"
                     textAlign="center"
+                    placeholder={String(initialValue?.trigger.minutes ?? "00")}
                   />
                 </Input>
                 <FormControlHelper>
@@ -244,6 +275,10 @@ export const DailyForm = ({ setAlertType, initialValue }: DailyFormProps) => {
             </FormControlLabel>
             <Input>
               <InputField
+                ref={remedyNameInputRef}
+                blurOnSubmit={false}
+                returnKeyType="next"
+                onSubmitEditing={() => DoseNameInputRef.current?.focus()}
                 type="text"
                 placeholder={initialValue?.title ?? "Dipirona"}
                 value={value}
@@ -279,6 +314,10 @@ export const DailyForm = ({ setAlertType, initialValue }: DailyFormProps) => {
             </FormControlLabel>
             <Input>
               <InputField
+                ref={DoseNameInputRef}
+                blurOnSubmit={false}
+                returnKeyType="next"
+                onSubmitEditing={() => insctructionsRef.current?.focus()}
                 type="text"
                 placeholder={initialValue?.subtitle ?? "1 pill"}
                 onChangeText={onChange}
@@ -319,6 +358,9 @@ export const DailyForm = ({ setAlertType, initialValue }: DailyFormProps) => {
             </FormControlLabel>
             <Input>
               <InputField
+                ref={insctructionsRef}
+                returnKeyType="done"
+                onSubmitEditing={handleSubmit(onSubmit)}
                 type="text"
                 placeholder={initialValue?.body ?? "Take before breakfast"}
                 onChangeText={onChange}
