@@ -30,13 +30,17 @@ export default function Add() {
   const renderForms = () => {
     switch (alertType) {
       case "INTERVAL":
-        return <IntervalForm setAlertType={ChangeAlertType} />;
+        return (
+          <IntervalForm setAlertType={ChangeAlertType} submitType="CREATE" />
+        );
       case "WEEKLY":
-        return <WeeklyForm setAlertType={ChangeAlertType} />;
+        return (
+          <WeeklyForm setAlertType={ChangeAlertType} submitType="CREATE" />
+        );
       case "DAILY":
-        return <DailyForm setAlertType={ChangeAlertType} />;
+        return <DailyForm setAlertType={ChangeAlertType} submitType="CREATE" />;
       case "DATE":
-        return <DateForm setAlertType={ChangeAlertType} />;
+        return <DateForm setAlertType={ChangeAlertType} submitType="CREATE" />;
       default:
         return <Text>Selecione um componente</Text>;
     }
