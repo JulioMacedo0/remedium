@@ -39,7 +39,6 @@ function RootLayoutNav() {
       //     resolve(); // Resolvendo a Promise após a simulação da operação
       //   }, 6000); // 2 segundos de espera
       // });
-      console.log("token do krl", token);
       setAuthenticated(!!token);
       setAuthenticating(false);
     } catch (error) {
