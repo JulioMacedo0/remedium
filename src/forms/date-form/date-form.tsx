@@ -1,29 +1,17 @@
-import {
-  DailySchemaType,
-  DateSchemaType,
-  dailySchema,
-  dateSchema,
-} from "@/schema";
+import { DateSchemaType, dateSchema } from "@/schema";
 import { useAlertStore } from "@/stores/alert/userAlertStore";
 import { MaterialIcons } from "@expo/vector-icons";
+import { format } from "date-fns";
 import {
-  Box,
   Button,
   ButtonText,
-  Divider,
   FormControl,
   FormControlError,
   FormControlErrorText,
-  FormControlHelper,
-  FormControlHelperText,
   FormControlLabel,
   FormControlLabelText,
-  HStack,
   Input,
   InputField,
-  Radio,
-  RadioGroup,
-  RadioLabel,
   Select,
   SelectBackdrop,
   SelectContent,
@@ -34,15 +22,17 @@ import {
   SelectPortal,
   SelectTrigger,
   Text,
-  VStack,
 } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import DatePicker from "react-native-date-picker";
 import { Controller, useForm } from "react-hook-form";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { TextInput } from "react-native";
 
 type DateFormProps = {
+  submitType: "CREATE" | "UPDATE";
+  alertId?: string;
   setAlertType?: (value: string) => void;
   initialValue?: {
     id: string;
@@ -56,7 +46,15 @@ type DateFormProps = {
   } & DateSchemaType;
 };
 
-export const DateForm = ({ setAlertType }: DateFormProps) => {
+export const DateForm = ({
+  setAlertType,
+  initialValue,
+  submitType,
+  alertId,
+}: DateFormProps) => {
+  const initialDate = new Date(
+    !!initialValue?.trigger.date ? initialValue?.trigger.date : Date.now()
+  );
   const {
     control,
     handleSubmit,
@@ -64,21 +62,37 @@ export const DateForm = ({ setAlertType }: DateFormProps) => {
     reset,
   } = useForm<DateSchemaType>({
     defaultValues: {
+      title: initialValue?.title,
+      subtitle: initialValue?.subtitle,
+      body: initialValue?.body,
       trigger: {
         alertType: "DATE",
+        date: initialDate,
       },
     },
     resolver: zodResolver(dateSchema),
   });
 
-  const { loading, createAlerts } = useAlertStore();
+  const { loading, createAlerts, updateAlerts } = useAlertStore();
 
   const onSubmit = async (data: DateSchemaType) => {
-    createAlerts(data, reset);
+    if (submitType == "CREATE") {
+      createAlerts(data, reset);
+    } else if (submitType == "UPDATE") {
+      if (!alertId) return;
+      updateAlerts(data, reset, alertId);
+    }
   };
+
+  const remedyNameInputRef = useRef<TextInput | null>(null);
+  const DoseNameInputRef = useRef<TextInput | null>(null);
+  const insctructionsRef = useRef<TextInput | null>(null);
 
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
+
+  const loadingText =
+    submitType == "CREATE" ? "Creating alert..." : "Updateing alert...";
 
   return (
     <>
@@ -157,6 +171,7 @@ export const DateForm = ({ setAlertType }: DateFormProps) => {
                 onChange(date);
                 setOpen(false);
                 setDate(date);
+                remedyNameInputRef.current?.focus();
               }}
               onCancel={() => {
                 setOpen(false);
@@ -168,8 +183,12 @@ export const DateForm = ({ setAlertType }: DateFormProps) => {
                 <InputField
                   editable={false}
                   type="text"
-                  placeholder="Date"
-                  value={value?.toString()}
+                  placeholder={
+                    !!initialValue?.trigger.date
+                      ? format(initialValue?.trigger.date, "Pp")
+                      : "Date"
+                  }
+                  value={format(value, "Pp")}
                   onChangeText={onChange}
                   onBlur={onBlur}
                 />
@@ -201,8 +220,12 @@ export const DateForm = ({ setAlertType }: DateFormProps) => {
             </FormControlLabel>
             <Input>
               <InputField
+                ref={remedyNameInputRef}
+                blurOnSubmit={false}
+                returnKeyType="next"
+                onSubmitEditing={() => DoseNameInputRef.current?.focus()}
                 type="text"
-                placeholder="Dipirona"
+                placeholder={initialValue?.title ?? "Dipirona"}
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -234,8 +257,12 @@ export const DateForm = ({ setAlertType }: DateFormProps) => {
             </FormControlLabel>
             <Input>
               <InputField
+                ref={DoseNameInputRef}
+                blurOnSubmit={false}
+                returnKeyType="next"
+                onSubmitEditing={() => insctructionsRef.current?.focus()}
                 type="text"
-                placeholder="1 pill"
+                placeholder={initialValue?.subtitle ?? "1 pill"}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
@@ -272,8 +299,11 @@ export const DateForm = ({ setAlertType }: DateFormProps) => {
             </FormControlLabel>
             <Input>
               <InputField
+                ref={insctructionsRef}
+                returnKeyType="done"
+                onSubmitEditing={handleSubmit(onSubmit)}
                 type="text"
-                placeholder="Take before breakfast"
+                placeholder={initialValue?.body ?? "Take before breakfast"}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
@@ -302,9 +332,8 @@ export const DateForm = ({ setAlertType }: DateFormProps) => {
         onPress={handleSubmit(onSubmit)}
         mt={8}
       >
-        <ButtonText>{loading ? "Creating..." : "Scheluder Alert"}</ButtonText>
+        <ButtonText>{loading ? loadingText : "Scheluder Alert"}</ButtonText>
       </Button>
-      <Text>{`loading is : ${loading}`}</Text>
     </>
   );
 };

@@ -47,8 +47,11 @@ import { useState, useRef } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Controller, useForm } from "react-hook-form";
 import { useAlertStore } from "@/stores/alert/userAlertStore";
+import { TextInput } from "react-native";
 
 type WeeklyFormProps = {
+  submitType: "CREATE" | "UPDATE";
+  alertId?: string;
   setAlertType?: (value: string) => void;
   initialValue?: {
     id: string;
@@ -62,7 +65,12 @@ type WeeklyFormProps = {
   } & WeeklySchemaType;
 };
 
-export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
+export const WeeklyForm = ({
+  setAlertType,
+  submitType,
+  alertId,
+  initialValue,
+}: WeeklyFormProps) => {
   const {
     control,
     handleSubmit,
@@ -70,16 +78,37 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
     reset,
   } = useForm<WeeklySchemaType>({
     defaultValues: {
+      title: initialValue?.title,
+      subtitle: initialValue?.subtitle,
+      body: initialValue?.body,
       trigger: {
         alertType: "WEEKLY",
+        hours: initialValue?.trigger.hours,
+        minutes: initialValue?.trigger.minutes,
+        week: initialValue?.trigger.week,
       },
     },
     resolver: zodResolver(weeklySchema),
   });
-  const { loading, createAlerts } = useAlertStore();
+  const { loading, createAlerts, updateAlerts } = useAlertStore();
+
+  const hourInputRef = useRef<TextInput | null>(null);
+  const minuteInputRef = useRef<TextInput | null>(null);
+  const remedyNameInputRef = useRef<TextInput | null>(null);
+  const DoseNameInputRef = useRef<TextInput | null>(null);
+  const insctructionsRef = useRef<TextInput | null>(null);
+
   const onSubmit = (data: WeeklySchemaType) => {
-    createAlerts(data, reset);
+    if (submitType == "CREATE") {
+      createAlerts(data, reset);
+    } else if (submitType == "UPDATE") {
+      if (!alertId) return;
+      updateAlerts(data, reset, alertId);
+    }
   };
+
+  const loadingText =
+    submitType == "CREATE" ? "Creating alert..." : "Updateing alert...";
 
   return (
     <>
@@ -355,12 +384,24 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
               >
                 <Input height={50} width={70}>
                   <InputField
+                    returnKeyType="next"
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => minuteInputRef.current?.focus()}
+                    ref={hourInputRef}
+                    maxLength={2}
                     type="text"
-                    onChangeText={(value) => onChange(Number(value))}
+                    onChangeText={(value) => {
+                      onChange(Number(value));
+
+                      if (value.length >= 2) {
+                        minuteInputRef.current?.focus();
+                      }
+                    }}
                     onBlur={onBlur}
                     value={value.toString()}
                     keyboardType="numeric"
                     textAlign="center"
+                    placeholder={initialValue?.trigger.hours.toString() ?? "00"}
                   />
                 </Input>
                 <FormControlHelper>
@@ -395,12 +436,25 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
               >
                 <Input height={50} width={70}>
                   <InputField
+                    returnKeyType="next"
+                    ref={minuteInputRef}
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => remedyNameInputRef.current?.focus()}
+                    maxLength={2}
                     type="text"
-                    onChangeText={(value) => onChange(Number(value))}
+                    onChangeText={(value) => {
+                      onChange(Number(value));
+                      if (value.length == 0) {
+                        hourInputRef.current?.focus();
+                      } else if (value.length >= 2) {
+                        remedyNameInputRef.current?.focus();
+                      }
+                    }}
                     onBlur={onBlur}
                     value={value.toString()}
                     keyboardType="numeric"
                     textAlign="center"
+                    placeholder={String(initialValue?.trigger.minutes ?? "00")}
                   />
                 </Input>
                 <FormControlHelper>
@@ -444,8 +498,12 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
             </FormControlLabel>
             <Input>
               <InputField
+                ref={remedyNameInputRef}
+                blurOnSubmit={false}
+                returnKeyType="next"
+                onSubmitEditing={() => DoseNameInputRef.current?.focus()}
                 type="text"
-                placeholder="Dipirona"
+                placeholder={initialValue?.title ?? "Dipirona"}
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -477,8 +535,12 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
             </FormControlLabel>
             <Input>
               <InputField
+                ref={DoseNameInputRef}
+                blurOnSubmit={false}
+                returnKeyType="next"
+                onSubmitEditing={() => insctructionsRef.current?.focus()}
                 type="text"
-                placeholder="1 pill"
+                placeholder={initialValue?.subtitle ?? "1 pill"}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
@@ -515,8 +577,11 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
             </FormControlLabel>
             <Input>
               <InputField
+                ref={insctructionsRef}
+                returnKeyType="done"
+                onSubmitEditing={handleSubmit(onSubmit)}
                 type="text"
-                placeholder="Take before breakfast"
+                placeholder={initialValue?.body ?? "Take before breakfast"}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
@@ -545,7 +610,7 @@ export const WeeklyForm = ({ setAlertType }: WeeklyFormProps) => {
         onPress={handleSubmit(onSubmit)}
         mt={8}
       >
-        <ButtonText>{loading ? "loading..." : "Scheluder Alert"}</ButtonText>
+        <ButtonText>{loading ? loadingText : "Scheluder Alert"}</ButtonText>
       </Button>
     </>
   );

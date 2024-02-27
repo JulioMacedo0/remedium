@@ -32,12 +32,15 @@ import {
   VStack,
 } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { useRef } from "react";
 
 import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native";
 
 type DailyFormProps = {
+  submitType: "CREATE" | "UPDATE";
+  alertId?: string;
   setAlertType?: (value: string) => void;
   initialValue?: {
     id: string;
@@ -51,7 +54,12 @@ type DailyFormProps = {
   } & DailySchemaType;
 };
 
-export const DailyForm = ({ setAlertType, initialValue }: DailyFormProps) => {
+export const DailyForm = ({
+  setAlertType,
+  initialValue,
+  submitType,
+  alertId,
+}: DailyFormProps) => {
   const {
     control,
     handleSubmit,
@@ -59,8 +67,13 @@ export const DailyForm = ({ setAlertType, initialValue }: DailyFormProps) => {
     reset,
   } = useForm<DailySchemaType>({
     defaultValues: {
+      title: initialValue?.title,
+      subtitle: initialValue?.subtitle,
+      body: initialValue?.body,
       trigger: {
         alertType: "DAILY",
+        hours: initialValue?.trigger.hours,
+        minutes: initialValue?.trigger.minutes,
       },
     },
     resolver: zodResolver(dailySchema),
@@ -71,11 +84,19 @@ export const DailyForm = ({ setAlertType, initialValue }: DailyFormProps) => {
   const remedyNameInputRef = useRef<TextInput | null>(null);
   const DoseNameInputRef = useRef<TextInput | null>(null);
   const insctructionsRef = useRef<TextInput | null>(null);
-  const { loading, createAlerts } = useAlertStore();
+  const { loading, createAlerts, updateAlerts } = useAlertStore();
 
   const onSubmit = async (data: DailySchemaType) => {
-    createAlerts(data, reset);
+    if (submitType == "CREATE") {
+      createAlerts(data, reset);
+    } else if (submitType == "UPDATE") {
+      if (!alertId) return;
+      updateAlerts(data, reset, alertId);
+    }
   };
+
+  const loadingText =
+    submitType == "CREATE" ? "Creating alert..." : "Updateing alert...";
 
   return (
     <>
@@ -391,7 +412,7 @@ export const DailyForm = ({ setAlertType, initialValue }: DailyFormProps) => {
         onPress={handleSubmit(onSubmit)}
         mt={8}
       >
-        <ButtonText>{loading ? "Creating..." : "Scheluder Alert"}</ButtonText>
+        <ButtonText>{loading ? loadingText : "Scheluder Alert"}</ButtonText>
       </Button>
     </>
   );
