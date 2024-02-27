@@ -3,6 +3,7 @@ import { create } from "zustand";
 import Toast from "react-native-toast-message";
 import { client } from "@/services/http/httpClient";
 import { CreateAlertType } from "@/schema";
+import { router } from "expo-router";
 type DayOfWeek =
   | "SUNDAY"
   | "MONDAY"
@@ -47,7 +48,11 @@ type userAlertStoreType = {
   loading: boolean;
   getAlerts: () => void;
   createAlerts: (alert: CreateAlertType, succesCallBack: () => void) => void;
-  updateAlerts: (alert: CreateAlertType, succesCallBack: () => void) => void;
+  updateAlerts: (
+    alert: CreateAlertType,
+    succesCallBack: () => void,
+    alertId: string
+  ) => void;
 };
 
 export const useAlertStore = create<userAlertStoreType>((set) => ({
@@ -104,22 +109,31 @@ export const useAlertStore = create<userAlertStoreType>((set) => ({
       set((state) => ({ ...state, loading: false }));
     }
   },
-  updateAlerts: async (alert, callBack) => {
+  updateAlerts: async (alert, callBack, alertId) => {
     try {
       set((state) => ({ ...state, loading: true }));
-      const createAlertResponse = await client.post<CreateAlertResponse>(
-        "alerts",
+      const updateAlertResponse = await client.patch<CreateAlertResponse>(
+        `alerts/${alertId}`,
         alert
       );
 
       callBack();
+      router.back();
       Toast.show({
         type: "success",
         text1: `Alert updated`,
       });
       set((state) => ({
         ...state,
-        alerts: [...state.alerts, createAlertResponse.data],
+        alerts: [
+          ...state.alerts.map((alert) => {
+            if (alert.id == updateAlertResponse.data.id) {
+              return updateAlertResponse.data;
+            } else {
+              return alert;
+            }
+          }),
+        ],
         loading: false,
       }));
     } catch (error) {
@@ -130,7 +144,6 @@ export const useAlertStore = create<userAlertStoreType>((set) => ({
           text1: `${error.response?.data?.message}`,
         });
       }
-      set((state) => ({ ...state, loading: false }));
     }
   },
 }));
