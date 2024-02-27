@@ -13,17 +13,39 @@ export default function EditAlert() {
   const renderForms = () => {
     const selectedAlert = alerts.find((alert) => alert.id == id);
 
-    console.log("id poggers", id);
-    console.log("console porra", selectedAlert);
     switch (selectedAlert?.trigger.alertType) {
       case "INTERVAL":
-        return <IntervalForm initialValue={selectedAlert} />;
+        return (
+          <IntervalForm
+            initialValue={selectedAlert}
+            alertId={id}
+            submitType="UPDATE"
+          />
+        );
       case "WEEKLY":
-        return <WeeklyForm initialValue={selectedAlert} />;
+        return (
+          <WeeklyForm
+            initialValue={selectedAlert}
+            alertId={id}
+            submitType="UPDATE"
+          />
+        );
       case "DAILY":
-        return <DailyForm initialValue={selectedAlert} />;
+        return (
+          <DailyForm
+            initialValue={selectedAlert}
+            alertId={id}
+            submitType="UPDATE"
+          />
+        );
       case "DATE":
-        return <DateForm initialValue={selectedAlert} />;
+        return (
+          <DateForm
+            initialValue={selectedAlert}
+            alertId={id}
+            submitType="UPDATE"
+          />
+        );
       default:
         return (
           <Text>Ops, ocorreu um erro, seu alerta não foi encontrado.</Text>
