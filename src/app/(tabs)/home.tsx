@@ -1,0 +1,70 @@
+import { StyleSheet, FlatList } from "react-native";
+import { View, ThemedStatusBar } from "@/components";
+import { useEffect, useState } from "react";
+import * as Notifications from "expo-notifications";
+
+import { PermissionModal } from "@/components/Modal/permissionModal";
+import { useNotification } from "@/context";
+import { useAlertStore } from "@/stores/alert/userAlertStore";
+import { AlertCard } from "@/components/AlertCard";
+
+export default function Home() {
+  console.log("HOME tabs render");
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const { getAlerts, alerts, loading } = useAlertStore((set) => set);
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  useEffect(() => {
+    getAlerts();
+    (async function () {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      console.log("1", finalStatus);
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+        console.log("2", finalStatus);
+      }
+      if (finalStatus !== "granted") {
+        setModalVisible(true);
+        return;
+      }
+    })();
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      <ThemedStatusBar />
+      <FlatList
+        ListHeaderComponent={<View style={{ height: 15 }} />}
+        ListFooterComponent={<View style={{ height: 15 }} />}
+        style={{
+          flex: 1,
+          width: "90%",
+        }}
+        data={alerts}
+        renderItem={({ item }) => <AlertCard alert={item} />}
+        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+      />
+      <PermissionModal
+        onRequestClose={() => closeModal()}
+        visible={modalVisible}
+        animationType="fade"
+        transparent
+        statusBarTranslucent
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+  },
+});

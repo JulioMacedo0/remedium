@@ -1,0 +1,50 @@
+{
+  "HOME": {},
+
+  "ADD": {
+    "TITLEPAGE": "Adicionar",
+    "FREQUENCY": "Frequencia",
+    "WEEK": "Semana",
+    "FREQUENCYDROPDOWN": {
+      "PLACEHOLDER": "Qual Frequencia?",
+      "INTERVAL": "Intervalo",
+      "DAILY": "Diário",
+      "WEEKLY": "Semanal",
+      "ONETIME": "Uma vez",
+      "DAY": "Dia"
+    },
+    "WEEKDROPDOWN": {
+      "PLACEHOLDER": "Qual semana?",
+      "SUNDAY": "Domingo",
+      "MONDAY": "Segunda-feira",
+      "TUESDAY": "Terça-feira",
+      "WEDNESDAY": "Quarta-feira",
+      "THURSDAY": "Quinta-feira",
+      "FRIDAY": "Sexta-feira",
+      "SATURDAY": "Sábado"
+    },
+    "TIME": "Hora",
+    "REMEDYNAME": "Nome do remédio",
+    "DOSE": "Dosagem",
+    "INSTRUCTIONS": {
+      "TITLEINPUT": "Instruções",
+      "PLACEHOLDER": "Tomar em jejum"
+    },
+    "SCHEDULER": "Agendar"
+  },
+
+  "SETTINGS": {
+    "TITLEPAGE": "Configurações",
+    "THEME": "Tema",
+    "AUTOMATIC": "Automático",
+    "LIGHT": "Claro",
+    "DARK": "Escuro",
+    "LANGUAGE": "Idioma",
+    "APPLANGUAGE": "Idioma do Aplicativo",
+    "BOTTOMSHEET": {
+      "APPLANGUAGE": "Idioma do Aplicativo",
+      "EN": "Inglês",
+      "PT": "Português"
+    }
+  }
+}
