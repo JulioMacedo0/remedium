@@ -102,7 +102,7 @@ export default function Config() {
         <GestureDetector gesture={panLight}>
           <RadioItem
             icon={
-              <Ionicons name="md-sunny" size={23} color={Colors[theme].text} />
+              <Ionicons name="sunny" size={23} color={Colors[theme].text} />
             }
             text={i18n.t("SETTINGS.LIGHT")}
             isSelected={selectedtheme == "light"}

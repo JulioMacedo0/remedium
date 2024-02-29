@@ -27,7 +27,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
 import DatePicker from "react-native-date-picker";
 import { Controller, useForm } from "react-hook-form";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import { TextInput } from "react-native";
 
 type DateFormProps = {

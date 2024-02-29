@@ -50,10 +50,10 @@ export function ThemeProvider(props: ProviderProps) {
     setSelectedTheme(theme);
 
     try {
-      console.log("changeTheme");
+      console.log(`changeTheme; x:${x} y:${y}`);
       await storageService.setItem("theme", theme);
     } catch (e) {
-      console.log(e, "test");
+      console.log(e, "Error in save new theme");
     }
   };
 

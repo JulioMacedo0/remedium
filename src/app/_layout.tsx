@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { storageService } from "@/services/storage/storageService";
 import { STORAGE_KEYS } from "@/services/storage/storegesKeys";
 import * as SplashScreen from "expo-splash-screen";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // SplashScreen.preventAutoHideAsync();
 
@@ -18,7 +19,9 @@ export default function RootLayout() {
     <ThemeProvider>
       <GluestackUIProvider config={config}>
         <I18nProvider>
-          <RootLayoutNav />
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <RootLayoutNav />
+          </GestureHandlerRootView>
           <Toast position="bottom" bottomOffset={20} />
         </I18nProvider>
       </GluestackUIProvider>
@@ -93,7 +96,7 @@ function RootLayoutNav() {
       />
       <Stack.Screen
         name="(auth)/sign-up"
-        options={{ headerShown: false, animation: "fade_from_bottom" }}
+        options={{ headerShown: false, animation: "slide_from_left" }}
       />
       <Stack.Screen
         name="index"
