@@ -4,6 +4,7 @@ import Toast from "react-native-toast-message";
 import { client } from "@/services/http/httpClient";
 import { CreateAlertType } from "@/schema";
 import { router } from "expo-router";
+import { Try } from "expo-router/build/views/Try";
 type DayOfWeek =
   | "SUNDAY"
   | "MONDAY"
@@ -53,6 +54,7 @@ type userAlertStoreType = {
     succesCallBack: () => void,
     alertId: string
   ) => void;
+  deleteAlert: (alertId: string) => void;
 };
 
 export const useAlertStore = create<userAlertStoreType>((set) => ({
@@ -133,6 +135,37 @@ export const useAlertStore = create<userAlertStoreType>((set) => ({
               return alert;
             }
           }),
+        ],
+        loading: false,
+      }));
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data?.message);
+        Toast.show({
+          type: "error",
+          text1: `${error.response?.data?.message}`,
+        });
+      }
+    }
+  },
+  deleteAlert: async (alertId) => {
+    set((state) => ({ ...state, loading: true }));
+    try {
+      const deleteAlertResponse = await client.delete<
+        Omit<CreateAlertResponse, "trigger">
+      >(`alerts/${alertId}`);
+
+      Toast.show({
+        type: "success",
+        text1: `Alert deleted`,
+      });
+
+      set((state) => ({
+        ...state,
+        alerts: [
+          ...state.alerts.filter(
+            (alert) => alert.id != deleteAlertResponse.data.id
+          ),
         ],
         loading: false,
       }));

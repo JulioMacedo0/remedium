@@ -41,8 +41,6 @@ export default function Add() {
         return <DailyForm setAlertType={ChangeAlertType} submitType="CREATE" />;
       case "DATE":
         return <DateForm setAlertType={ChangeAlertType} submitType="CREATE" />;
-      default:
-        return <Text>Selecione um componente</Text>;
     }
   };
 
