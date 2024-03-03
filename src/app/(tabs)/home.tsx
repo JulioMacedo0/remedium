@@ -1,22 +1,33 @@
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, Linking } from "react-native";
 import { View, ThemedStatusBar } from "@/components";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as Notifications from "expo-notifications";
 
 import { PermissionModal } from "@/components/Modal/permissionModal";
 import { useNotification } from "@/context";
 import { useAlertStore } from "@/stores/alert/userAlertStore";
 import { AlertCard } from "@/components/AlertCard";
-
+import {
+  Button,
+  ButtonText,
+  Heading,
+  Icon,
+  ModalBackdrop,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Modal,
+  Text,
+} from "@gluestack-ui/themed";
+import { XIcon } from "lucide-react-native";
 export default function Home() {
-  console.log("HOME tabs render");
-  const [modalVisible, setModalVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  console.log(showModal);
+  const ref = useRef(null);
 
   const { getAlerts, alerts, loading } = useAlertStore((set) => set);
-
-  const closeModal = () => {
-    setModalVisible(false);
-  };
 
   useEffect(() => {
     getAlerts();
@@ -31,7 +42,7 @@ export default function Home() {
         console.log("2", finalStatus);
       }
       if (finalStatus !== "granted") {
-        setModalVisible(true);
+        setShowModal(true);
         return;
       }
     })();
@@ -51,13 +62,55 @@ export default function Home() {
         renderItem={({ item }) => <AlertCard alert={item} />}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       />
-      <PermissionModal
-        onRequestClose={() => closeModal()}
-        visible={modalVisible}
-        animationType="fade"
-        transparent
-        statusBarTranslucent
-      />
+      <Modal
+        isOpen={showModal}
+        onClose={() => {
+          setShowModal(false);
+        }}
+        finalFocusRef={ref}
+      >
+        <ModalBackdrop />
+        <ModalContent>
+          <ModalHeader alignItems="flex-start">
+            <Heading textAlign="center" size="md">
+              Your notifications are turned off
+            </Heading>
+            <ModalCloseButton>
+              <Icon as={XIcon} />
+            </ModalCloseButton>
+          </ModalHeader>
+          <ModalBody>
+            <Text textAlign="center">
+              For the app to work properly, you need to enable app notifications
+              on your device.
+            </Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              variant="outline"
+              size="sm"
+              action="secondary"
+              mr="$3"
+              onPress={() => {
+                setShowModal(false);
+              }}
+            >
+              <ButtonText>Cancel</ButtonText>
+            </Button>
+            <Button
+              size="sm"
+              action="positive"
+              borderWidth="$0"
+              onPress={() => {
+                setShowModal(false);
+                Linking.openSettings();
+              }}
+            >
+              <ButtonText>Go to settings</ButtonText>
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </View>
   );
 }
