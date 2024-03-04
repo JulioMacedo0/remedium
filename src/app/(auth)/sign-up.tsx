@@ -184,6 +184,7 @@ const SignUp = () => {
             isDisabled={false}
             isFocusVisible={false}
             onPress={handleSubmit(onSubmit)}
+            mt={20}
           >
             <ButtonText>{loading ? "Loading..." : "sig up"}</ButtonText>
           </Button>
