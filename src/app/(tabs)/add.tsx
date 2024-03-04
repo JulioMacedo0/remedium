@@ -41,6 +41,8 @@ export default function Add() {
         return <DailyForm setAlertType={ChangeAlertType} submitType="CREATE" />;
       case "DATE":
         return <DateForm setAlertType={ChangeAlertType} submitType="CREATE" />;
+      default:
+        return <Text>test</Text>;
     }
   };
 
@@ -48,7 +50,7 @@ export default function Add() {
     <KeyboardAvoidingView px={10} py={10} style={{ flex: 1, zIndex: 999 }}>
       <ScrollView>
         {!alertType && (
-          <Select onValueChange={setAlertType}>
+          <Select onValueChange={setAlertType} mt={20}>
             <SelectTrigger variant="rounded" size="md" px={10} py={8}>
               <SelectInput placeholder="Hows frequency?" />
               <MaterialIcons
@@ -79,14 +81,3 @@ export default function Add() {
     </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-
-  title: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});
