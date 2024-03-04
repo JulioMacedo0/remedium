@@ -15,7 +15,9 @@ import {
 } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "expo-router";
+import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
 const SignIn = () => {
@@ -43,6 +45,9 @@ const SignIn = () => {
   } = useForm<SignInSchemaType>({
     resolver: zodResolver(signInSchema),
   });
+
+  const emailInputRef = useRef<TextInput | null>(null);
+  const passwordInputRef = useRef<TextInput | null>(null);
 
   const { loading, signIn } = useAuthStore();
 
@@ -73,9 +78,12 @@ const SignIn = () => {
                 </FormControlLabel>
                 <Input>
                   <InputField
+                    ref={emailInputRef}
+                    returnKeyType="next"
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => passwordInputRef.current?.focus()}
                     type="text"
                     placeholder="Put your email"
-                    returnKeyType="send"
                     onChangeText={onChange}
                     onBlur={onBlur}
                     value={value}
@@ -106,9 +114,11 @@ const SignIn = () => {
                 </FormControlLabel>
                 <Input>
                   <InputField
+                    ref={passwordInputRef}
+                    blurOnSubmit={false}
                     type="password"
                     placeholder="Put your password"
-                    returnKeyType="next"
+                    returnKeyType="done"
                     onChangeText={onChange}
                     onBlur={onBlur}
                     value={value}

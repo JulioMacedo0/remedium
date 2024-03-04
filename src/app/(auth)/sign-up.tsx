@@ -14,8 +14,10 @@ import {
   ScrollView,
 } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
 const SignUp = () => {
@@ -49,8 +51,17 @@ const SignUp = () => {
 
   const { loading, signUp } = useAuthStore();
 
+  const nameInputRef = useRef<TextInput | null>(null);
+  const emailInputRef = useRef<TextInput | null>(null);
+  const passwordInputRef = useRef<TextInput | null>(null);
+
+  const succesCallback = () => {
+    reset();
+    router.replace("/(auth)/sign-in");
+  };
+
   const onSubmit = async (data: SignUpSchemaType) => {
-    signUp(data, reset);
+    signUp(data, succesCallback);
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -75,9 +86,12 @@ const SignUp = () => {
                 </FormControlLabel>
                 <Input>
                   <InputField
+                    ref={nameInputRef}
+                    returnKeyType="next"
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => emailInputRef.current?.focus()}
                     type="text"
                     placeholder="Put your name"
-                    returnKeyType="send"
                     onChangeText={onChange}
                     onBlur={onBlur}
                     value={value}
@@ -107,9 +121,12 @@ const SignUp = () => {
                 </FormControlLabel>
                 <Input>
                   <InputField
+                    ref={emailInputRef}
+                    returnKeyType="next"
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => passwordInputRef.current?.focus()}
                     type="text"
                     placeholder="Put your email"
-                    returnKeyType="send"
                     onChangeText={onChange}
                     onBlur={onBlur}
                     value={value}
@@ -140,9 +157,11 @@ const SignUp = () => {
                 </FormControlLabel>
                 <Input>
                   <InputField
+                    ref={passwordInputRef}
+                    returnKeyType="done"
+                    blurOnSubmit={false}
                     type="password"
                     placeholder="Put your password"
-                    returnKeyType="next"
                     onChangeText={onChange}
                     onBlur={onBlur}
                     value={value}
