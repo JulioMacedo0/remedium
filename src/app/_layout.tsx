@@ -11,6 +11,8 @@ import { storageService } from "@/services/storage/storageService";
 import { STORAGE_KEYS } from "@/services/storage/storegesKeys";
 import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { client } from "@/services/http/httpClient";
+import { AxiosError } from "axios";
 
 // SplashScreen.preventAutoHideAsync();
 
@@ -51,6 +53,24 @@ function RootLayoutNav() {
 
   useEffect(() => {
     getToken();
+
+    client.interceptors.response.use(
+      function (response) {
+        // Any status code that lie within the range of 2xx cause this function to trigger
+        // Do something with response data
+        return response;
+      },
+      async function (error) {
+        if (error instanceof AxiosError) {
+          if (error.response?.status == 401) {
+            await storageService.removeItem(STORAGE_KEYS.TOKEN);
+            // router.replace("/sign-in");
+            setAuthenticated(false);
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
   }, []);
 
   const segments = useSegments();
@@ -92,11 +112,11 @@ function RootLayoutNav() {
       />
       <Stack.Screen
         name="(auth)/sign-in"
-        options={{ headerShown: false, animation: "slide_from_right" }}
+        options={{ headerShown: false, animation: "slide_from_left" }}
       />
       <Stack.Screen
         name="(auth)/sign-up"
-        options={{ headerShown: false, animation: "slide_from_left" }}
+        options={{ headerShown: false, animation: "slide_from_right" }}
       />
       <Stack.Screen
         name="index"
