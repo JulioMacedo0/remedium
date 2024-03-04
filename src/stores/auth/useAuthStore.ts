@@ -47,6 +47,7 @@ interface UseAuthStoreType {
     succesCallBack: () => void
   ) => Promise<number | undefined>;
   logout: () => Promise<void>;
+  updateExpoToken: () => Promise<void>;
 }
 
 export const useAuthStore = create<UseAuthStoreType>((set) => ({
@@ -127,15 +128,31 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
           type: "error",
           text1: error.response?.data.message[0],
         });
-        set(() => ({ loading: false }));
       }
-      Toast.show({
-        type: "error",
-        text1: "Unknown error",
-        text2: `${error}`,
-      });
+
       console.log(error);
       set(() => ({ loading: false }));
+    }
+  },
+  updateExpoToken: async () => {
+    try {
+      const expo_token = (
+        await Notifications.getExpoPushTokenAsync({
+          projectId: "0e830c18-6f43-4321-9330-c85a1c4acdb0",
+        })
+      ).data;
+
+      const signUpResponse = await client.patch<SignUpResponse>("users", {
+        expo_token,
+      });
+    } catch (error) {
+      if (isAxiosError(error)) {
+        // Toast.show({
+        //   type: "error",
+        //   text1: error.response?.data.message[0],
+        // });
+      }
+      console.log(error);
     }
   },
 }));
