@@ -5,6 +5,7 @@ import { useI18n, useTheme } from "@/context";
 import { useThemeColor } from "@/hooks";
 import { Colors } from "@/constants";
 import { useEffect, useRef } from "react";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -19,12 +20,14 @@ function TabBarIcon(props: {
 export default function TabLayout() {
   const { i18n } = useI18n();
   const { theme } = useTheme();
+  const { updateExpoToken } = useAuthStore();
 
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
       shouldPlaySound: true,
       shouldSetBadge: false,
+      priority: Notifications.AndroidNotificationPriority.HIGH,
     }),
   });
 
@@ -32,39 +35,15 @@ export default function TabLayout() {
   const responseListener = useRef<Notifications.Subscription | null>(null);
 
   useEffect(() => {
+    updateExpoToken();
+
     notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        const timestamp = Date.now();
-
-        const data = new Date(timestamp);
-
-        const dia = data.getDate();
-        const mes = data.getMonth() + 1;
-        const ano = data.getFullYear();
-        const hora = data.getHours().toString().padStart(2, "0");
-        const minutos = data.getMinutes().toString().padStart(2, "0");
-        const segundos = data.getSeconds().toString().padStart(2, "0");
-
-        const dataFormatada = `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`;
-        console.log("RECIVED LISTERNER", dataFormatada);
-      });
+      Notifications.addNotificationReceivedListener(async (notification) => {});
 
     responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        const timestamp = Date.now();
-
-        const data = new Date(timestamp);
-
-        const dia = data.getDate();
-        const mes = data.getMonth() + 1;
-        const ano = data.getFullYear();
-        const hora = data.getHours().toString().padStart(2, "0");
-        const minutos = data.getMinutes().toString().padStart(2, "0");
-        const segundos = data.getSeconds().toString().padStart(2, "0");
-
-        const dataFormatada = `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`;
-        console.log("RESPONSE LISTERNER", dataFormatada);
-      });
+      Notifications.addNotificationResponseReceivedListener(
+        async (response) => {}
+      );
 
     return () => {
       Notifications.removeNotificationSubscription(
