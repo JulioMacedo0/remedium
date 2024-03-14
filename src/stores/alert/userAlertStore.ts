@@ -54,7 +54,7 @@ type userAlertStoreType = {
     succesCallBack: () => void,
     alertId: string
   ) => void;
-  deleteAlert: (alertId: string) => void;
+  deleteAlert: (alertId: string) => Promise<void>;
 };
 
 export const useAlertStore = create<userAlertStoreType>((set) => ({
