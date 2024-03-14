@@ -19,29 +19,28 @@ export const AlertCard = ({ alert }: AlertCardProps) => {
   const { deleteAlert } = useAlertStore((set) => set);
   return (
     <View bgColor="#b6a3f5" p={12} rounded="$lg">
-      <HStack alignItems="center" justifyContent="space-between">
-        <Icon as={Pill} color="#fff" size="lg" />
-        <Heading color="#fff">{alert.title}</Heading>
+      <TouchableOpacity
+        onPress={() => {
+          router.push(`/edit-alert?id=${alert.id}`);
+        }}
+      >
+        <HStack alignItems="center" justifyContent="space-between">
+          <Icon as={Pill} color="#fff" size="lg" />
+          <Heading color="#fff">{alert.title}</Heading>
 
-        <View>
-          <HStack space="sm">
-            <TouchableOpacity
-              onPress={() => {
-                router.push(`/edit-alert?id=${alert.id}`);
-              }}
-            >
-              <Icon as={FilePenLine} color="#fff" size="lg" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                deleteAlert(alert.id);
-              }}
-            >
-              <Icon as={Trash2Icon} color="$red400" size="lg" />
-            </TouchableOpacity>
-          </HStack>
-        </View>
-      </HStack>
+          <View>
+            <HStack space="sm">
+              <TouchableOpacity
+                onPress={async () => {
+                  await deleteAlert(alert.id);
+                }}
+              >
+                <Icon as={Trash2Icon} color="$red400" size="lg" />
+              </TouchableOpacity>
+            </HStack>
+          </View>
+        </HStack>
+      </TouchableOpacity>
     </View>
   );
 };
