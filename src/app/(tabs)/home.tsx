@@ -59,7 +59,9 @@ export default function Home() {
           width: "90%",
         }}
         data={alerts}
-        renderItem={({ item }) => <AlertCard alert={item} />}
+        renderItem={({ item, index }) => (
+          <AlertCard alert={item} index={index} />
+        )}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       />
       <Modal
