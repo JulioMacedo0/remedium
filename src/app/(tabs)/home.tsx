@@ -71,7 +71,6 @@ export default function Home() {
           renderItem={({ item, index }) => (
             <AlertCard alert={item} index={index} />
           )}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         />
       </View>
 
