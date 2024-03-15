@@ -27,14 +27,42 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
 
   const fade = useSharedValue(0);
   const scale = useSharedValue(0);
+  const height = useSharedValue(55);
+  const padding = useSharedValue(12);
+  const mb = useSharedValue(8);
 
   useEffect(() => {
     fade.value = withDelay(index * 120, withTiming(1));
     scale.value = withDelay(index * 120, withTiming(1));
   }, []);
 
+  const animatedToRemove = () => {
+    scale.value = withTiming(0);
+    height.value = withTiming(0);
+    padding.value = withTiming(0);
+    mb.value = withTiming(0);
+    fade.value = withTiming(0);
+  };
+
+  const animatedToAdd = () => {
+    scale.value = withTiming(1);
+    height.value = withTiming(1);
+    padding.value = withTiming(12);
+    mb.value = withTiming(8);
+    fade.value = withTiming(1);
+  };
+
   const style = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
+    opacity: fade.value,
+    height: height.value,
+    padding: padding.value,
+    backgroundColor: "#b6a3f5",
+    borderRadius: 12,
+    marginBottom: mb.value,
+  }));
+
+  const iconContainer = useAnimatedStyle(() => ({
     opacity: fade.value,
   }));
 
@@ -42,31 +70,39 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
 
   return (
     <Animated.View style={style}>
-      <View bgColor="#b6a3f5" p={12} rounded="$lg">
-        <TouchableOpacity
-          activeOpacity={0.6}
-          onPress={() => {
-            router.push(`/edit-alert?id=${alert.id}`);
-          }}
-        >
-          <HStack alignItems="center" justifyContent="space-between">
+      <TouchableOpacity
+        activeOpacity={0.6}
+        onPress={() => {
+          router.push(`/edit-alert?id=${alert.id}`);
+        }}
+      >
+        <HStack alignItems="center" justifyContent="space-between">
+          <Animated.View style={iconContainer}>
             <Icon as={Pill} color="#fff" size="lg" />
-            <Heading color="#fff">{alert.title}</Heading>
+          </Animated.View>
 
-            <View>
-              <HStack space="sm">
-                <TouchableOpacity
-                  onPress={async () => {
+          <Heading color="#fff">{alert.title}</Heading>
+
+          <View>
+            <HStack space="sm">
+              <TouchableOpacity
+                onPress={async () => {
+                  try {
+                    animatedToRemove();
                     await deleteAlert(alert.id);
-                  }}
-                >
+                  } catch (error) {
+                    animatedToAdd();
+                  }
+                }}
+              >
+                <Animated.View style={iconContainer}>
                   <Icon as={Trash2Icon} color="$red600" size="lg" />
-                </TouchableOpacity>
-              </HStack>
-            </View>
-          </HStack>
-        </TouchableOpacity>
-      </View>
+                </Animated.View>
+              </TouchableOpacity>
+            </HStack>
+          </View>
+        </HStack>
+      </TouchableOpacity>
     </Animated.View>
   );
 };
