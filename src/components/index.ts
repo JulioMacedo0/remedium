@@ -7,6 +7,6 @@ export * from "@components/Text";
 export * from "@components/View";
 export * from "@components/InputSection";
 export * from "@components/ThemedStatusBar";
-export * from "@components/AlertCard";
+export * from "@/components/alert-card";
 export * from "@components/DropdownItem";
 export * from "@components/TextInput";

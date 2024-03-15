@@ -1,10 +1,10 @@
 import { Linking } from "react-native";
-import { ThemedStatusBar } from "@/components";
+import { AlertCard, ThemedStatusBar } from "@/components";
 import { useEffect, useRef, useState } from "react";
 import * as Notifications from "expo-notifications";
 import { FlashList } from "@shopify/flash-list";
 import { useAlertStore } from "@/stores/alert/userAlertStore";
-import { AlertCard } from "@/components/AlertCard";
+
 import {
   Button,
   ButtonText,
