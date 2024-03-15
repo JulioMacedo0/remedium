@@ -50,7 +50,7 @@ export const useI18n = () => {
   const i18nContext = useContext(I18nContext);
 
   if (!i18nContext) {
-    throw new Error("useTheme must be used within an I18nContexttProvider");
+    throw new Error("useI18n must be used within an I18nContexttProvider");
   }
 
   return i18nContext;
