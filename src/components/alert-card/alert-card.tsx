@@ -1,4 +1,4 @@
-import { useTheme } from "@/context";
+import Toast from "react-native-toast-message";
 import {
   CreateAlertResponse,
   useAlertStore,
@@ -46,7 +46,7 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
 
   const animatedToAdd = () => {
     scale.value = withTiming(1);
-    height.value = withTiming(1);
+    height.value = withTiming(55);
     padding.value = withTiming(12);
     mb.value = withTiming(8);
     fade.value = withTiming(1);
@@ -91,6 +91,10 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
                     animatedToRemove();
                     await deleteAlert(alert.id);
                   } catch (error) {
+                    Toast.show({
+                      type: "error",
+                      text1: `${error}`,
+                    });
                     animatedToAdd();
                   }
                 }}
