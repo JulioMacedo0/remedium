@@ -39,6 +39,7 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
   }));
 
   const { deleteAlert } = useAlertStore((set) => set);
+
   return (
     <Animated.View style={style}>
       <View bgColor="#b6a3f5" p={12} rounded="$lg">
@@ -59,7 +60,7 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
                     await deleteAlert(alert.id);
                   }}
                 >
-                  <Icon as={Trash2Icon} color="$red400" size="lg" />
+                  <Icon as={Trash2Icon} color="$red600" size="lg" />
                 </TouchableOpacity>
               </HStack>
             </View>
