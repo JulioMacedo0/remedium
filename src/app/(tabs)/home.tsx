@@ -1,10 +1,8 @@
-import { StyleSheet, FlatList, Linking } from "react-native";
-import { View, ThemedStatusBar } from "@/components";
+import { Linking } from "react-native";
+import { ThemedStatusBar } from "@/components";
 import { useEffect, useRef, useState } from "react";
 import * as Notifications from "expo-notifications";
-
-import { PermissionModal } from "@/components/Modal/permissionModal";
-import { useNotification } from "@/context";
+import { FlashList } from "@shopify/flash-list";
 import { useAlertStore } from "@/stores/alert/userAlertStore";
 import { AlertCard } from "@/components/AlertCard";
 import {
@@ -20,10 +18,13 @@ import {
   ModalHeader,
   Modal,
   Text,
+  View,
 } from "@gluestack-ui/themed";
 import { XIcon } from "lucide-react-native";
+
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
+
   console.log(showModal);
   const ref = useRef(null);
 
@@ -49,21 +50,31 @@ export default function Home() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View flex={1}>
       <ThemedStatusBar />
-      <FlatList
-        ListHeaderComponent={<View style={{ height: 15 }} />}
-        ListFooterComponent={<View style={{ height: 15 }} />}
+
+      <View
+        px={18}
         style={{
-          flex: 1,
-          width: "90%",
+          flexGrow: 1,
         }}
-        data={alerts}
-        renderItem={({ item, index }) => (
-          <AlertCard alert={item} index={index} />
-        )}
-        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-      />
+      >
+        <FlashList
+          // onViewableItemsChanged={({ viewableItems }) => {
+          //   console.log(viewableItems);
+          // }}
+          estimatedItemSize={200}
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={<View style={{ height: 15 }} />}
+          ListFooterComponent={<View style={{ height: 15 }} />}
+          data={alerts}
+          renderItem={({ item, index }) => (
+            <AlertCard alert={item} index={index} />
+          )}
+          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        />
+      </View>
+
       <Modal
         isOpen={showModal}
         onClose={() => {
@@ -116,10 +127,3 @@ export default function Home() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-  },
-});
