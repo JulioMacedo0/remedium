@@ -6,6 +6,7 @@ import * as Notifications from "expo-notifications";
 import { storageService } from "@/services/storage/storageService";
 import { STORAGE_KEYS } from "@/services/storage/storegesKeys";
 import { asyncStorage } from "@/services/storage/asyncStorageService";
+import * as Localization from "expo-localization";
 type SignInRequest = {
   email: string;
   password: string;
@@ -99,6 +100,10 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
   },
   signUp: async ({ email, password, username }, succesCallBack) => {
     set((state) => ({ ...state, loading: true }));
+
+    const { languageTag } = Localization.getLocales()[0];
+    const { timeZone } = Localization.getCalendars()[0];
+
     try {
       const expo_token = (
         await Notifications.getExpoPushTokenAsync({
@@ -113,6 +118,8 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
         password,
         username,
         expo_token,
+        timeZone,
+        languageTag,
       });
 
       Toast.show({
