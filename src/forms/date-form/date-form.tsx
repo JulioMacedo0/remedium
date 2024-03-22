@@ -67,7 +67,7 @@ export const DateForm = ({
       body: initialValue?.body,
       trigger: {
         alertType: "DATE",
-        date: initialDate,
+        date: initialDate.toISOString(),
       },
     },
     resolver: zodResolver(dateSchema),
@@ -168,7 +168,7 @@ export const DateForm = ({
               open={open}
               date={date}
               onConfirm={(date) => {
-                onChange(date);
+                onChange(date.toISOString());
                 setOpen(false);
                 setDate(date);
                 remedyNameInputRef.current?.focus();
