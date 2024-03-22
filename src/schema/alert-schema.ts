@@ -35,7 +35,7 @@ const intervalAlertSchema = z.object({
 
 const dateAlertSchema = z.object({
   alertType: z.literal(AlertType.DATE),
-  date: z.date({ required_error: "field date is required" }),
+  date: z.string({ required_error: "field date is required" }),
 });
 
 const weeklyAlertSchema = z.object({
