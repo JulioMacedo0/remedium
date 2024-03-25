@@ -28,7 +28,6 @@ import {
 } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useRef } from "react";
-
 import { Controller, useForm } from "react-hook-form";
 import { useAlertStore } from "@/stores/alert/userAlertStore";
 import { TextInput, TouchableOpacity } from "react-native";
