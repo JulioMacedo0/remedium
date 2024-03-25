@@ -72,13 +72,7 @@ export const useAlertStore = create<userAlertStoreType>((set) => ({
       }));
     } catch (error) {
       if (isAxiosError(error)) {
-        // Toast.show({
-        //   type: "error",
-        //   text1: error.response?.data.message,
-        // });
       }
-
-      set((state) => ({ ...state, loading: false }));
     }
     set((state) => ({ ...state, loading: false }));
   },
