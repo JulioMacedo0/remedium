@@ -2,23 +2,15 @@ import { DailySchemaType, dailySchema } from "@/schema";
 import { useAlertStore } from "@/stores/alert/userAlertStore";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
-  Box,
   Button,
   ButtonText,
-  Divider,
   FormControl,
   FormControlError,
   FormControlErrorText,
-  FormControlHelper,
-  FormControlHelperText,
   FormControlLabel,
   FormControlLabelText,
-  HStack,
   Input,
   InputField,
-  Radio,
-  RadioGroup,
-  RadioLabel,
   Select,
   SelectBackdrop,
   SelectContent,
@@ -29,14 +21,15 @@ import {
   SelectPortal,
   SelectTrigger,
   Text,
-  VStack,
 } from "@gluestack-ui/themed";
+import DatePicker from "react-native-date-picker";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { Controller, useForm } from "react-hook-form";
-import { TextInput } from "react-native";
+import { TextInput, TouchableOpacity } from "react-native";
+import { format } from "date-fns";
 
 type DailyFormProps = {
   submitType: "CREATE" | "UPDATE";
@@ -60,6 +53,11 @@ export const DailyForm = ({
   submitType,
   alertId,
 }: DailyFormProps) => {
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
+  const initialDate = new Date(
+    !!initialValue?.trigger.date ? initialValue?.trigger.date : Date.now()
+  );
   const {
     control,
     handleSubmit,
@@ -72,15 +70,14 @@ export const DailyForm = ({
       body: initialValue?.body,
       trigger: {
         alertType: "DAILY",
-        hours: initialValue?.trigger.hours,
-        minutes: initialValue?.trigger.minutes,
+        date: initialDate.toISOString(),
+        hours: 0,
+        minutes: 0,
       },
     },
     resolver: zodResolver(dailySchema),
   });
 
-  const hourInputRef = useRef<TextInput | null>(null);
-  const minuteInputRef = useRef<TextInput | null>(null);
   const remedyNameInputRef = useRef<TextInput | null>(null);
   const DoseNameInputRef = useRef<TextInput | null>(null);
   const insctructionsRef = useRef<TextInput | null>(null);
@@ -88,6 +85,7 @@ export const DailyForm = ({
 
   const onSubmit = async (data: DailySchemaType) => {
     if (submitType == "CREATE") {
+      console.log(data);
       createAlerts(data, reset);
     } else if (submitType == "UPDATE") {
       if (!alertId) return;
@@ -153,130 +151,61 @@ export const DailyForm = ({
         )}
       />
 
-      <HStack space="md" justifyContent="center">
-        <Controller
-          control={control}
-          name="trigger.hours"
-          render={({
-            field: {
-              onChange,
-              onBlur,
-              value = initialValue?.trigger.hours ?? "",
-            },
-          }) => {
-            return (
-              <FormControl
-                size="lg"
-                isDisabled={false}
-                isInvalid={!!errors.trigger?.hours}
-                isReadOnly={false}
-                isRequired={true}
-              >
-                <Input height={50} width={70}>
-                  <InputField
-                    returnKeyType="next"
-                    blurOnSubmit={false}
-                    onSubmitEditing={() => minuteInputRef.current?.focus()}
-                    ref={hourInputRef}
-                    maxLength={2}
-                    type="text"
-                    onChangeText={(value) => {
-                      onChange(Number(value));
+      <Controller
+        control={control}
+        name="trigger.date"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <FormControl
+            size="md"
+            isDisabled={false}
+            isInvalid={!!errors.trigger?.date}
+            isReadOnly={false}
+            isRequired={true}
+          >
+            <FormControlLabel>
+              <FormControlLabelText>Date</FormControlLabelText>
+            </FormControlLabel>
+            <DatePicker
+              modal
+              mode="time"
+              open={open}
+              date={date}
+              onConfirm={(date) => {
+                onChange(date.toISOString());
+                setOpen(false);
+                setDate(date);
+                remedyNameInputRef.current?.focus();
+              }}
+              onCancel={() => {
+                setOpen(false);
+              }}
+            />
 
-                      if (value.length >= 2) {
-                        minuteInputRef.current?.focus();
-                      }
-                    }}
-                    onBlur={onBlur}
-                    value={value.toString()}
-                    keyboardType="numeric"
-                    textAlign="center"
-                    placeholder={initialValue?.trigger.hours.toString() ?? "00"}
-                  />
-                </Input>
-                <FormControlHelper>
-                  <FormControlHelperText>Hour</FormControlHelperText>
-                </FormControlHelper>
-                <FormControlError>
-                  {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-                  <FormControlErrorText>
-                    {errors.trigger?.hours?.message}
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
-            );
-          }}
-        />
-
-        <VStack space="md" mt={8}>
-          <Box width={10} height={10} rounded="$full" bgColor="#333" />
-          <Box width={10} height={10} rounded="$full" bgColor="#333" />
-        </VStack>
-        <Controller
-          control={control}
-          name="trigger.minutes"
-          render={({
-            field: {
-              onChange,
-              onBlur,
-              value = initialValue?.trigger.minutes ?? "",
-            },
-          }) => {
-            return (
-              <FormControl
-                size="lg"
-                isDisabled={false}
-                isInvalid={!!errors.trigger?.minutes}
-                isReadOnly={false}
-                isRequired={true}
-              >
-                <Input height={50} width={70}>
-                  <InputField
-                    returnKeyType="next"
-                    ref={minuteInputRef}
-                    blurOnSubmit={false}
-                    onSubmitEditing={() => remedyNameInputRef.current?.focus()}
-                    maxLength={2}
-                    type="text"
-                    onChangeText={(value) => {
-                      onChange(Number(value));
-                      if (value.length == 0) {
-                        hourInputRef.current?.focus();
-                      } else if (value.length >= 2) {
-                        remedyNameInputRef.current?.focus();
-                      }
-                    }}
-                    onBlur={onBlur}
-                    value={value.toString()}
-                    keyboardType="numeric"
-                    textAlign="center"
-                    placeholder={String(initialValue?.trigger.minutes ?? "00")}
-                  />
-                </Input>
-                <FormControlHelper>
-                  <FormControlHelperText>Minute</FormControlHelperText>
-                </FormControlHelper>
-                <FormControlError>
-                  {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-                  <FormControlErrorText>
-                    {errors.trigger?.minutes?.message}
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
-            );
-          }}
-        />
-
-        <RadioGroup borderColor="$blue900">
-          <Radio value="AM" size="md" isInvalid={false} isDisabled={false}>
-            <RadioLabel>AM</RadioLabel>
-          </Radio>
-          <Divider />
-          <Radio value="PM" size="md" isInvalid={false} isDisabled={false}>
-            <RadioLabel>PM</RadioLabel>
-          </Radio>
-        </RadioGroup>
-      </HStack>
+            <TouchableOpacity onPress={() => setOpen(true)}>
+              <Input pointerEvents="none">
+                <InputField
+                  editable={false}
+                  type="text"
+                  placeholder={
+                    !!initialValue?.trigger.date
+                      ? format(initialValue?.trigger.date, "p")
+                      : "Date"
+                  }
+                  value={format(value, "p")}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                />
+              </Input>
+            </TouchableOpacity>
+            <FormControlError>
+              {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
+              <FormControlErrorText>
+                {errors.trigger?.date?.message}
+              </FormControlErrorText>
+            </FormControlError>
+          </FormControl>
+        )}
+      />
 
       <Controller
         control={control}
