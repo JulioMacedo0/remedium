@@ -40,12 +40,12 @@ export default function Home() {
 
     const userServerData = await client.get<UserType>("users/one");
 
-    if (userServerData.data.timeZone != timeZone) {
-      const updatedUser = await client.patch<UserType>("users", {
-        timeZone: timeZone,
-      });
-      await storageService.setItem(STORAGE_KEYS.USER, updatedUser);
-    }
+    if (userServerData.data.timeZone == timeZone) return null;
+
+    const updatedUser = await client.patch<UserType>("users", {
+      timeZone: timeZone,
+    });
+    await storageService.setItem(STORAGE_KEYS.USER, updatedUser);
   };
 
   useEffect(() => {
