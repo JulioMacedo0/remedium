@@ -4,14 +4,16 @@ import { StorageService } from "./storageService";
 export const asyncStorage: StorageService = {
   getItem: async (key) => {
     const item = await AsyncStorage.getItem(key);
+    if (!item) return null;
 
-    if (item) {
-      return item as any;
+    try {
+      return JSON.parse(item);
+    } catch (error) {
+      return item;
     }
-    return null;
   },
   setItem: async (key, value) => {
-    const valueAux = String(value);
+    const valueAux = JSON.stringify(value);
     await AsyncStorage.setItem(key, valueAux);
   },
   removeItem: async (key) => {
