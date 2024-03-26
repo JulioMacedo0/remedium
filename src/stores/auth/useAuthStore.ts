@@ -23,13 +23,15 @@ type SignUpRequest = SignInRequest & {
 
 type SignUpResponse = UserType;
 
-type UserType = {
+export type UserType = {
   id: string;
   username: string;
   email: string;
+  languageTag: String;
+  timeZone: String;
   createdAt: Date;
   updatedAt: Date;
-  expo_token: string[];
+  expo_token: string;
 };
 
 interface UseAuthStoreType {
