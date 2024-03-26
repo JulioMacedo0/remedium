@@ -21,6 +21,11 @@ import {
   View,
 } from "@gluestack-ui/themed";
 import { XIcon } from "lucide-react-native";
+import { storageService } from "@/services/storage/storageService";
+import { STORAGE_KEYS } from "@/services/storage/storegesKeys";
+import * as Localization from "expo-localization";
+import { UserType } from "@/stores/auth/useAuthStore";
+import { client } from "@/services/http/httpClient";
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -30,7 +35,21 @@ export default function Home() {
 
   const { getAlerts, alerts, loading } = useAlertStore((set) => set);
 
+  const updateUserTimeZone = async () => {
+    const { timeZone } = Localization.getCalendars()[0];
+
+    const userServerData = await client.get<UserType>("users/one");
+
+    if (userServerData.data.timeZone != timeZone) {
+      const updatedUser = await client.patch<UserType>("users", {
+        timeZone: timeZone,
+      });
+      await storageService.setItem(STORAGE_KEYS.USER, updatedUser);
+    }
+  };
+
   useEffect(() => {
+    updateUserTimeZone();
     getAlerts();
     (async function () {
       const { status: existingStatus } =
