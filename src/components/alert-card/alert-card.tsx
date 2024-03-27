@@ -13,9 +13,15 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { WeekCard } from "./componets/week-card";
+import { Timer } from "./componets/timer";
 
 type AlertCardProps = {
-  alert: CreateAlertType & { id: string };
+  alert: CreateAlertType & {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    last_alert: Date;
+  };
   index: number;
 };
 
@@ -86,6 +92,13 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
             {format(alert.trigger.date, "Pp")}
           </Text>
         );
+      case "INTERVAL":
+        return (
+          <Text color="#fff" size="2xl" ml={10} mb={6}>
+            Every {alert.trigger.hours.toString().padStart(2, "0")} hours -{" "}
+            {alert.trigger.minutes.toString().padStart(2, "0")} minutes
+          </Text>
+        );
 
       default:
         return <Text>Teste</Text>;
@@ -143,6 +156,16 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
           <Text color="#fff" fontWeight="$bold" ml={10} mr={8}>
             One day
           </Text>
+        );
+      case "INTERVAL":
+        return (
+          <Timer
+            intervalHours={alert.trigger.hours}
+            intervalMinutes={alert.trigger.minutes}
+            lastNotification={
+              alert.last_alert ? alert.last_alert : alert.createdAt
+            }
+          />
         );
 
       default:
