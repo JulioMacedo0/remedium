@@ -1,9 +1,18 @@
-import Toast from "react-native-toast-message";
+import { AlertType } from "@/schema";
+import { AlertTypeEnum, CreateAlertType } from "@/schema/alert-schema";
 import {
   CreateAlertResponse,
   useAlertStore,
 } from "@/stores/alert/userAlertStore";
-import { View, Heading, HStack, Icon } from "@gluestack-ui/themed";
+import {
+  View,
+  Heading,
+  HStack,
+  Icon,
+  Text,
+  VStack,
+} from "@gluestack-ui/themed";
+import { format } from "date-fns";
 import { useRouter } from "expo-router";
 import { Pill, Trash2Icon } from "lucide-react-native";
 import { useEffect } from "react";
@@ -14,9 +23,10 @@ import Animated, {
   withDelay,
   withTiming,
 } from "react-native-reanimated";
+import { WeekCard } from "./componets/week-card";
 
 type AlertCardProps = {
-  alert: CreateAlertResponse;
+  alert: CreateAlertType & { id: string };
   index: number;
 };
 
@@ -27,8 +37,8 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
 
   const fade = useSharedValue(0);
   const scale = useSharedValue(0);
-  const height = useSharedValue(55);
-  const padding = useSharedValue(12);
+  const height = useSharedValue(135);
+  const padding = useSharedValue(8);
   const mb = useSharedValue(8);
 
   useEffect(() => {
@@ -68,6 +78,92 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
 
   const { deleteAlert } = useAlertStore((set) => set);
 
+  const renderTitleAlert = () => {
+    switch (alert.trigger.alertType) {
+      case "WEEKLY":
+        return (
+          <Text color="#fff" size="2xl" ml={10} mb={6}>
+            {format(alert.trigger.date, "p")}
+          </Text>
+        );
+
+      case "DAILY":
+        return (
+          <Text color="#fff" size="2xl" ml={10} mb={6}>
+            {format(alert.trigger.date, "p")}
+          </Text>
+        );
+      case "DATE":
+        return (
+          <Text color="#fff" size="2xl" ml={10} mb={6}>
+            {format(alert.trigger.date, "Pp")}
+          </Text>
+        );
+
+      default:
+        return <Text>Teste</Text>;
+        break;
+    }
+  };
+
+  const renderFooterCard = () => {
+    switch (alert.trigger.alertType) {
+      case "WEEKLY":
+        return (
+          <HStack alignItems="center">
+            <Text color="#fff" fontWeight="$bold" ml={10} mr={8}>
+              Every Week
+            </Text>
+
+            <HStack space="md">
+              <WeekCard
+                weekName="Mon"
+                active={!!alert.trigger.week.find((week) => week == "MONDAY")}
+              />
+              <WeekCard
+                weekName="Tue"
+                active={!!alert.trigger.week.find((week) => week == "TUESDAY")}
+              />
+              <WeekCard
+                weekName="Wed"
+                active={
+                  !!alert.trigger.week.find((week) => week == "WEDNESDAY")
+                }
+              />
+              <WeekCard
+                weekName="Fri"
+                active={!!alert.trigger.week.find((week) => week == "FRIDAY")}
+              />
+              <WeekCard
+                weekName="Sat"
+                active={!!alert.trigger.week.find((week) => week == "SATURDAY")}
+              />
+              <WeekCard
+                weekName="sun"
+                active={!!alert.trigger.week.find((week) => week == "SUNDAY")}
+              />
+            </HStack>
+          </HStack>
+        );
+      case "DAILY":
+        return (
+          <Text color="#fff" fontWeight="$bold" ml={10} mr={8}>
+            Every Day
+          </Text>
+        );
+      case "DATE":
+        return (
+          <Text color="#fff" fontWeight="$bold" ml={10} mr={8}>
+            One day
+          </Text>
+        );
+
+      default:
+        return <Text></Text>;
+        break;
+    }
+  };
+
   return (
     <Animated.View style={style}>
       <TouchableOpacity
@@ -76,15 +172,15 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
           router.push(`/edit-alert?id=${alert.id}`);
         }}
       >
-        <HStack alignItems="center" justifyContent="space-between">
-          <Animated.View style={iconContainer}>
-            <Icon as={Pill} color="#fff" size="lg" />
-          </Animated.View>
+        <VStack alignItems="stretch">
+          <Heading color="#fff" size="sm">
+            {alert.title}
+          </Heading>
 
-          <Heading color="#fff">{alert.title}</Heading>
-
+          {renderTitleAlert()}
+          {renderFooterCard()}
           <View>
-            <HStack space="sm">
+            {/* <HStack space="sm">
               <TouchableOpacity
                 onPress={async () => {
                   try {
@@ -103,9 +199,9 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
                   <Icon as={Trash2Icon} color="$red600" size="lg" />
                 </Animated.View>
               </TouchableOpacity>
-            </HStack>
+            </HStack> */}
           </View>
-        </HStack>
+        </VStack>
       </TouchableOpacity>
     </Animated.View>
   );
