@@ -1,20 +1,9 @@
-import { AlertType } from "@/schema";
-import { AlertTypeEnum, CreateAlertType } from "@/schema/alert-schema";
-import {
-  CreateAlertResponse,
-  useAlertStore,
-} from "@/stores/alert/userAlertStore";
-import {
-  View,
-  Heading,
-  HStack,
-  Icon,
-  Text,
-  VStack,
-} from "@gluestack-ui/themed";
+import { CreateAlertType } from "@/schema/alert-schema";
+import { useAlertStore } from "@/stores/alert/userAlertStore";
+import { View, Heading, HStack, Text, VStack } from "@gluestack-ui/themed";
 import { format } from "date-fns";
 import { useRouter } from "expo-router";
-import { Pill, Trash2Icon } from "lucide-react-native";
+
 import { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import Animated, {
@@ -29,8 +18,6 @@ type AlertCardProps = {
   alert: CreateAlertType & { id: string };
   index: number;
 };
-
-export type weeksValues = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 export const AlertCard = ({ alert, index }: AlertCardProps) => {
   const router = useRouter();
