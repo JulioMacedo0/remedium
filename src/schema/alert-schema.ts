@@ -31,6 +31,7 @@ const intervalAlertSchema = z.object({
   alertType: z.literal(AlertType.INTERVAL),
   hours: z.number({ required_error: "field hour is required" }),
   minutes: z.number({ required_error: "field minute is required" }),
+  last_alert: z.date().optional(),
 });
 
 const dateAlertSchema = z.object({
