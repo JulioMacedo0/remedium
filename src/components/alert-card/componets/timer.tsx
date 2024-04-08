@@ -2,8 +2,9 @@ import { Text } from "@gluestack-ui/themed";
 import {
   addHours,
   addMinutes,
-  differenceInMilliseconds,
-  formatDistanceToNow,
+  differenceInHours,
+  differenceInMinutes,
+  differenceInSeconds,
 } from "date-fns";
 import { useEffect, useState } from "react";
 
@@ -20,51 +21,32 @@ export const Timer = ({
 }: TimerComponentProps) => {
   const [timeLeft, setTimeLeft] = useState("");
 
+  const timeInterval = intervalMinutes * 60 + intervalHours * 3600;
+
+  const calculateTimeLeft = () => {
+    const now = new Date();
+    const diferrentHours = differenceInHours(now, lastNotification);
+    const diferrentMinutes = differenceInMinutes(now, lastNotification);
+    const nextTrigger = addMinutes(
+      addHours(lastNotification, diferrentHours),
+      diferrentMinutes
+    );
+
+    const timeleft = timeInterval - differenceInSeconds(now, nextTrigger);
+    setTimeLeft(timeleft.toString());
+
+    console.log(lastNotification);
+  };
+
   useEffect(() => {
-    const calculateTimeLeft = () => {
-      const now = new Date();
-      const nextNotification = addHours(
-        addMinutes(lastNotification, intervalMinutes),
-        intervalHours
-      );
+    const interval = setInterval(calculateTimeLeft, 1000);
 
-      const differenceMilliseconds = differenceInMilliseconds(
-        nextNotification,
-        now
-      );
-      console.log(differenceMilliseconds);
-      if (differenceMilliseconds > 0) {
-        const hours = Math.floor(differenceMilliseconds / (1000 * 60 * 60))
-          .toString()
-          .padStart(2, "0");
-        const minutes = Math.floor(
-          (differenceMilliseconds % (1000 * 60 * 60)) / (1000 * 60)
-        )
-          .toString()
-          .padStart(2, "0");
-        const seconds = Math.floor(
-          (differenceMilliseconds % (1000 * 60)) / 1000
-        )
-          .toString()
-          .padStart(2, "0");
-
-        setTimeLeft(`${hours}:${minutes}:${seconds}`);
-
-        const timer = setTimeout(calculateTimeLeft, 1000);
-
-        // Limpa o timer quando o componente é desmontado
-        return () => clearTimeout(timer);
-      } else {
-        setTimeLeft("00:00:00");
-      }
-    };
-
-    calculateTimeLeft();
-  }, [lastNotification, intervalHours, intervalMinutes]);
+    return () => clearInterval(interval);
+  }, [lastNotification]);
 
   return (
     <Text color="#fff" fontWeight="$bold" ml={10} mr={8}>
-      Next notification in {timeLeft}
+      Next notification in {timeLeft}s
     </Text>
   );
 };
