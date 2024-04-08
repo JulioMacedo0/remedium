@@ -20,7 +20,6 @@ type AlertCardProps = {
     id: string;
     createdAt: Date;
     updatedAt: Date;
-    last_alert: Date;
   };
   index: number;
 };
@@ -102,7 +101,6 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
 
       default:
         return <Text>Teste</Text>;
-        break;
     }
   };
 
@@ -163,7 +161,9 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
             intervalHours={alert.trigger.hours}
             intervalMinutes={alert.trigger.minutes}
             lastNotification={
-              alert.last_alert ? alert.last_alert : alert.createdAt
+              alert.trigger.last_alert
+                ? alert.trigger.last_alert
+                : alert.createdAt
             }
           />
         );
