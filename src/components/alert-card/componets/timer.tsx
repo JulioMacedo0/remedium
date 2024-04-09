@@ -34,15 +34,13 @@ export const Timer = ({
 
     const timeleft = timeInterval - differenceInSeconds(now, nextTrigger);
     setTimeLeft(timeleft.toString());
-
-    console.log(lastNotification);
   };
 
   useEffect(() => {
     const interval = setInterval(calculateTimeLeft, 1000);
 
     return () => clearInterval(interval);
-  }, [lastNotification]);
+  }, []);
 
   return (
     <Text color="#fff" fontWeight="$bold" ml={10} mr={8}>
