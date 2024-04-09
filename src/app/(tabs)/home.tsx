@@ -45,7 +45,7 @@ export default function Home() {
     const updatedUser = await client.patch<UserType>("users", {
       timeZone: timeZone,
     });
-    await storageService.setItem(STORAGE_KEYS.USER, updatedUser);
+    storageService.setItem(STORAGE_KEYS.USER, updatedUser.data);
   };
 
   useEffect(() => {
