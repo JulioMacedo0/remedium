@@ -112,8 +112,6 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
         })
       ).data;
 
-      console.log(expo_token);
-
       const signUpResponse = await client.post<SignUpResponse>("users", {
         email,
         password,
