@@ -5,7 +5,6 @@ import Toast from "react-native-toast-message";
 import * as Notifications from "expo-notifications";
 import { storageService } from "@/services/storage/storageService";
 import { STORAGE_KEYS } from "@/services/storage/storegesKeys";
-import { asyncStorage } from "@/services/storage/asyncStorageService";
 import * as Localization from "expo-localization";
 type SignInRequest = {
   email: string;
@@ -59,8 +58,8 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
   authenticated: false,
   error: "",
   logout: async () => {
-    await asyncStorage.removeItem(STORAGE_KEYS.TOKEN);
-    await asyncStorage.removeItem(STORAGE_KEYS.USER);
+    storageService.removeItem(STORAGE_KEYS.TOKEN);
+    storageService.removeItem(STORAGE_KEYS.USER);
     set((state) => ({ ...state, authenticated: false }));
   },
   setAuthenticated: (value) => {
@@ -150,10 +149,15 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
           projectId: "0e830c18-6f43-4321-9330-c85a1c4acdb0",
         })
       ).data;
+      const user = storageService.getItem<UserType>(STORAGE_KEYS.USER);
+
+      if (expo_token == user?.expo_token) return;
 
       const signUpResponse = await client.patch<SignUpResponse>("users", {
         expo_token,
       });
+
+      storageService.setItem(STORAGE_KEYS.USER, signUpResponse.data);
     } catch (error) {
       if (isAxiosError(error)) {
         // Toast.show({
