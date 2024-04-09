@@ -40,7 +40,7 @@ export const Timer = ({
     const interval = setInterval(calculateTimeLeft, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [lastNotification, intervalHours, intervalMinutes]);
 
   return (
     <Text color="#fff" fontWeight="$bold" ml={10} mr={8}>
