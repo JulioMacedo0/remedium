@@ -11,7 +11,7 @@ export const client = axios.create({
 
 client.interceptors.request.use(
   async function (config) {
-    const token = await storageService.getItem<string>(STORAGE_KEYS.TOKEN);
+    const token = storageService.getItem<string>(STORAGE_KEYS.TOKEN);
     config.headers.Authorization = `Baerer ${token}`;
     return config;
   },
