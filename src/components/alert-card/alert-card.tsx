@@ -108,39 +108,35 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
     switch (alert.trigger.alertType) {
       case "WEEKLY":
         return (
-          <HStack alignItems="center">
+          <HStack space="xs">
             <Text color="#fff" fontWeight="$bold" mx={8}>
               Every Week
             </Text>
 
-            <HStack space="md">
-              <WeekCard
-                weekName="Mon"
-                active={!!alert.trigger.week.find((week) => week == "MONDAY")}
-              />
-              <WeekCard
-                weekName="Tue"
-                active={!!alert.trigger.week.find((week) => week == "TUESDAY")}
-              />
-              <WeekCard
-                weekName="Wed"
-                active={
-                  !!alert.trigger.week.find((week) => week == "WEDNESDAY")
-                }
-              />
-              <WeekCard
-                weekName="Fri"
-                active={!!alert.trigger.week.find((week) => week == "FRIDAY")}
-              />
-              <WeekCard
-                weekName="Sat"
-                active={!!alert.trigger.week.find((week) => week == "SATURDAY")}
-              />
-              <WeekCard
-                weekName="sun"
-                active={!!alert.trigger.week.find((week) => week == "SUNDAY")}
-              />
-            </HStack>
+            <WeekCard
+              weekName="Mon"
+              active={!!alert.trigger.week.find((week) => week == "MONDAY")}
+            />
+            <WeekCard
+              weekName="Tue"
+              active={!!alert.trigger.week.find((week) => week == "TUESDAY")}
+            />
+            <WeekCard
+              weekName="Wed"
+              active={!!alert.trigger.week.find((week) => week == "WEDNESDAY")}
+            />
+            <WeekCard
+              weekName="Fri"
+              active={!!alert.trigger.week.find((week) => week == "FRIDAY")}
+            />
+            <WeekCard
+              weekName="Sat"
+              active={!!alert.trigger.week.find((week) => week == "SATURDAY")}
+            />
+            <WeekCard
+              weekName="sun"
+              active={!!alert.trigger.week.find((week) => week == "SUNDAY")}
+            />
           </HStack>
         );
       case "DAILY":
