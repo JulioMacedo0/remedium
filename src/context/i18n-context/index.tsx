@@ -1,8 +1,10 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import * as Localization from "expo-localization";
 import { I18n } from "i18n-js";
 import { translations } from "../../i18n";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storageService } from "@/services/storage/storageService";
+import { STORAGE_KEYS } from "@/services/storage/storegesKeys";
+
 interface I18nContextValue {
   i18n: I18n;
   changeLaguange: (language: string) => void;
@@ -16,15 +18,14 @@ const I18nContext = createContext<I18nContextValue | undefined>(undefined);
 
 export function I18nProvider(props: ProviderProps) {
   const i18n = new I18n(translations);
-  let [locale, setLocale] = useState(Localization.locale);
+  const [locale, setLocale] = useState(Localization.locale);
   i18n.locale = locale;
   i18n.enableFallback = true;
   i18n.defaultLocale = "en";
 
-  const getData = async () => {
+  const getData = () => {
     try {
-      const locale = await AsyncStorage.getItem("laguage");
-
+      const locale = storageService.getItem<string>(STORAGE_KEYS.LAGUAGE);
       if (locale == null) return;
 
       setLocale(locale);
@@ -32,11 +33,14 @@ export function I18nProvider(props: ProviderProps) {
       console.log(e);
     }
   };
-  getData();
 
-  const changeLaguange = async (language: string) => {
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const changeLaguange = (language: string) => {
     setLocale(language);
-    await AsyncStorage.setItem("laguage", language);
+    storageService.setItem(STORAGE_KEYS.LAGUAGE, language);
   };
 
   return (
