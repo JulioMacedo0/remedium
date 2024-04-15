@@ -32,8 +32,17 @@ export const Timer = ({
       diferrentMinutes
     );
 
-    const timeleft = timeInterval - differenceInSeconds(now, nextTrigger);
-    setTimeLeft(timeleft.toString());
+    const timeleftInSeconds =
+      timeInterval - differenceInSeconds(now, nextTrigger);
+    const hoursLeft = Math.floor(timeleftInSeconds / 3600);
+    const minutesLeft = Math.floor((timeleftInSeconds % 3600) / 60);
+    const secondsLeft = timeleftInSeconds % 60;
+
+    setTimeLeft(
+      `${hoursLeft.toString().padStart(2, "0")}h ${minutesLeft
+        .toString()
+        .padStart(2, "0")}m ${secondsLeft.toString().padStart(2, "0")}s`
+    );
   };
 
   useEffect(() => {
@@ -44,7 +53,7 @@ export const Timer = ({
 
   return (
     <Text color="#fff" fontWeight="$bold" ml={10} mr={8}>
-      Next notification in {timeLeft}s
+      Take it again in {timeLeft}
     </Text>
   );
 };
