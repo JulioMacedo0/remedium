@@ -109,7 +109,7 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
       case "WEEKLY":
         return (
           <HStack alignItems="center">
-            <Text color="#fff" fontWeight="$bold" ml={10} mr={8}>
+            <Text color="#fff" fontWeight="$bold" mx={8}>
               Every Week
             </Text>
 
@@ -170,7 +170,6 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
 
       default:
         return <Text></Text>;
-        break;
     }
   };
 
@@ -189,28 +188,6 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
 
           {renderTitleAlert()}
           {renderFooterCard()}
-          <View>
-            {/* <HStack space="sm">
-              <TouchableOpacity
-                onPress={async () => {
-                  try {
-                    animatedToRemove();
-                    await deleteAlert(alert.id);
-                  } catch (error) {
-                    Toast.show({
-                      type: "error",
-                      text1: `${error}`,
-                    });
-                    animatedToAdd();
-                  }
-                }}
-              >
-                <Animated.View style={iconContainer}>
-                  <Icon as={Trash2Icon} color="$red600" size="lg" />
-                </Animated.View>
-              </TouchableOpacity>
-            </HStack> */}
-          </View>
         </VStack>
       </TouchableOpacity>
     </Animated.View>
