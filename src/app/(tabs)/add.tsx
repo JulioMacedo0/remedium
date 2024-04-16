@@ -1,4 +1,3 @@
-import { StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   KeyboardAvoidingView,
@@ -15,34 +14,30 @@ import {
   Text,
 } from "@gluestack-ui/themed";
 import { IntervalForm } from "@/forms/interval-form/interval-form";
-
-import { useState } from "react";
 import { WeeklyForm } from "@/forms/weekly-from/weekly-form";
 import { DailyForm } from "@/forms/daily-form/daily-form";
 import { DateForm } from "@/forms/date-form/date-form";
-export default function Add() {
-  const [alertType, setAlertType] = useState("");
+import { useAlertTypeStore } from "@/stores/useAlertTypeStore/use-alert-type-store";
 
-  const ChangeAlertType = (value: string) => {
-    setAlertType(value);
-  };
+export default function Add() {
+  const { alertType, changeAlertType } = useAlertTypeStore((state) => state);
 
   const renderForms = () => {
     switch (alertType) {
       case "INTERVAL":
         return (
-          <IntervalForm setAlertType={ChangeAlertType} submitType="CREATE" />
+          <IntervalForm setAlertType={changeAlertType} submitType="CREATE" />
         );
       case "WEEKLY":
         return (
-          <WeeklyForm setAlertType={ChangeAlertType} submitType="CREATE" />
+          <WeeklyForm setAlertType={changeAlertType} submitType="CREATE" />
         );
       case "DAILY":
-        return <DailyForm setAlertType={ChangeAlertType} submitType="CREATE" />;
+        return <DailyForm setAlertType={changeAlertType} submitType="CREATE" />;
       case "DATE":
-        return <DateForm setAlertType={ChangeAlertType} submitType="CREATE" />;
+        return <DateForm setAlertType={changeAlertType} submitType="CREATE" />;
       default:
-        return <Text>test</Text>;
+        return <Text>Chose Frequency {alertType}</Text>;
     }
   };
 
@@ -50,7 +45,7 @@ export default function Add() {
     <KeyboardAvoidingView px={10} py={10} style={{ flex: 1, zIndex: 999 }}>
       <ScrollView>
         {!alertType && (
-          <Select onValueChange={setAlertType} mt={20}>
+          <Select onValueChange={changeAlertType} mt={20}>
             <SelectTrigger variant="rounded" size="md" px={10} py={8}>
               <SelectInput placeholder="Hows frequency?" />
               <MaterialIcons
