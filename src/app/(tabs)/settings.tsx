@@ -8,7 +8,6 @@ import { BottomSheetDefaultBackdropProps } from "@gorhom/bottom-sheet/lib/typesc
 import * as Notifications from "expo-notifications";
 import {
   View,
-  Text,
   Section,
   RadioItem,
   Divider,
@@ -17,17 +16,19 @@ import {
   Screen,
 } from "@/components";
 
-import { Colors } from "@/constants";
+import { Colors, Theme, Text } from "@/constants";
 
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useThemeStore } from "@/stores/theme/use-theme-store";
+import { useTheme } from "@shopify/restyle";
 
 export default function Config() {
   const [permission, setPermission] = useState("");
 
   const theme = useThemeStore((set) => set.theme);
   const changeTheme = useThemeStore((set) => set.changeTheme);
-
+  const themeColors = useTheme<Theme>();
+  const { text } = themeColors.colors;
   const { i18n, changeLaguange } = useI18n();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -87,7 +88,7 @@ export default function Config() {
       <Section title={i18n.t("SETTINGS.THEME")}>
         <RadioItem
           onPress={() => changeTheme("light")}
-          icon={<Ionicons name="sunny" size={23} color={Colors[theme].text} />}
+          icon={<Ionicons name="sunny" size={23} color={text} />}
           text={i18n.t("SETTINGS.LIGHT")}
           isSelected={theme == "light"}
           withoutFeedback
@@ -97,7 +98,7 @@ export default function Config() {
 
         <RadioItem
           onPress={() => changeTheme("dark")}
-          icon={<Ionicons name="moon" size={23} color={Colors[theme].text} />}
+          icon={<Ionicons name="moon" size={23} color={text} />}
           text={i18n.t("SETTINGS.DARK")}
           isSelected={theme == "dark"}
           withoutFeedback
@@ -106,7 +107,7 @@ export default function Config() {
 
       <Section title={i18n.t("SETTINGS.LANGUAGE")}>
         <SectionItem
-          icon={<Ionicons name="globe" size={23} color={Colors[theme].text} />}
+          icon={<Ionicons name="globe" size={23} color={text} />}
           text={i18n.t("SETTINGS.APPLANGUAGE")}
           onPress={() => openBottomSheet()}
         />
@@ -122,29 +123,29 @@ export default function Config() {
         <SectionItem
           icon={
             permission != "granted" ? (
-              <BellOffIcon size={23} color={Colors[theme].text} />
+              <BellOffIcon size={23} color={text} />
             ) : (
-              <BellRing size={23} color={Colors[theme].text} />
+              <BellRing size={23} color={text} />
             )
           }
           text={permission != "granted" ? "Disabled" : "Active"}
           onPress={() => openSettings()}
         />
       </Section>
-      <BottomSheet
+      {/* <BottomSheet
         ref={bottomSheetRef}
         index={-1}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         backdropComponent={renderBackdrop}
-        handleIndicatorStyle={{ backgroundColor: Colors[theme].text }}
+        handleIndicatorStyle={{ backgroundColor: text }}
         backgroundStyle={{
-          backgroundColor: Colors[theme].tabBackground,
+          backgroundColor: tabBackground,
         }}
       >
         <View
           style={{
-            backgroundColor: Colors[theme].tabBackground,
+            backgroundColor: tabBackground,
           }}
         >
           <View
@@ -154,13 +155,13 @@ export default function Config() {
               marginTop: 10,
               marginBottom: 20,
               flexDirection: "row",
-              backgroundColor: Colors[theme].tabBackground,
+              backgroundColor: tabBackground,
             }}
           >
             <Ionicons
               name="close"
               size={26}
-              color={Colors[theme].text}
+              color={text}
               style={{ marginRight: 20 }}
               onPress={() => bottomSheetRef.current?.close()}
             />
@@ -186,7 +187,7 @@ export default function Config() {
             }}
           />
         </View>
-      </BottomSheet>
+      </BottomSheet> */}
     </Screen>
   );
 }
