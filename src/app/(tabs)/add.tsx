@@ -5,8 +5,6 @@ import { DailyForm } from "@/forms/daily-form/daily-form";
 import { DateForm } from "@/forms/date-form/date-form";
 import { useAlertTypeStore } from "@/stores/use-alert-type-store/use-alert-type-store";
 import { Screen, Select } from "@/components";
-import { Theme } from "@/constants";
-import { useTheme } from "@shopify/restyle";
 
 export default function Add() {
   const { alertType, changeAlertType } = useAlertTypeStore((state) => state);
@@ -29,9 +27,6 @@ export default function Add() {
         return <Text></Text>;
     }
   };
-
-  const theme = useTheme<Theme>();
-  const { text, tabBackground } = theme.colors;
 
   return (
     <Screen>
