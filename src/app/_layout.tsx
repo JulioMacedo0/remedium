@@ -11,21 +11,23 @@ import { storageService } from "@/services/storage/storageService";
 import { STORAGE_KEYS } from "@/services/storage/storegesKeys";
 import * as SplashScreen from "expo-splash-screen";
 import { ThemeProvider } from "@shopify/restyle";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+
 import { client } from "@/services/http/httpClient";
 import { AxiosError } from "axios";
 import { theme, darkTheme } from "@/constants";
+import { useThemeStore } from "@/stores/theme/use-theme-store";
+import { ThemedStatusBar } from "@/components/ThemedStatusBar";
 
 // SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const themeValue = useThemeStore((set) => set.theme);
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={themeValue == "dark" ? darkTheme : theme}>
       <GluestackUIProvider config={config}>
         <I18nProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <RootLayoutNav />
-          </GestureHandlerRootView>
+          <ThemedStatusBar />
+          <RootLayoutNav />
           <Toast position="bottom" bottomOffset={20} />
         </I18nProvider>
       </GluestackUIProvider>
