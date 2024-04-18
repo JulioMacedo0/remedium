@@ -1,6 +1,6 @@
-import { Slot, useRouter, useSegments, Stack } from "expo-router";
+import { useRouter, useSegments, Stack } from "expo-router";
 
-import { ThemeProvider, I18nProvider } from "@/context";
+import { I18nProvider } from "@/context";
 import Toast from "react-native-toast-message";
 
 import { useAuthStore } from "@/stores/auth/useAuthStore";
@@ -10,15 +10,17 @@ import { useEffect } from "react";
 import { storageService } from "@/services/storage/storageService";
 import { STORAGE_KEYS } from "@/services/storage/storegesKeys";
 import * as SplashScreen from "expo-splash-screen";
+import { ThemeProvider } from "@shopify/restyle";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { client } from "@/services/http/httpClient";
 import { AxiosError } from "axios";
+import { theme, darkTheme } from "@/constants";
 
 // SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={darkTheme}>
       <GluestackUIProvider config={config}>
         <I18nProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>
@@ -37,7 +39,7 @@ function RootLayoutNav() {
 
   const getToken = async () => {
     try {
-      const token = await storageService.getItem<string>(STORAGE_KEYS.TOKEN);
+      const token = storageService.getItem<string>(STORAGE_KEYS.TOKEN);
       // await new Promise<void>((resolve) => {
       //   setTimeout(() => {
       //     console.log("Operação assíncrona concluída");
