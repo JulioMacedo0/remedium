@@ -71,26 +71,15 @@ export default function Home() {
 
   return (
     <Screen>
-      <View
-        px={18}
-        style={{
-          flexGrow: 1,
-        }}
-      >
-        <FlashList
-          // onViewableItemsChanged={({ viewableItems }) => {
-          //   console.log(viewableItems);
-          // }}
-          estimatedItemSize={200}
-          keyExtractor={(item) => item.id}
-          ListHeaderComponent={<View style={{ height: 15 }} />}
-          ListFooterComponent={<View style={{ height: 15 }} />}
-          data={alerts}
-          renderItem={({ item, index }) => (
-            <AlertCard alert={item} index={index} />
-          )}
-        />
-      </View>
+      <FlashList
+        estimatedItemSize={200}
+        keyExtractor={(item) => item.id}
+        ListFooterComponent={<View style={{ height: 15 }} />}
+        data={alerts}
+        renderItem={({ item, index }) => (
+          <AlertCard alert={item} index={index} />
+        )}
+      />
 
       <Modal
         isOpen={showModal}
