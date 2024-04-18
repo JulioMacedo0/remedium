@@ -1,1 +1,0 @@
-export { ThemedStatusBar } from "./ThemedStatusBar";
