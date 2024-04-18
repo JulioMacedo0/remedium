@@ -1,9 +1,9 @@
 import { Linking } from "react-native";
-import { AlertCard, ThemedStatusBar } from "@/components";
+import { AlertCard, Screen } from "@/components";
 import { useEffect, useRef, useState } from "react";
 import * as Notifications from "expo-notifications";
 import { FlashList } from "@shopify/flash-list";
-import { useAlertStore } from "@/stores/alert/userAlertStore";
+import { useAlertStore } from "@/stores/alert/use-alert-store";
 
 import {
   Button,
@@ -26,6 +26,7 @@ import { STORAGE_KEYS } from "@/services/storage/storegesKeys";
 import * as Localization from "expo-localization";
 import { UserType } from "@/stores/auth/useAuthStore";
 import { client } from "@/services/http/httpClient";
+import { StatusBar } from "expo-status-bar";
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -69,9 +70,7 @@ export default function Home() {
   }, []);
 
   return (
-    <View flex={1}>
-      <ThemedStatusBar />
-
+    <Screen>
       <View
         px={18}
         style={{
@@ -142,6 +141,6 @@ export default function Home() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </View>
+    </Screen>
   );
 }
