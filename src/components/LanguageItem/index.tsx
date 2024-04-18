@@ -1,9 +1,7 @@
 import { Pressable } from "react-native";
-import { View } from "@/components/View";
-import { Text } from "@/components/Text";
-import { useTheme } from "../../context/theme-context";
-import { useThemeColor } from "@/hooks";
-import { Colors } from "@/constants";
+
+import { Box, Text, Theme } from "@/constants";
+import { useTheme } from "@shopify/restyle";
 
 type LaguageItemProps = {
   text: string;
@@ -16,7 +14,8 @@ export const LaguageItem = ({
   isSelected,
   onPress,
 }: LaguageItemProps) => {
-  const { theme } = useTheme();
+  const theme = useTheme<Theme>();
+  const { text: textColor } = theme.colors;
   return (
     <Pressable
       onPress={onPress}
@@ -30,11 +29,11 @@ export const LaguageItem = ({
         },
       ]}
     >
-      <View
+      <Box
+        bg="tabBackground"
         style={{
-          backgroundColor: Colors[theme].tabBackground,
           borderWidth: 2.5,
-          borderColor: isSelected ? "#06a684" : Colors[theme].text,
+          borderColor: isSelected ? "#06a684" : textColor,
           width: 25,
           height: 25,
           borderRadius: 999,
@@ -42,32 +41,20 @@ export const LaguageItem = ({
         }}
       >
         {isSelected ? (
-          <View
+          <Box
             style={{
               flex: 1,
-              backgroundColor: isSelected ? "#06a684" : Colors[theme].text,
+              backgroundColor: isSelected ? "#06a684" : textColor,
               borderRadius: 999,
             }}
           />
         ) : null}
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: "transparent",
-        }}
-      >
-        <Text
-          style={{
-            marginLeft: 22,
-
-            fontSize: 16,
-          }}
-        >
+      </Box>
+      <Box flexDirection="row" alignContent="center">
+        <Text variant="body" ml="s">
           {text}
         </Text>
-      </View>
+      </Box>
     </Pressable>
   );
 };

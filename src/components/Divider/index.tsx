@@ -1,13 +1,10 @@
-import { Colors } from "@/constants";
-import { View } from "../View";
-import { useTheme } from "@/context";
+import { Colors, Box } from "@/constants";
 
 export const Divider = () => {
-  const { theme } = useTheme();
   return (
-    <View
+    <Box
+      bg="inactiveTabBarIcon"
       style={{
-        backgroundColor: Colors[theme].borderColor,
         height: 1,
         width: "100%",
       }}

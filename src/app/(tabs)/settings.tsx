@@ -1,7 +1,7 @@
 import { Linking, StyleSheet, AppState, AppStateStatus } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { BellRing, BellOffIcon } from "lucide-react-native";
-import { useTheme, useI18n } from "@/context";
+import { useI18n } from "@/context";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BottomSheetDefaultBackdropProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types";
@@ -14,17 +14,20 @@ import {
   Divider,
   SectionItem,
   LaguageItem,
+  Screen,
 } from "@/components";
 
 import { Colors } from "@/constants";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import { ThemedStatusBar } from "@/components/ThemedStatusBar";
+
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { useThemeStore } from "@/stores/theme/use-theme-store";
 
 export default function Config() {
   const [permission, setPermission] = useState("");
 
-  const { selectedtheme, changeTheme, theme } = useTheme();
+  const theme = useThemeStore((set) => set.theme);
+  const changeTheme = useThemeStore((set) => set.changeTheme);
+
   const { i18n, changeLaguange } = useI18n();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -58,36 +61,6 @@ export default function Config() {
 
   const language = i18n.locale.split("-")[0];
 
-  const panAutomatic = Gesture.Pan()
-    .runOnJS(true)
-    .onBegin((e) => {
-      changeTheme({
-        theme: "automatic",
-        x: e.absoluteX,
-        y: e.absoluteY,
-      });
-    });
-
-  const panLight = Gesture.Pan()
-    .runOnJS(true)
-    .onBegin((e) => {
-      changeTheme({
-        theme: "light",
-        x: e.absoluteX,
-        y: e.absoluteY,
-      });
-    });
-
-  const panDark = Gesture.Pan()
-    .runOnJS(true)
-    .onBegin((e) => {
-      changeTheme({
-        theme: "dark",
-        x: e.absoluteX,
-        y: e.absoluteY,
-      });
-    });
-
   const { logout } = useAuthStore((set) => set);
 
   useEffect(() => {
@@ -110,44 +83,25 @@ export default function Config() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <ThemedStatusBar />
+    <Screen>
       <Section title={i18n.t("SETTINGS.THEME")}>
-        <GestureDetector gesture={panAutomatic}>
-          <RadioItem
-            icon={
-              <FontAwesome5
-                name="adjust"
-                size={23}
-                color={Colors[theme].text}
-              />
-            }
-            text={i18n.t("SETTINGS.AUTOMATIC")}
-            isSelected={selectedtheme == "automatic"}
-            withoutFeedback
-          />
-        </GestureDetector>
+        <RadioItem
+          onPress={() => changeTheme("light")}
+          icon={<Ionicons name="sunny" size={23} color={Colors[theme].text} />}
+          text={i18n.t("SETTINGS.LIGHT")}
+          isSelected={theme == "light"}
+          withoutFeedback
+        />
+
         <Divider />
 
-        <GestureDetector gesture={panLight}>
-          <RadioItem
-            icon={
-              <Ionicons name="sunny" size={23} color={Colors[theme].text} />
-            }
-            text={i18n.t("SETTINGS.LIGHT")}
-            isSelected={selectedtheme == "light"}
-            withoutFeedback
-          />
-        </GestureDetector>
-        <Divider />
-        <GestureDetector gesture={panDark}>
-          <RadioItem
-            icon={<Ionicons name="moon" size={23} color={Colors[theme].text} />}
-            text={i18n.t("SETTINGS.DARK")}
-            isSelected={selectedtheme == "dark"}
-            withoutFeedback
-          />
-        </GestureDetector>
+        <RadioItem
+          onPress={() => changeTheme("dark")}
+          icon={<Ionicons name="moon" size={23} color={Colors[theme].text} />}
+          text={i18n.t("SETTINGS.DARK")}
+          isSelected={theme == "dark"}
+          withoutFeedback
+        />
       </Section>
 
       <Section title={i18n.t("SETTINGS.LANGUAGE")}>
@@ -233,15 +187,6 @@ export default function Config() {
           />
         </View>
       </BottomSheet>
-    </View>
+    </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 30,
-  },
-});
