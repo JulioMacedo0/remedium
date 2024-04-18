@@ -1,6 +1,6 @@
 import { DailySchemaType, dailySchema } from "@/schema";
 import { useAlertStore } from "@/stores/alert/use-alert-store";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Select } from "@/components";
 import {
   Button,
   ButtonText,
@@ -11,16 +11,6 @@ import {
   FormControlLabelText,
   Input,
   InputField,
-  Select,
-  SelectBackdrop,
-  SelectContent,
-  SelectDragIndicator,
-  SelectDragIndicatorWrapper,
-  SelectInput,
-  SelectItem,
-  SelectPortal,
-  SelectTrigger,
-  Text,
 } from "@gluestack-ui/themed";
 import DatePicker from "react-native-date-picker";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -114,40 +104,7 @@ export const DailyForm = ({
             }}
             onClose={onBlur}
             selectedValue={value}
-          >
-            <SelectTrigger variant="rounded" size="md" px={10} py={8}>
-              <SelectInput placeholder="Hows frequency?" />
-              <MaterialIcons
-                name="keyboard-arrow-down"
-                size={24}
-                color="black"
-              />
-            </SelectTrigger>
-            <SelectPortal>
-              <SelectBackdrop />
-              <SelectContent>
-                <SelectDragIndicatorWrapper>
-                  <SelectDragIndicator />
-                </SelectDragIndicatorWrapper>
-                <SelectItem label="Interval" value="INTERVAL">
-                  <MaterialIcons name="add-chart" size={24} color="black" />
-                </SelectItem>
-                <SelectItem label="Weekly" value="WEEKLY" />
-                <SelectItem label="Daily" value="DAILY" />
-                <SelectItem label="Date" value="DATE" />
-              </SelectContent>
-            </SelectPortal>
-
-            <Text
-              mb={8}
-              color="$red600"
-              fontWeight="$medium"
-              fontSize={"$sm"}
-              textAlign="center"
-            >
-              {errors.trigger?.alertType?.message}
-            </Text>
-          </Select>
+          />
         )}
       />
 

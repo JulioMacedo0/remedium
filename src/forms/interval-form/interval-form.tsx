@@ -1,6 +1,6 @@
 import { IntervalSchemaType, intervalSchema } from "@/schema";
 import { useAlertStore } from "@/stores/alert/use-alert-store";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Select } from "@/components";
 import {
   Box,
   Button,
@@ -19,16 +19,6 @@ import {
   Radio,
   RadioGroup,
   RadioLabel,
-  Select,
-  SelectBackdrop,
-  SelectContent,
-  SelectDragIndicator,
-  SelectDragIndicatorWrapper,
-  SelectInput,
-  SelectItem,
-  SelectPortal,
-  SelectTrigger,
-  Text,
   VStack,
 } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -116,40 +106,7 @@ export const IntervalForm = ({
             }}
             onClose={onBlur}
             selectedValue={value}
-          >
-            <SelectTrigger variant="rounded" size="md" px={10} py={8}>
-              <SelectInput placeholder="Hows frequency?" />
-              <MaterialIcons
-                name="keyboard-arrow-down"
-                size={24}
-                color="black"
-              />
-            </SelectTrigger>
-            <SelectPortal>
-              <SelectBackdrop />
-              <SelectContent>
-                <SelectDragIndicatorWrapper>
-                  <SelectDragIndicator />
-                </SelectDragIndicatorWrapper>
-                <SelectItem label="Interval" value="INTERVAL">
-                  <MaterialIcons name="add-chart" size={24} color="black" />
-                </SelectItem>
-                <SelectItem label="Weekly" value="WEEKLY" />
-                <SelectItem label="Daily" value="DAILY" />
-                <SelectItem label="Date" value="DATE" />
-              </SelectContent>
-            </SelectPortal>
-
-            <Text
-              mb={8}
-              color="$red600"
-              fontWeight="$medium"
-              fontSize={"$sm"}
-              textAlign="center"
-            >
-              {errors.trigger?.alertType?.message}
-            </Text>
-          </Select>
+          />
         )}
       />
 
