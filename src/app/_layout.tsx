@@ -16,7 +16,7 @@ import { client } from "@/services/http/httpClient";
 import { AxiosError } from "axios";
 import { theme, darkTheme } from "@/constants";
 import { useThemeStore } from "@/stores/theme/use-theme-store";
-import { ThemedStatusBar } from "@/components/ThemedStatusBar";
+import { StatusBar } from "expo-status-bar";
 
 // SplashScreen.preventAutoHideAsync();
 
@@ -26,7 +26,6 @@ export default function RootLayout() {
     <ThemeProvider theme={themeValue == "dark" ? darkTheme : theme}>
       <GluestackUIProvider config={config}>
         <I18nProvider>
-          <ThemedStatusBar />
           <RootLayoutNav />
           <Toast position="bottom" bottomOffset={20} />
         </I18nProvider>
@@ -42,12 +41,6 @@ function RootLayoutNav() {
   const getToken = async () => {
     try {
       const token = storageService.getItem<string>(STORAGE_KEYS.TOKEN);
-      // await new Promise<void>((resolve) => {
-      //   setTimeout(() => {
-      //     console.log("Operação assíncrona concluída");
-      //     resolve(); // Resolvendo a Promise após a simulação da operação
-      //   }, 6000); // 2 segundos de espera
-      // });
       setAuthenticated(!!token);
       setAuthenticating(false);
     } catch (error) {
