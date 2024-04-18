@@ -1,5 +1,5 @@
 import { View } from "../View";
-import { Text } from "@components/Text";
+import { Text } from "@/constants";
 import { ReactNode } from "react";
 import { StyleSheet, View as ViewProps } from "react-native";
 
@@ -25,7 +25,9 @@ export const InputSection = ({
       ]}
       {...props}
     >
-      <Text style={styles.title}>{title}</Text>
+      <Text variant="body" color="text">
+        {title}
+      </Text>
       <View
         style={{
           marginTop: 10,
@@ -37,10 +39,3 @@ export const InputSection = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});

@@ -1,18 +1,11 @@
-import {
-  Button,
-  Modal,
-  TouchableWithoutFeedback,
-  StyleSheet,
-} from "react-native";
+import { Button, Modal, TouchableWithoutFeedback } from "react-native";
 
-import { View, Text } from "@/components";
-import { Colors } from "@/constants";
-import { useTheme } from "@/context";
+import { View } from "@/components";
+import { Box, Text } from "@/constants";
 
 type ModalProps = Modal["props"];
 
 export const PermissionModal = (props: ModalProps) => {
-  const { theme } = useTheme();
   return (
     <Modal
       onRequestClose={props.onRequestClose}
@@ -32,20 +25,21 @@ export const PermissionModal = (props: ModalProps) => {
           }}
         >
           <TouchableWithoutFeedback>
-            <View
+            <Box
+              bg="tabBackground"
               style={{
                 width: "85%",
                 borderRadius: 8,
                 paddingVertical: 24,
                 paddingHorizontal: 12,
-                backgroundColor: Colors[theme].tabBackground,
+
                 alignItems: "center",
                 justifyContent: "center",
               }}
             >
               <Text>Suas notificações estão desativadas !</Text>
               <Button title="close" onPress={props.onRequestClose} />
-            </View>
+            </Box>
           </TouchableWithoutFeedback>
         </View>
       </TouchableWithoutFeedback>

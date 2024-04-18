@@ -51,7 +51,7 @@ export const LaguageItem = ({
         ) : null}
       </Box>
       <Box flexDirection="row" alignContent="center">
-        <Text variant="body" ml="s">
+        <Text variant="body" color="text" ml="s">
           {text}
         </Text>
       </Box>
