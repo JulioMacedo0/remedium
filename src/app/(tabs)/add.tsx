@@ -17,7 +17,7 @@ import { IntervalForm } from "@/forms/interval-form/interval-form";
 import { WeeklyForm } from "@/forms/weekly-from/weekly-form";
 import { DailyForm } from "@/forms/daily-form/daily-form";
 import { DateForm } from "@/forms/date-form/date-form";
-import { useAlertTypeStore } from "@/stores/useAlertTypeStore/use-alert-type-store";
+import { useAlertTypeStore } from "@/stores/use-alert-type-store/use-alert-type-store";
 
 export default function Add() {
   const { alertType, changeAlertType } = useAlertTypeStore((state) => state);
