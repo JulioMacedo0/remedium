@@ -2,7 +2,7 @@ import { DailyForm } from "@/forms/daily-form/daily-form";
 import { DateForm } from "@/forms/date-form/date-form";
 import { IntervalForm } from "@/forms/interval-form/interval-form";
 import { WeeklyForm } from "@/forms/weekly-from/weekly-form";
-import { useAlertStore } from "@/stores/alert/userAlertStore";
+import { useAlertStore } from "@/stores/alert/use-alert-store";
 import { KeyboardAvoidingView, ScrollView, Text } from "@gluestack-ui/themed";
 import { useLocalSearchParams } from "expo-router";
 
