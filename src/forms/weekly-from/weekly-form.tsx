@@ -29,7 +29,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useAlertStore } from "@/stores/alert/userAlertStore";
+import { useAlertStore } from "@/stores/alert/use-alert-store";
 import { TextInput, TouchableOpacity } from "react-native";
 import { format } from "date-fns";
 

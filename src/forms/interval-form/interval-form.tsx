@@ -1,5 +1,5 @@
 import { IntervalSchemaType, intervalSchema } from "@/schema";
-import { useAlertStore } from "@/stores/alert/userAlertStore";
+import { useAlertStore } from "@/stores/alert/use-alert-store";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   Box,

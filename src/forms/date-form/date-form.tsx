@@ -1,5 +1,5 @@
 import { DateSchemaType, dateSchema } from "@/schema";
-import { useAlertStore } from "@/stores/alert/userAlertStore";
+import { useAlertStore } from "@/stores/alert/use-alert-store";
 import { MaterialIcons } from "@expo/vector-icons";
 import { format } from "date-fns";
 import {
