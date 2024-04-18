@@ -1,7 +1,6 @@
 import { Pressable } from "react-native";
-import { View } from "@/components/View";
-import { Text } from "@/components/Text";
 import { ReactNode } from "react";
+import { Box, Text } from "@/constants";
 
 type SectionItemProps = {
   icon: ReactNode;
@@ -30,40 +29,18 @@ export const SectionItem = ({
         },
       ]}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: "transparent",
-        }}
-      >
+      <Box flexDirection="row" alignItems="center">
         {icon}
-        <View
-          style={{
-            backgroundColor: "transparent",
-            flexDirection: "column",
-          }}
-        >
-          <Text
-            style={{
-              marginLeft: 10,
-            }}
-          >
+        <Box flexDirection="column">
+          <Text ml="l" variant="body">
             {text}
           </Text>
 
           {subTitleTags && (
-            <Text
-              style={{
-                fontSize: 12,
-                marginLeft: 10,
-              }}
-            >
-              {subTitleTags.join(", ")}
-            </Text>
+            <Text variant="body">{subTitleTags.join(", ")}</Text>
           )}
-        </View>
-      </View>
+        </Box>
+      </Box>
     </Pressable>
   );
 };
