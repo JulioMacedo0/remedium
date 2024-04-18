@@ -44,7 +44,7 @@ const DayOfWeek = {
   SATURDAY: "SATURDAY",
 } as const;
 
-type userAlertStoreType = {
+type useAlertStoreType = {
   alerts: CreateAlertResponse[];
   loading: boolean;
   getAlerts: () => void;
@@ -57,7 +57,7 @@ type userAlertStoreType = {
   deleteAlert: (alertId: string) => Promise<void>;
 };
 
-export const useAlertStore = create<userAlertStoreType>((set) => ({
+export const useAlertStore = create<useAlertStoreType>((set) => ({
   alerts: [],
   loading: false,
   getAlerts: async () => {
