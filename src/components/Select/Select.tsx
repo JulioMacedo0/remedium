@@ -21,7 +21,7 @@ export const Select = ({ ...props }: SelectProps) => {
   const { text, tabBackground } = theme.colors;
 
   return (
-    <DefaultSelect {...props}>
+    <DefaultSelect rounded={"$full"} bg={tabBackground} {...props}>
       <SelectTrigger variant="rounded" size="md" pr={6}>
         <SelectInput
           placeholder="Hows frequency?"
