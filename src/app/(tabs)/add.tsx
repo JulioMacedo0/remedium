@@ -12,12 +12,16 @@ import {
   SelectTrigger,
   ScrollView,
   Text,
+  SelectItemText,
 } from "@gluestack-ui/themed";
 import { IntervalForm } from "@/forms/interval-form/interval-form";
 import { WeeklyForm } from "@/forms/weekly-from/weekly-form";
 import { DailyForm } from "@/forms/daily-form/daily-form";
 import { DateForm } from "@/forms/date-form/date-form";
 import { useAlertTypeStore } from "@/stores/use-alert-type-store/use-alert-type-store";
+import { Screen } from "@/components";
+import { Theme } from "@/constants";
+import { useTheme } from "@shopify/restyle";
 
 export default function Add() {
   const { alertType, changeAlertType } = useAlertTypeStore((state) => state);
@@ -37,42 +41,49 @@ export default function Add() {
       case "DATE":
         return <DateForm setAlertType={changeAlertType} submitType="CREATE" />;
       default:
-        return <Text>Chose Frequency {alertType}</Text>;
+        return <Text></Text>;
     }
   };
 
-  return (
-    <KeyboardAvoidingView px={10} py={10} style={{ flex: 1, zIndex: 999 }}>
-      <ScrollView>
-        {!alertType && (
-          <Select onValueChange={changeAlertType} mt={20}>
-            <SelectTrigger variant="rounded" size="md" px={10} py={8}>
-              <SelectInput placeholder="Hows frequency?" />
-              <MaterialIcons
-                name="keyboard-arrow-down"
-                size={24}
-                color="black"
-              />
-            </SelectTrigger>
-            <SelectPortal>
-              <SelectBackdrop />
-              <SelectContent>
-                <SelectDragIndicatorWrapper>
-                  <SelectDragIndicator />
-                </SelectDragIndicatorWrapper>
-                <SelectItem label="Interval" value="INTERVAL">
-                  <MaterialIcons name="add-chart" size={24} color="black" />
-                </SelectItem>
-                <SelectItem label="Weekly" value="WEEKLY" />
-                <SelectItem label="Daily" value="DAILY" />
-                <SelectItem label="Date" value="DATE" />
-              </SelectContent>
-            </SelectPortal>
-          </Select>
-        )}
+  const theme = useTheme<Theme>();
+  const { text, tabBackground } = theme.colors;
 
-        {renderForms()}
-      </ScrollView>
-    </KeyboardAvoidingView>
+  return (
+    <Screen>
+      <KeyboardAvoidingView style={{ flex: 1, zIndex: 999 }}>
+        <ScrollView>
+          {!alertType && (
+            <Select onValueChange={changeAlertType}>
+              <SelectTrigger variant="rounded" size="md">
+                <SelectInput
+                  placeholder="Hows frequency?"
+                  placeholderTextColor={text}
+                  color={text}
+                />
+                <MaterialIcons
+                  name="keyboard-arrow-down"
+                  size={24}
+                  color={text}
+                />
+              </SelectTrigger>
+              <SelectPortal>
+                <SelectBackdrop />
+                <SelectContent bg={tabBackground}>
+                  <SelectDragIndicatorWrapper>
+                    <SelectDragIndicator bg={text} />
+                  </SelectDragIndicatorWrapper>
+                  <SelectItem label="Interval" value="INTERVAL" />
+                  <SelectItem label="Weekly" value="WEEKLY" />
+                  <SelectItem label="Daily" value="DAILY" />
+                  <SelectItem label="Date" value="DATE" />
+                </SelectContent>
+              </SelectPortal>
+            </Select>
+          )}
+
+          {renderForms()}
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </Screen>
   );
 }
