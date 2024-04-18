@@ -1,6 +1,6 @@
 import { CreateAlertType } from "@/schema/alert-schema";
-import { useAlertStore } from "@/stores/alert/userAlertStore";
-import { View, Heading, HStack, Text, VStack } from "@gluestack-ui/themed";
+import { useAlertStore } from "@/stores/alert/use-alert-store";
+import { Heading, HStack, Text, VStack } from "@gluestack-ui/themed";
 import { format } from "date-fns";
 import { useRouter } from "expo-router";
 
