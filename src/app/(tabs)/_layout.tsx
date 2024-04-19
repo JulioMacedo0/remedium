@@ -1,13 +1,12 @@
 import Entypo from "@expo/vector-icons/Entypo";
 import { Tabs } from "expo-router";
 import * as Notifications from "expo-notifications";
-import { useI18n } from "@/context";
-import { useThemeColor } from "@/hooks";
-import { Colors } from "@/constants";
+
 import { useEffect, useRef } from "react";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { Theme } from "@/constants/theme/theme";
 import { useTheme } from "@shopify/restyle";
+import { useI18nStore } from "@/stores/i18n/useI18nStore";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -20,8 +19,8 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const { i18n } = useI18n();
   const theme = useTheme<Theme>();
+  const i18n = useI18nStore((state) => state.i18n);
   const { text, tabBackground, brandColor, inactiveTabBarIcon } = theme.colors;
 
   const { updateExpoToken } = useAuthStore();

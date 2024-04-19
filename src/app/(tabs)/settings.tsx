@@ -1,7 +1,7 @@
-import { Linking, StyleSheet, AppState, AppStateStatus } from "react-native";
-import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { Linking, AppState, AppStateStatus } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { BellRing, BellOffIcon } from "lucide-react-native";
-import { useI18n } from "@/context";
+
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BottomSheetDefaultBackdropProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types";
@@ -21,6 +21,8 @@ import { Colors, Theme, Text } from "@/constants";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useThemeStore } from "@/stores/theme/use-theme-store";
 import { useTheme } from "@shopify/restyle";
+import { useI18nStore } from "@/stores/i18n/useI18nStore";
+import { Button, ScrollView } from "@gluestack-ui/themed";
 
 export default function Config() {
   const [permission, setPermission] = useState("");
@@ -29,7 +31,8 @@ export default function Config() {
   const changeTheme = useThemeStore((set) => set.changeTheme);
   const themeColors = useTheme<Theme>();
   const { text } = themeColors.colors;
-  const { i18n, changeLaguange } = useI18n();
+  const i18n = useI18nStore((state) => state.i18n);
+  const changeLocale = useI18nStore((state) => state.changeLocale);
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -85,54 +88,62 @@ export default function Config() {
 
   return (
     <Screen>
-      <Section title={i18n.t("SETTINGS.THEME")}>
-        <RadioItem
-          onPress={() => changeTheme("light")}
-          icon={<Ionicons name="sunny" size={23} color={text} />}
-          text={i18n.t("SETTINGS.LIGHT")}
-          isSelected={theme == "light"}
-          withoutFeedback
-        />
+      <ScrollView>
+        <Section title={i18n.t("SETTINGS.THEME")}>
+          <RadioItem
+            onPress={() => changeTheme("light")}
+            icon={<Ionicons name="sunny" size={23} color={text} />}
+            text={i18n.t("SETTINGS.LIGHT")}
+            isSelected={theme == "light"}
+            withoutFeedback
+          />
 
-        <Divider />
+          <Divider />
 
-        <RadioItem
-          onPress={() => changeTheme("dark")}
-          icon={<Ionicons name="moon" size={23} color={text} />}
-          text={i18n.t("SETTINGS.DARK")}
-          isSelected={theme == "dark"}
-          withoutFeedback
-        />
-      </Section>
+          <RadioItem
+            onPress={() => changeTheme("dark")}
+            icon={<Ionicons name="moon" size={23} color={text} />}
+            text={i18n.t("SETTINGS.DARK")}
+            isSelected={theme == "dark"}
+            withoutFeedback
+          />
+        </Section>
 
-      <Section title={i18n.t("SETTINGS.LANGUAGE")}>
-        <SectionItem
-          icon={<Ionicons name="globe" size={23} color={text} />}
-          text={i18n.t("SETTINGS.APPLANGUAGE")}
-          onPress={() => openBottomSheet()}
-        />
-      </Section>
-      <Section title={"Session"}>
-        <SectionItem
-          icon={<Ionicons name="exit-outline" size={23} color={"red"} />}
-          text={"Exit"}
-          onPress={() => logout()}
-        />
-      </Section>
-      <Section title={"Notification"}>
-        <SectionItem
-          icon={
-            permission != "granted" ? (
-              <BellOffIcon size={23} color={text} />
-            ) : (
-              <BellRing size={23} color={text} />
-            )
-          }
-          text={permission != "granted" ? "Disabled" : "Active"}
-          onPress={() => openSettings()}
-        />
-      </Section>
-      {/* <BottomSheet
+        <Section title={i18n.t("SETTINGS.LANGUAGE")}>
+          <SectionItem
+            icon={<Ionicons name="globe" size={23} color={text} />}
+            text={i18n.t("SETTINGS.APPLANGUAGE")}
+            onPress={() => openBottomSheet()}
+          />
+        </Section>
+        <Section title={"Session"}>
+          <SectionItem
+            icon={<Ionicons name="exit-outline" size={23} color={"red"} />}
+            text={"Exit"}
+            onPress={() => logout()}
+          />
+        </Section>
+        <Section title={"Notification"}>
+          <SectionItem
+            icon={
+              permission != "granted" ? (
+                <BellOffIcon size={23} color={text} />
+              ) : (
+                <BellRing size={23} color={text} />
+              )
+            }
+            text={permission != "granted" ? "Disabled" : "Active"}
+            onPress={() => openSettings()}
+          />
+        </Section>
+
+        <Button onPress={() => changeLocale("en")}>
+          <Text>Ingles</Text>
+        </Button>
+        <Button onPress={() => changeLocale("pt")}>
+          <Text>portugues</Text>
+        </Button>
+        {/* <BottomSheet
         ref={bottomSheetRef}
         index={-1}
         snapPoints={snapPoints}
@@ -188,6 +199,7 @@ export default function Config() {
           />
         </View>
       </BottomSheet> */}
+      </ScrollView>
     </Screen>
   );
 }
