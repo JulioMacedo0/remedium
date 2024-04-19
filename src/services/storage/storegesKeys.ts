@@ -1,6 +1,6 @@
 export const STORAGE_KEYS = {
   USER: "USER",
   TOKEN: "TOKEN",
-  LAGUAGE: "LAGUAGE",
+  LOCALE: "LOCALE",
   THEME: "THEME",
 } as const;
