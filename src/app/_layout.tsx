@@ -16,7 +16,6 @@ import { client } from "@/services/http/httpClient";
 import { AxiosError } from "axios";
 import { theme, darkTheme } from "@/constants";
 import { useThemeStore } from "@/stores/theme/use-theme-store";
-import { StatusBar } from "expo-status-bar";
 
 // SplashScreen.preventAutoHideAsync();
 
@@ -25,10 +24,8 @@ export default function RootLayout() {
   return (
     <ThemeProvider theme={themeValue == "dark" ? darkTheme : theme}>
       <GluestackUIProvider config={config}>
-        <I18nProvider>
-          <RootLayoutNav />
-          <Toast position="bottom" bottomOffset={20} />
-        </I18nProvider>
+        <RootLayoutNav />
+        <Toast position="bottom" bottomOffset={20} />
       </GluestackUIProvider>
     </ThemeProvider>
   );
