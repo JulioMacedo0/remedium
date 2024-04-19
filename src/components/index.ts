@@ -6,6 +6,5 @@ export * from "@components/SectionItem";
 export * from "@components/View";
 export * from "@components/InputSection";
 export * from "@/components/AlertCard";
-export * from "@components/TextInput";
 export * from "@components/Screen";
 export * from "@components/Select";
