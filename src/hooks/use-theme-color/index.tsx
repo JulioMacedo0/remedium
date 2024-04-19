@@ -1,11 +1,11 @@
 import { Colors } from "@/constants";
-import { useTheme } from "@/context";
+import { useThemeStore } from "@/stores/theme/use-theme-store";
 
 export const useThemeColor = (
   props: { light?: string; dark?: string },
   colorName: keyof typeof Colors.light & keyof typeof Colors.dark
 ) => {
-  const { theme } = useTheme();
+  const theme = useThemeStore((state) => state.theme);
   const colorFromProps = props[theme];
 
   if (colorFromProps) {
