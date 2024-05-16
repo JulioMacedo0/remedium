@@ -99,14 +99,14 @@ export default function Config() {
         <Section title={i18n.t("SETTINGS.LANGUAGE")}>
           <LanguageSelect onValueChange={changeLocale} />
         </Section>
-        <Section title={"Session"}>
+        <Section title={i18n.t("SETTINGS.SESSION")}>
           <SectionItem
             icon={<Ionicons name="exit-outline" size={23} color={"red"} />}
-            text={"Exit"}
+            text={i18n.t("SETTINGS.EXIT")}
             onPress={() => logout()}
           />
         </Section>
-        <Section title={"Notification"}>
+        <Section title={i18n.t("SETTINGS.NOTIFICATION")}>
           <SectionItem
             icon={
               permission != "granted" ? (
@@ -115,7 +115,11 @@ export default function Config() {
                 <BellRing size={23} color={text} />
               )
             }
-            text={permission != "granted" ? "Disabled" : "Active"}
+            text={
+              permission != "granted"
+                ? i18n.t("SETTINGS.DISABLED")
+                : i18n.t("SETTINGS.ACTIVE")
+            }
             onPress={() => openSettings()}
           />
         </Section>
