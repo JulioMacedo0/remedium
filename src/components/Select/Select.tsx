@@ -11,11 +11,10 @@ import {
   SelectPortal,
   SelectTrigger,
 } from "@gluestack-ui/themed";
-
+import { ComponentProps } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
-type SelectProps = {};
-
+interface SelectProps extends ComponentProps<typeof DefaultSelect> {}
 export const Select = ({ ...props }: SelectProps) => {
   const theme = useTheme<Theme>();
   const { text, tabBackground } = theme.colors;
