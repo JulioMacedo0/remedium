@@ -3,7 +3,7 @@
 
   "ADD": {
     "TITLEPAGE": "Add",
-    "FREQUENCY": "Frequency",
+    "FREQUENCY": "Hows frequency?",
     "WEEK": "Week",
     "FREQUENCYDROPDOWN": {
       "PLACEHOLDER": "How frequency?",
@@ -45,6 +45,11 @@
       "APPLANGUAGE": "App Language",
       "EN": "English",
       "PT": "Portuguese"
-    }
+    },
+    "SESSION": "Session",
+    "EXIT": "Exit",
+    "NOTIFICATION": "Notification",
+    "ACTIVE": "Active",
+    "DISABLED": "Disabled"
   }
 }
