@@ -13,17 +13,18 @@ import {
 } from "@gluestack-ui/themed";
 import { ComponentProps } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useI18nStore } from "@/stores/i18n/useI18nStore";
 
 interface SelectProps extends ComponentProps<typeof DefaultSelect> {}
 export const Select = ({ ...props }: SelectProps) => {
   const theme = useTheme<Theme>();
   const { text, tabBackground } = theme.colors;
-
+  const i18n = useI18nStore((state) => state.i18n);
   return (
     <DefaultSelect rounded={"$full"} bg={tabBackground} {...props}>
       <SelectTrigger variant="rounded" size="md" pr={6}>
         <SelectInput
-          placeholder="Hows frequency?"
+          placeholder={i18n.t("ADD.FREQUENCYDROPDOWN.PLACEHOLDER")}
           placeholderTextColor={text}
           color={text}
         />
@@ -35,10 +36,22 @@ export const Select = ({ ...props }: SelectProps) => {
           <SelectDragIndicatorWrapper>
             <SelectDragIndicator bg={text} />
           </SelectDragIndicatorWrapper>
-          <SelectItem label="Interval" value="INTERVAL" />
-          <SelectItem label="Weekly" value="WEEKLY" />
-          <SelectItem label="Daily" value="DAILY" />
-          <SelectItem label="Date" value="DATE" />
+          <SelectItem
+            label={i18n.t("ADD.FREQUENCYDROPDOWN.INTERVAL")}
+            value="INTERVAL"
+          />
+          <SelectItem
+            label={i18n.t("ADD.FREQUENCYDROPDOWN.WEEKLY")}
+            value="WEEKLY"
+          />
+          <SelectItem
+            label={i18n.t("ADD.FREQUENCYDROPDOWN.DAILY")}
+            value="DAILY"
+          />
+          <SelectItem
+            label={i18n.t("ADD.FREQUENCYDROPDOWN.ONETIME")}
+            value="DATE"
+          />
         </SelectContent>
       </SelectPortal>
     </DefaultSelect>

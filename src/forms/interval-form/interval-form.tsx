@@ -26,6 +26,7 @@ import { useRef } from "react";
 
 import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native";
+import { useI18nStore } from "@/stores/i18n/useI18nStore";
 
 type IntervalFormProps = {
   submitType: "CREATE" | "UPDATE";
@@ -88,6 +89,8 @@ export const IntervalForm = ({
   const loadingText =
     submitType == "CREATE" ? "Creating alert..." : "Updateing alert...";
 
+  const i18n = useI18nStore((state) => state.i18n);
+
   return (
     <>
       <Controller
@@ -105,7 +108,7 @@ export const IntervalForm = ({
               onChange(value);
             }}
             onClose={onBlur}
-            selectedValue={value}
+            selectedValue={i18n.t("FROMS.INTERVAL.DROPDOWN")}
           />
         )}
       />

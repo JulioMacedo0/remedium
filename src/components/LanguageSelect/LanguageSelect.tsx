@@ -32,6 +32,7 @@ export const LanguageSelect = ({ ...props }: LanguageSelectProps) => {
           placeholder={i18n.t("SETTINGS.APPLANGUAGE")}
           placeholderTextColor={text}
           color={text}
+          value={i18n.t("SETTINGS.APPLANGUAGE")}
         />
         <MaterialIcons name="keyboard-arrow-down" size={24} color={text} />
       </SelectTrigger>
@@ -42,7 +43,6 @@ export const LanguageSelect = ({ ...props }: LanguageSelectProps) => {
             <SelectDragIndicator bg={text} />
           </SelectDragIndicatorWrapper>
           <SelectItem label={i18n.t("SETTINGS.BOTTOMSHEET.EN")} value="en" />
-
           <SelectItem label={i18n.t("SETTINGS.BOTTOMSHEET.PT")} value="pt" />
         </SelectContent>
       </SelectPortal>
