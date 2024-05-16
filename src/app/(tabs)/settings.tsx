@@ -1,9 +1,16 @@
-import { Linking, AppState, AppStateStatus } from "react-native";
+import { Linking, AppState, AppStateStatus, ViewProps } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { BellRing, BellOffIcon } from "lucide-react-native";
 
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  ComponentProps,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { BottomSheetDefaultBackdropProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types";
 import * as Notifications from "expo-notifications";
 import {
@@ -14,6 +21,7 @@ import {
   SectionItem,
   LaguageItem,
   Screen,
+  LanguageSelect,
 } from "@/components";
 
 import { Colors, Theme, Text } from "@/constants";
@@ -22,7 +30,7 @@ import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useThemeStore } from "@/stores/theme/use-theme-store";
 import { useTheme } from "@shopify/restyle";
 import { useI18nStore } from "@/stores/i18n/useI18nStore";
-import { Button, ScrollView } from "@gluestack-ui/themed";
+import { Button, ScrollView, Select } from "@gluestack-ui/themed";
 
 export default function Config() {
   const [permission, setPermission] = useState("");
@@ -34,12 +42,6 @@ export default function Config() {
   const i18n = useI18nStore((state) => state.i18n);
   const changeLocale = useI18nStore((state) => state.changeLocale);
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
-  const snapPoints = useMemo(() => ["40%", "85%"], []);
-
-  const openBottomSheet = () => bottomSheetRef.current?.expand();
-
   const getNotificationPermission = async () => {
     const { status } = await Notifications.getPermissionsAsync();
     setPermission(status);
@@ -47,21 +49,6 @@ export default function Config() {
   const openSettings = async () => {
     await Linking.openSettings();
   };
-  const renderBackdrop = useCallback(
-    (props: BottomSheetDefaultBackdropProps) => (
-      <BottomSheetBackdrop
-        enableTouchThrough
-        appearsOnIndex={0}
-        disappearsOnIndex={-1}
-        {...props}
-      />
-    ),
-    []
-  );
-
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
 
   const language = i18n.locale.split("-")[0];
 
@@ -110,11 +97,7 @@ export default function Config() {
         </Section>
 
         <Section title={i18n.t("SETTINGS.LANGUAGE")}>
-          <SectionItem
-            icon={<Ionicons name="globe" size={23} color={text} />}
-            text={i18n.t("SETTINGS.APPLANGUAGE")}
-            onPress={() => openBottomSheet()}
-          />
+          <LanguageSelect onValueChange={changeLocale} />
         </Section>
         <Section title={"Session"}>
           <SectionItem
@@ -136,69 +119,6 @@ export default function Config() {
             onPress={() => openSettings()}
           />
         </Section>
-
-        <Button onPress={() => changeLocale("en")}>
-          <Text>Ingles</Text>
-        </Button>
-        <Button onPress={() => changeLocale("pt")}>
-          <Text>portugues</Text>
-        </Button>
-        {/* <BottomSheet
-        ref={bottomSheetRef}
-        index={-1}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        backdropComponent={renderBackdrop}
-        handleIndicatorStyle={{ backgroundColor: text }}
-        backgroundStyle={{
-          backgroundColor: tabBackground,
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: tabBackground,
-          }}
-        >
-          <View
-            style={{
-              alignItems: "center",
-              paddingLeft: 15,
-              marginTop: 10,
-              marginBottom: 20,
-              flexDirection: "row",
-              backgroundColor: tabBackground,
-            }}
-          >
-            <Ionicons
-              name="close"
-              size={26}
-              color={text}
-              style={{ marginRight: 20 }}
-              onPress={() => bottomSheetRef.current?.close()}
-            />
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-              {i18n.t("SETTINGS.BOTTOMSHEET.APPLANGUAGE")}
-            </Text>
-          </View>
-          <Divider />
-          <LaguageItem
-            text={i18n.t("SETTINGS.BOTTOMSHEET.EN")}
-            isSelected={language == "en"}
-            onPress={() => {
-              changeLaguange("en");
-              bottomSheetRef.current?.close();
-            }}
-          />
-          <LaguageItem
-            text={i18n.t("SETTINGS.BOTTOMSHEET.PT")}
-            isSelected={language == "pt"}
-            onPress={() => {
-              changeLaguange("pt");
-              bottomSheetRef.current?.close();
-            }}
-          />
-        </View>
-      </BottomSheet> */}
       </ScrollView>
     </Screen>
   );
