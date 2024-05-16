@@ -71,33 +71,23 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
   signIn: async ({ email, password }, succesCallBack) => {
     set((state) => ({ ...state, loading: true }));
 
-    try {
-      const signInResponse = await client.post<SignInResponse>("auth/signIn", {
+    const signInResponse = await client
+      .post<SignInResponse>("auth/signIn", {
         email,
         password,
+      })
+      .finally(() => {
+        set((state) => ({ ...state, loading: false }));
       });
 
-      storageService.setItem(STORAGE_KEYS.USER, signInResponse.data.user);
-      storageService.setItem(
-        STORAGE_KEYS.TOKEN,
-        signInResponse.data.accessToken
-      );
-      succesCallBack();
-      set((state) => ({
-        ...state,
-        authenticated: true,
-        loading: false,
-      }));
-    } catch (error) {
-      if (isAxiosError(error)) {
-        Toast.show({
-          type: "error",
-          text1: error.response?.data.message,
-        });
-        console.log(error.response?.data.message);
-        set(() => ({ loading: false }));
-      }
-    }
+    storageService.setItem(STORAGE_KEYS.USER, signInResponse.data.user);
+    storageService.setItem(STORAGE_KEYS.TOKEN, signInResponse.data.accessToken);
+    succesCallBack();
+    set((state) => ({
+      ...state,
+      authenticated: true,
+      loading: false,
+    }));
   },
   signUp: async ({ email, password, username }, succesCallBack) => {
     set((state) => ({ ...state, loading: true }));
@@ -105,65 +95,47 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
     const { languageTag } = Localization.getLocales()[0];
     const { timeZone } = Localization.getCalendars()[0];
 
-    try {
-      const expo_token = (
-        await Notifications.getExpoPushTokenAsync({
-          projectId: "0e830c18-6f43-4321-9330-c85a1c4acdb0",
-        })
-      ).data;
+    const expo_token = (
+      await Notifications.getExpoPushTokenAsync({
+        projectId: "0e830c18-6f43-4321-9330-c85a1c4acdb0",
+      })
+    ).data;
 
-      const signUpResponse = await client.post<SignUpResponse>("users", {
+    const signUpResponse = await client
+      .post<SignUpResponse>("users", {
         email,
         password,
         username,
         expo_token,
         timeZone,
         languageTag,
+      })
+      .finally(() => {
+        set((state) => ({ ...state, loading: false }));
       });
 
-      Toast.show({
-        type: "success",
-        text1: `Account created with success! Welcome ${signUpResponse.data.username}`,
-      });
-      succesCallBack();
-      set(() => ({ loading: false }));
-      return signUpResponse.status;
-    } catch (error) {
-      if (isAxiosError(error)) {
-        Toast.show({
-          type: "error",
-          text1: error.response?.data.message[0],
-        });
-      }
+    Toast.show({
+      type: "success",
+      text1: `Account created with success! Welcome ${signUpResponse.data.username}`,
+    });
+    succesCallBack();
 
-      console.log(error);
-      set(() => ({ loading: false }));
-    }
+    return signUpResponse.status;
   },
   updateExpoToken: async () => {
-    try {
-      const expo_token = (
-        await Notifications.getExpoPushTokenAsync({
-          projectId: "0e830c18-6f43-4321-9330-c85a1c4acdb0",
-        })
-      ).data;
-      const user = storageService.getItem<UserType>(STORAGE_KEYS.USER);
+    const expo_token = (
+      await Notifications.getExpoPushTokenAsync({
+        projectId: "0e830c18-6f43-4321-9330-c85a1c4acdb0",
+      })
+    ).data;
+    const user = storageService.getItem<UserType>(STORAGE_KEYS.USER);
 
-      if (expo_token == user?.expo_token) return;
+    if (expo_token == user?.expo_token) return;
 
-      const signUpResponse = await client.patch<SignUpResponse>("users", {
-        expo_token,
-      });
+    const signUpResponse = await client.patch<SignUpResponse>("users", {
+      expo_token,
+    });
 
-      storageService.setItem(STORAGE_KEYS.USER, signUpResponse.data);
-    } catch (error) {
-      if (isAxiosError(error)) {
-        // Toast.show({
-        //   type: "error",
-        //   text1: error.response?.data.message[0],
-        // });
-      }
-      console.log(error);
-    }
+    storageService.setItem(STORAGE_KEYS.USER, signUpResponse.data);
   },
 }));
