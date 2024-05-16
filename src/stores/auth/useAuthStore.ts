@@ -116,7 +116,7 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
 
     Toast.show({
       type: "success",
-      text1: `Account created with success! Welcome ${signUpResponse.data.username}`,
+      text1: `Account created with success!`,
     });
     succesCallBack();
 
