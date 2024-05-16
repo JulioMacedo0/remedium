@@ -1,6 +1,5 @@
 import { useRouter, useSegments, Stack } from "expo-router";
 
-import { I18nProvider } from "@/context";
 import Toast from "react-native-toast-message";
 
 import { useAuthStore } from "@/stores/auth/useAuthStore";
@@ -56,8 +55,19 @@ function RootLayoutNav() {
       },
       async function (error) {
         if (error instanceof AxiosError) {
+          if (!error.response) {
+            Toast.show({
+              type: "error",
+              text1: "Connection error, try later",
+            });
+          } else {
+            Toast.show({
+              type: "error",
+              text1: error.response.data.message,
+            });
+          }
           if (error.response?.status == 401) {
-            await storageService.removeItem(STORAGE_KEYS.TOKEN);
+            storageService.removeItem(STORAGE_KEYS.TOKEN);
             // router.replace("/sign-in");
             setAuthenticated(false);
           }
