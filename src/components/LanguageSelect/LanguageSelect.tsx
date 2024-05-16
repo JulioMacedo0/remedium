@@ -8,11 +8,12 @@ import {
   SelectDragIndicatorWrapper,
   SelectInput,
   SelectItem,
+  SelectItemText,
   SelectPortal,
   SelectTrigger,
 } from "@gluestack-ui/themed";
 
-import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { ComponentProps } from "react";
 import { useI18nStore } from "@/stores/i18n/useI18nStore";
 
@@ -24,10 +25,11 @@ export const LanguageSelect = ({ ...props }: LanguageSelectProps) => {
   const { text, tabBackground } = theme.colors;
 
   return (
-    <DefaultSelect rounded={"$full"} bg={tabBackground} {...props}>
-      <SelectTrigger variant="rounded" size="md" pr={6}>
+    <DefaultSelect bg={tabBackground} {...props} p={8}>
+      <SelectTrigger size="md" borderWidth={0}>
+        <Ionicons name="globe" size={23} color={text} />
         <SelectInput
-          placeholder="Hows frequency?"
+          placeholder={i18n.t("SETTINGS.APPLANGUAGE")}
           placeholderTextColor={text}
           color={text}
         />
@@ -40,6 +42,7 @@ export const LanguageSelect = ({ ...props }: LanguageSelectProps) => {
             <SelectDragIndicator bg={text} />
           </SelectDragIndicatorWrapper>
           <SelectItem label={i18n.t("SETTINGS.BOTTOMSHEET.EN")} value="en" />
+
           <SelectItem label={i18n.t("SETTINGS.BOTTOMSHEET.PT")} value="pt" />
         </SelectContent>
       </SelectPortal>
