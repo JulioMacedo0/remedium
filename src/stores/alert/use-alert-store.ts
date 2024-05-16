@@ -77,100 +77,74 @@ export const useAlertStore = create<useAlertStoreType>((set) => ({
     set((state) => ({ ...state, loading: false }));
   },
   createAlerts: async (alert, callBack) => {
-    try {
-      set((state) => ({ ...state, loading: true }));
-      const createAlertResponse = await client.post<CreateAlertResponse>(
-        "alerts",
-        alert
-      );
-
-      callBack();
-      Toast.show({
-        type: "success",
-        text1: `Alert created`,
+    set((state) => ({ ...state, loading: true }));
+    const createAlertResponse = await client
+      .post<CreateAlertResponse>("alerts", alert)
+      .finally(() => {
+        set((state) => ({ ...state, loading: false }));
       });
-      set((state) => ({
-        ...state,
-        alerts: [...state.alerts, createAlertResponse.data],
-        loading: false,
-      }));
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        console.log(error.response?.data?.message);
-        Toast.show({
-          type: "error",
-          text1: `${error.response?.data?.message}`,
-        });
-      }
-      set((state) => ({ ...state, loading: false }));
-    }
+
+    callBack();
+    Toast.show({
+      type: "success",
+      text1: `Alert created`,
+    });
+    set((state) => ({
+      ...state,
+      alerts: [...state.alerts, createAlertResponse.data],
+      loading: false,
+    }));
   },
   updateAlerts: async (alert, callBack, alertId) => {
-    try {
-      set((state) => ({ ...state, loading: true }));
-      const updateAlertResponse = await client.patch<CreateAlertResponse>(
-        `alerts/${alertId}`,
-        alert
-      );
-
-      callBack();
-      router.back();
-      Toast.show({
-        type: "success",
-        text1: `Alert updated`,
+    set((state) => ({ ...state, loading: true }));
+    const updateAlertResponse = await client
+      .patch<CreateAlertResponse>(`alerts/${alertId}`, alert)
+      .finally(() => {
+        set((state) => ({ ...state, loading: false }));
       });
-      set((state) => ({
-        ...state,
-        alerts: [
-          ...state.alerts.map((alert) => {
-            if (alert.id == updateAlertResponse.data.id) {
-              return updateAlertResponse.data;
-            } else {
-              return alert;
-            }
-          }),
-        ],
-        loading: false,
-      }));
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        console.log(error.response?.data?.message);
-        Toast.show({
-          type: "error",
-          text1: `${error.response?.data?.message}`,
-        });
-      }
-    }
+
+    callBack();
+    router.back();
+    Toast.show({
+      type: "success",
+      text1: `Alert updated`,
+    });
+    set((state) => ({
+      ...state,
+      alerts: [
+        ...state.alerts.map((alert) => {
+          if (alert.id == updateAlertResponse.data.id) {
+            return updateAlertResponse.data;
+          } else {
+            return alert;
+          }
+        }),
+      ],
+      loading: false,
+    }));
   },
   deleteAlert: async (alertId) => {
     set((state) => ({ ...state, loading: true }));
-    try {
-      const deleteAlertResponse = await client.delete<
-        Omit<CreateAlertResponse, "trigger">
-      >(`alerts/${alertId}`);
 
-      Toast.show({
-        type: "success",
-        text1: `Alert deleted`,
+    const deleteAlertResponse = await client
+      .delete<Omit<CreateAlertResponse, "trigger">>(`alerts/${alertId}`)
+      .finally(() => {
+        set((state) => ({ ...state, loading: false }));
       });
 
-      set((state) => ({
-        ...state,
-        alerts: [
-          ...state.alerts.filter(
-            (alert) => alert.id != deleteAlertResponse.data.id
-          ),
-        ],
-        loading: false,
-      }));
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        console.log(error.response?.data?.message);
-        Toast.show({
-          type: "error",
-          text1: `${error.response?.data?.message}`,
-        });
-      }
-    }
+    Toast.show({
+      type: "success",
+      text1: `Alert deleted`,
+    });
+
+    set((state) => ({
+      ...state,
+      alerts: [
+        ...state.alerts.filter(
+          (alert) => alert.id != deleteAlertResponse.data.id
+        ),
+      ],
+      loading: false,
+    }));
   },
 }));
