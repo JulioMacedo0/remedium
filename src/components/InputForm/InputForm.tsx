@@ -1,8 +1,14 @@
-import { GluestackFormControlProps, GluestackInputProps } from "@/types";
+import {
+  GluestackFormControlProps,
+  GluestackInpuProps,
+  GluestackInputFieldProps,
+} from "@/types";
 import {
   FormControl,
   FormControlError,
   FormControlErrorText,
+  FormControlHelper,
+  FormControlHelperText,
   FormControlLabel,
   FormControlLabelText,
   Input,
@@ -12,14 +18,26 @@ import { forwardRef } from "react";
 import { TextInput } from "react-native";
 
 type InputFormProps = {
-  InputProps: GluestackInputProps;
+  InputContainerProps?: GluestackInpuProps;
+  InputProps: GluestackInputFieldProps;
   FormControlProps: GluestackFormControlProps;
-  Label: string;
+  Label?: string;
   ErrorText?: string;
+  HelperText?: string;
 };
 
 export const InputForm = forwardRef<TextInput, InputFormProps>(
-  ({ Label, ErrorText, FormControlProps, InputProps }, ref) => (
+  (
+    {
+      Label,
+      ErrorText,
+      HelperText,
+      FormControlProps,
+      InputProps,
+      InputContainerProps,
+    },
+    ref
+  ) => (
     <FormControl
       size="md"
       isDisabled={false}
@@ -30,12 +48,21 @@ export const InputForm = forwardRef<TextInput, InputFormProps>(
       <FormControlLabel>
         <FormControlLabelText>{Label}</FormControlLabelText>
       </FormControlLabel>
-      <Input>
-        <InputField ref={ref} {...InputProps} />
+      <Input {...InputContainerProps}>
+        <InputField ref={ref as GluestackInpuProps} {...InputProps} />
       </Input>
-      <FormControlError>
-        <FormControlErrorText>{ErrorText}</FormControlErrorText>
-      </FormControlError>
+
+      {HelperText && (
+        <FormControlHelper>
+          <FormControlHelperText>{HelperText}</FormControlHelperText>
+        </FormControlHelper>
+      )}
+
+      {ErrorText && (
+        <FormControlError>
+          <FormControlErrorText>{ErrorText}</FormControlErrorText>
+        </FormControlError>
+      )}
     </FormControl>
   )
 );
