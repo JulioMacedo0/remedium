@@ -149,7 +149,9 @@ export const IntervalForm = ({
                   />
                 </Input>
                 <FormControlHelper>
-                  <FormControlHelperText>Hour</FormControlHelperText>
+                  <FormControlHelperText>
+                    {i18n.t("FROMS.INTERVAL.HOUR")}
+                  </FormControlHelperText>
                 </FormControlHelper>
                 <FormControlError>
                   {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
@@ -202,7 +204,10 @@ export const IntervalForm = ({
                   />
                 </Input>
                 <FormControlHelper>
-                  <FormControlHelperText>Minute</FormControlHelperText>
+                  <FormControlHelperText>
+                    {" "}
+                    {i18n.t("FROMS.INTERVAL.MINUTE")}
+                  </FormControlHelperText>
                 </FormControlHelper>
                 <FormControlError>
                   {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
@@ -238,7 +243,9 @@ export const IntervalForm = ({
             isRequired={true}
           >
             <FormControlLabel>
-              <FormControlLabelText>Remedy name</FormControlLabelText>
+              <FormControlLabelText>
+                {i18n.t("FROMS.DEFAULT.NAME")}
+              </FormControlLabelText>
             </FormControlLabel>
             <Input>
               <InputField
@@ -275,7 +282,10 @@ export const IntervalForm = ({
             isRequired={true}
           >
             <FormControlLabel>
-              <FormControlLabelText>Dose</FormControlLabelText>
+              <FormControlLabelText>
+                {" "}
+                {i18n.t("FROMS.DEFAULT.DOSE")}
+              </FormControlLabelText>
             </FormControlLabel>
             <Input>
               <InputField
@@ -317,7 +327,10 @@ export const IntervalForm = ({
             isRequired={true}
           >
             <FormControlLabel>
-              <FormControlLabelText>Instructions</FormControlLabelText>
+              <FormControlLabelText>
+                {" "}
+                {i18n.t("FROMS.DEFAULT.INSTRUCTIONS")}
+              </FormControlLabelText>
             </FormControlLabel>
             <Input>
               <InputField
@@ -354,7 +367,9 @@ export const IntervalForm = ({
         onPress={handleSubmit(onSubmit)}
         mt={8}
       >
-        <ButtonText>{loading ? loadingText : "Scheluder Alert"}</ButtonText>
+        <ButtonText>
+          {loading ? loadingText : i18n.t("FROMS.DEFAULT.NAME")}
+        </ButtonText>
       </Button>
     </>
   );
