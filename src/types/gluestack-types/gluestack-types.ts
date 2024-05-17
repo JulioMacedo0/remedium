@@ -1,7 +1,9 @@
-import { FormControl, InputField } from "@gluestack-ui/themed";
+import { FormControl, InputField, Input } from "@gluestack-ui/themed";
 import { ComponentProps } from "react";
 
-export interface GluestackInputProps
+export interface GluestackInputFieldProps
   extends ComponentProps<typeof InputField> {}
 export interface GluestackFormControlProps
   extends ComponentProps<typeof FormControl> {}
+
+export interface GluestackInpuProps extends ComponentProps<typeof Input> {}

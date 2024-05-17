@@ -1,4 +1,5 @@
 export {
   GluestackFormControlProps,
-  GluestackInputProps,
+  GluestackInpuProps,
+  GluestackInputFieldProps,
 } from "./gluestack-types";
