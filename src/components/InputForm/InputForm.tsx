@@ -1,3 +1,4 @@
+import { GluestackFormControlProps, GluestackInputProps } from "@/types";
 import {
   FormControl,
   FormControlError,
@@ -8,10 +9,6 @@ import {
   InputField,
 } from "@gluestack-ui/themed";
 import { ComponentProps, forwardRef } from "react";
-
-interface GluestackInputProps extends ComponentProps<typeof InputField> {}
-interface GluestackFormControlProps
-  extends ComponentProps<typeof FormControl> {}
 
 type InputFormProps = {
   InputProps: GluestackInputProps;
