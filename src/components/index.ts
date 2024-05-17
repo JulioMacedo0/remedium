@@ -9,3 +9,4 @@ export * from "@/components/AlertCard";
 export * from "@components/Screen";
 export * from "@components/Select";
 export * from "@components/LanguageSelect";
+export * from "@components/InputForm";
