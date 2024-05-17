@@ -49,7 +49,7 @@ export const InputForm = forwardRef<TextInput, InputFormProps>(
         <FormControlLabelText>{Label}</FormControlLabelText>
       </FormControlLabel>
       <Input {...InputContainerProps}>
-        <InputField ref={ref as GluestackInpuProps} {...InputProps} />
+        <InputField ref={ref} {...InputProps} />
       </Input>
 
       {HelperText && (
