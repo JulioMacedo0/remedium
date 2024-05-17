@@ -3,12 +3,11 @@ import { useAlertStore } from "@/stores/alert/use-alert-store";
 import { InputForm, Select } from "@/components";
 import { Box, Button, ButtonText, HStack, VStack } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
-import { Controller, useController, useForm } from "react-hook-form";
-import { TextInput, TouchableOpacity } from "react-native";
+import { Controller, useForm } from "react-hook-form";
+import { TextInput } from "react-native";
 import { useI18nStore } from "@/stores/i18n/useI18nStore";
-import DatePicker from "react-native-date-picker";
 
 type IntervalFormProps = {
   submitType: "CREATE" | "UPDATE";
