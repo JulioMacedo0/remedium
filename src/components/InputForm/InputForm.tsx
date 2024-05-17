@@ -8,7 +8,8 @@ import {
   Input,
   InputField,
 } from "@gluestack-ui/themed";
-import { ComponentProps, forwardRef } from "react";
+import { forwardRef } from "react";
+import { TextInput } from "react-native";
 
 type InputFormProps = {
   InputProps: GluestackInputProps;
@@ -17,7 +18,7 @@ type InputFormProps = {
   ErrorText?: string;
 };
 
-export const InputForm = forwardRef<GluestackInputProps, InputFormProps>(
+export const InputForm = forwardRef<TextInput, InputFormProps>(
   ({ Label, ErrorText, FormControlProps, InputProps }, ref) => (
     <FormControl
       size="md"
