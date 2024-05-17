@@ -20,11 +20,12 @@ import {
   VStack,
 } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native";
 import { useI18nStore } from "@/stores/i18n/useI18nStore";
+import DatePicker from "react-native-date-picker";
 
 type IntervalFormProps = {
   submitType: "CREATE" | "UPDATE";
@@ -52,6 +53,7 @@ export const IntervalForm = ({
     control,
     handleSubmit,
     formState: { errors },
+
     reset,
   } = useForm<IntervalSchemaType>({
     defaultValues: {
@@ -72,6 +74,9 @@ export const IntervalForm = ({
   const remedyNameInputRef = useRef<TextInput | null>(null);
   const DoseNameInputRef = useRef<TextInput | null>(null);
   const insctructionsRef = useRef<TextInput | null>(null);
+
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
 
   const { loading, createAlerts, updateAlerts } = useAlertStore();
 
@@ -111,53 +116,42 @@ export const IntervalForm = ({
         )}
       />
 
-      <HStack space="md" justifyContent="center">
+      <HStack space="md" justifyContent="center" alignItems="center">
         <Controller
           control={control}
           name="trigger.hours"
           render={({ field: { onChange, onBlur, value = "" } }) => {
             return (
-              <FormControl
-                size="lg"
-                isDisabled={false}
-                isInvalid={!!errors.trigger?.hours}
-                isReadOnly={false}
-                isRequired={true}
-              >
-                <Input height={50} width={70}>
-                  <InputField
-                    returnKeyType="next"
-                    blurOnSubmit={false}
-                    onSubmitEditing={() => minuteInputRef.current?.focus()}
-                    ref={hourInputRef}
-                    maxLength={2}
-                    type="text"
-                    onChangeText={(value) => {
-                      onChange(Number(value));
+              <InputForm
+                ref={hourInputRef}
+                HelperText={i18n.t("FROMS.INTERVAL.HOUR")}
+                ErrorText={errors.trigger?.hours?.message}
+                FormControlProps={{
+                  isRequired: false,
+                  isInvalid: !!errors.trigger?.hours,
+                }}
+                InputContainerProps={{
+                  w: 80,
+                }}
+                InputProps={{
+                  blurOnSubmit: false,
+                  onSubmitEditing: () => minuteInputRef.current?.focus(),
+                  maxLength: 2,
+                  type: "text",
+                  onChangeText: (value) => {
+                    onChange(Number(value));
 
-                      if (value.length >= 2) {
-                        minuteInputRef.current?.focus();
-                      }
-                    }}
-                    onBlur={onBlur}
-                    value={value.toString()}
-                    keyboardType="numeric"
-                    textAlign="center"
-                    placeholder={initialValue?.trigger.hours.toString() ?? "00"}
-                  />
-                </Input>
-                <FormControlHelper>
-                  <FormControlHelperText>
-                    {i18n.t("FROMS.INTERVAL.HOUR")}
-                  </FormControlHelperText>
-                </FormControlHelper>
-                <FormControlError>
-                  {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-                  <FormControlErrorText>
-                    {errors.trigger?.hours?.message}
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
+                    if (value.length >= 2) {
+                      minuteInputRef.current?.focus();
+                    }
+                  },
+                  onBlur: () => onBlur(),
+                  value: value.toString(),
+                  keyboardType: "numeric",
+                  textAlign: "center",
+                  placeholder: initialValue?.trigger.hours.toString() ?? "00",
+                }}
+              />
             );
           }}
         />
@@ -171,62 +165,41 @@ export const IntervalForm = ({
           name="trigger.minutes"
           render={({ field: { onChange, onBlur, value = "" } }) => {
             return (
-              <FormControl
-                size="lg"
-                isDisabled={false}
-                isInvalid={!!errors.trigger?.minutes}
-                isReadOnly={false}
-                isRequired={true}
-              >
-                <Input height={50} width={70}>
-                  <InputField
-                    returnKeyType="next"
-                    ref={minuteInputRef}
-                    blurOnSubmit={false}
-                    onSubmitEditing={() => remedyNameInputRef.current?.focus()}
-                    maxLength={2}
-                    type="text"
-                    onChangeText={(value) => {
-                      onChange(Number(value));
-                      if (value.length == 0) {
-                        hourInputRef.current?.focus();
-                      } else if (value.length >= 2) {
-                        remedyNameInputRef.current?.focus();
-                      }
-                    }}
-                    onBlur={onBlur}
-                    value={value.toString()}
-                    keyboardType="numeric"
-                    textAlign="center"
-                    placeholder={String(initialValue?.trigger.minutes ?? "00")}
-                  />
-                </Input>
-                <FormControlHelper>
-                  <FormControlHelperText>
-                    {" "}
-                    {i18n.t("FROMS.INTERVAL.MINUTE")}
-                  </FormControlHelperText>
-                </FormControlHelper>
-                <FormControlError>
-                  {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-                  <FormControlErrorText>
-                    {errors.trigger?.minutes?.message}
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
+              <InputForm
+                ref={minuteInputRef}
+                HelperText={i18n.t("FROMS.INTERVAL.MINUTE")}
+                ErrorText={errors.trigger?.minutes?.message}
+                FormControlProps={{
+                  isInvalid: !!errors.trigger?.minutes,
+                  isRequired: false,
+                }}
+                InputContainerProps={{
+                  w: 80,
+                }}
+                InputProps={{
+                  returnKeyType: "next",
+                  blurOnSubmit: false,
+                  onSubmitEditing: () => remedyNameInputRef.current?.focus(),
+                  maxLength: 2,
+                  type: "text",
+                  onChangeText: (value) => {
+                    onChange(Number(value));
+                    if (value.length == 0) {
+                      hourInputRef.current?.focus();
+                    } else if (value.length >= 2) {
+                      remedyNameInputRef.current?.focus();
+                    }
+                  },
+                  onBlur: () => onBlur(),
+                  value: value.toString(),
+                  keyboardType: "numeric",
+                  textAlign: "center",
+                  placeholder: String(initialValue?.trigger.minutes ?? "00"),
+                }}
+              />
             );
           }}
         />
-
-        <RadioGroup borderColor="$blue900">
-          <Radio value="AM" size="md" isInvalid={false} isDisabled={false}>
-            <RadioLabel>AM</RadioLabel>
-          </Radio>
-          <Divider />
-          <Radio value="PM" size="md" isInvalid={false} isDisabled={false}>
-            <RadioLabel>PM</RadioLabel>
-          </Radio>
-        </RadioGroup>
       </HStack>
 
       <Controller
@@ -313,6 +286,22 @@ export const IntervalForm = ({
           {loading ? loadingText : i18n.t("FROMS.BUTTON")}
         </ButtonText>
       </Button>
+
+      <DatePicker
+        modal
+        mode="time"
+        open={open}
+        date={date}
+        onConfirm={(date) => {
+          console.log(date);
+          setOpen(false);
+          setDate(date);
+          remedyNameInputRef.current?.focus();
+        }}
+        onCancel={() => {
+          setOpen(false);
+        }}
+      />
     </>
   );
 };
