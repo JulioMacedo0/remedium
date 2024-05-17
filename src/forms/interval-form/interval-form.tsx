@@ -1,29 +1,12 @@
 import { IntervalSchemaType, intervalSchema } from "@/schema";
 import { useAlertStore } from "@/stores/alert/use-alert-store";
 import { InputForm, Select } from "@/components";
-import {
-  Box,
-  Button,
-  ButtonText,
-  Divider,
-  FormControl,
-  FormControlError,
-  FormControlErrorText,
-  FormControlHelper,
-  FormControlHelperText,
-  HStack,
-  Input,
-  InputField,
-  Radio,
-  RadioGroup,
-  RadioLabel,
-  VStack,
-} from "@gluestack-ui/themed";
+import { Box, Button, ButtonText, HStack, VStack } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
 
-import { Controller, useForm } from "react-hook-form";
-import { TextInput } from "react-native";
+import { Controller, useController, useForm } from "react-hook-form";
+import { TextInput, TouchableOpacity } from "react-native";
 import { useI18nStore } from "@/stores/i18n/useI18nStore";
 import DatePicker from "react-native-date-picker";
 
@@ -53,7 +36,6 @@ export const IntervalForm = ({
     control,
     handleSubmit,
     formState: { errors },
-
     reset,
   } = useForm<IntervalSchemaType>({
     defaultValues: {
@@ -74,9 +56,6 @@ export const IntervalForm = ({
   const remedyNameInputRef = useRef<TextInput | null>(null);
   const DoseNameInputRef = useRef<TextInput | null>(null);
   const insctructionsRef = useRef<TextInput | null>(null);
-
-  const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
 
   const { loading, createAlerts, updateAlerts } = useAlertStore();
 
@@ -286,22 +265,6 @@ export const IntervalForm = ({
           {loading ? loadingText : i18n.t("FROMS.BUTTON")}
         </ButtonText>
       </Button>
-
-      <DatePicker
-        modal
-        mode="time"
-        open={open}
-        date={date}
-        onConfirm={(date) => {
-          console.log(date);
-          setOpen(false);
-          setDate(date);
-          remedyNameInputRef.current?.focus();
-        }}
-        onCancel={() => {
-          setOpen(false);
-        }}
-      />
     </>
   );
 };
