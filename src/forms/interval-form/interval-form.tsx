@@ -1,6 +1,6 @@
 import { IntervalSchemaType, intervalSchema } from "@/schema";
 import { useAlertStore } from "@/stores/alert/use-alert-store";
-import { Select } from "@/components";
+import { InputForm, Select } from "@/components";
 import {
   Box,
   Button,
@@ -11,8 +11,6 @@ import {
   FormControlErrorText,
   FormControlHelper,
   FormControlHelperText,
-  FormControlLabel,
-  FormControlLabelText,
   HStack,
   Input,
   InputField,
@@ -235,38 +233,24 @@ export const IntervalForm = ({
         control={control}
         name="title"
         render={({ field: { onChange, onBlur, value = "" } }) => (
-          <FormControl
-            size="md"
-            isDisabled={false}
-            isInvalid={!!errors.title}
-            isReadOnly={false}
-            isRequired={true}
-          >
-            <FormControlLabel>
-              <FormControlLabelText>
-                {i18n.t("FROMS.DEFAULT.NAME")}
-              </FormControlLabelText>
-            </FormControlLabel>
-            <Input>
-              <InputField
-                ref={remedyNameInputRef}
-                blurOnSubmit={false}
-                returnKeyType="next"
-                onSubmitEditing={() => DoseNameInputRef.current?.focus()}
-                type="text"
-                placeholder={initialValue?.title ?? "Dipirona"}
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-              />
-            </Input>
-            <FormControlError>
-              {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-              <FormControlErrorText>
-                {errors.title?.message}
-              </FormControlErrorText>
-            </FormControlError>
-          </FormControl>
+          <InputForm
+            ref={remedyNameInputRef}
+            Label={i18n.t("FROMS.DEFAULT.NAME")}
+            ErrorText={errors.title?.message}
+            InputProps={{
+              onBlur: () => onBlur(),
+              onChangeText: (text) => onChange(text),
+              value,
+              placeholder: initialValue?.title ?? "Dipirona",
+              blurOnSubmit: false,
+              returnKeyType: "next",
+              onSubmitEditing: () => DoseNameInputRef.current?.focus(),
+              type: "text",
+            }}
+            FormControlProps={{
+              isInvalid: !!errors.title,
+            }}
+          />
         )}
       />
 
@@ -274,44 +258,22 @@ export const IntervalForm = ({
         control={control}
         name="subtitle"
         render={({ field: { onChange, onBlur, value = "" } }) => (
-          <FormControl
-            size="md"
-            isDisabled={false}
-            isInvalid={!!errors.subtitle}
-            isReadOnly={false}
-            isRequired={true}
-          >
-            <FormControlLabel>
-              <FormControlLabelText>
-                {" "}
-                {i18n.t("FROMS.DEFAULT.DOSE")}
-              </FormControlLabelText>
-            </FormControlLabel>
-            <Input>
-              <InputField
-                ref={DoseNameInputRef}
-                blurOnSubmit={false}
-                returnKeyType="next"
-                onSubmitEditing={() => insctructionsRef.current?.focus()}
-                type="text"
-                placeholder={initialValue?.subtitle ?? "1 pill"}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-              />
-            </Input>
-            {/* <FormControlHelper>
-          <FormControlHelperText>
-            Must be at least 6 characters.
-          </FormControlHelperText>
-        </FormControlHelper> */}
-            <FormControlError>
-              {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-              <FormControlErrorText>
-                {errors.subtitle?.message}
-              </FormControlErrorText>
-            </FormControlError>
-          </FormControl>
+          <InputForm
+            ref={DoseNameInputRef}
+            Label={i18n.t("FROMS.DEFAULT.DOSE")}
+            ErrorText={errors.subtitle?.message}
+            FormControlProps={{ isInvalid: !!errors.subtitle }}
+            InputProps={{
+              blurOnSubmit: false,
+              returnKeyType: "next",
+              onSubmitEditing: () => insctructionsRef.current?.focus(),
+              type: "text",
+              placeholder: initialValue?.subtitle ?? "1 pill",
+              onChangeText: (text) => onChange(text),
+              onBlur: () => onBlur,
+              value: value,
+            }}
+          />
         )}
       />
 
@@ -319,43 +281,23 @@ export const IntervalForm = ({
         control={control}
         name="body"
         render={({ field: { onChange, onBlur, value = "" } }) => (
-          <FormControl
-            size="md"
-            isDisabled={false}
-            isInvalid={!!errors.body}
-            isReadOnly={false}
-            isRequired={true}
-          >
-            <FormControlLabel>
-              <FormControlLabelText>
-                {" "}
-                {i18n.t("FROMS.DEFAULT.INSTRUCTIONS")}
-              </FormControlLabelText>
-            </FormControlLabel>
-            <Input>
-              <InputField
-                ref={insctructionsRef}
-                returnKeyType="done"
-                onSubmitEditing={handleSubmit(onSubmit)}
-                type="text"
-                placeholder={initialValue?.body ?? "Take before breakfast"}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-              />
-            </Input>
-            {/* <FormControlHelper>
-          <FormControlHelperText>
-            Must be at least 6 characters.
-          </FormControlHelperText>
-        </FormControlHelper> */}
-            <FormControlError>
-              {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-              <FormControlErrorText>
-                {errors.body?.message}
-              </FormControlErrorText>
-            </FormControlError>
-          </FormControl>
+          <InputForm
+            ref={insctructionsRef}
+            Label={i18n.t("FROMS.DEFAULT.INSTRUCTIONS")}
+            ErrorText={errors.body?.message}
+            FormControlProps={{
+              isInvalid: !!errors.body,
+            }}
+            InputProps={{
+              returnKeyType: "done",
+              onSubmitEditing: () => handleSubmit(onSubmit),
+              type: "text",
+              placeholder: initialValue?.body ?? "Take before breakfast",
+              onChangeText: (text) => onChange(text),
+              onBlur: () => onBlur,
+              value: value,
+            }}
+          />
         )}
       />
       <Button
@@ -368,7 +310,7 @@ export const IntervalForm = ({
         mt={8}
       >
         <ButtonText>
-          {loading ? loadingText : i18n.t("FROMS.DEFAULT.NAME")}
+          {loading ? loadingText : i18n.t("FROMS.BUTTON")}
         </ButtonText>
       </Button>
     </>
