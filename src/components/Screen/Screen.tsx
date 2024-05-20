@@ -9,7 +9,7 @@ type ScreenProps = {
 export const Screen = ({ children }: ScreenProps) => {
   const themeValue = useThemeStore((set) => set.theme);
   return (
-    <Box backgroundColor="mainBackground" flex={1} pt="xl" px="m">
+    <Box backgroundColor="mainBackground" flex={1} px="m">
       <StatusBar style={themeValue === "dark" ? "light" : "dark"} />
       {children}
     </Box>
