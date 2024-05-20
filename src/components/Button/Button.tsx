@@ -1,26 +1,27 @@
-import { TouchableOpacity } from "react-native";
-import { Text } from "../Text";
-import { Colors } from "@/constants";
-import { useTheme } from "@/context";
+import { ButtonText, Button as UiButton } from "@gluestack-ui/themed";
 
-type ButtonProps = TouchableOpacity["props"] & { text: string };
+import { ComponentProps } from "react";
+import LottieView from "lottie-react-native";
+type ButtonProps = {
+  text: string;
+  loading: boolean;
+} & ComponentProps<typeof UiButton>;
 
-export const Button = ({ text, ...rest }: ButtonProps) => {
-  const { theme } = useTheme();
+export const Button = ({ text, loading, ...rest }: ButtonProps) => {
   return (
-    <TouchableOpacity
-      {...rest}
-      activeOpacity={0.8}
-      style={{
-        backgroundColor: Colors[theme].tabBarActiveTintColor,
-        paddingVertical: 12,
-        borderRadius: 99999,
-        width: "90%",
-      }}
-    >
-      <Text style={{ color: "#fff", textAlign: "center", fontWeight: "bold" }}>
-        {text}
-      </Text>
-    </TouchableOpacity>
+    <UiButton {...rest} disabled={loading}>
+      {!loading ? (
+        <ButtonText>{text}</ButtonText>
+      ) : (
+        <LottieView
+          style={{
+            width: 200,
+            height: 200,
+          }}
+          autoPlay
+          source={require("@lotties/loading.json")}
+        />
+      )}
+    </UiButton>
   );
 };
