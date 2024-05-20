@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native";
 import { useI18nStore } from "@/stores/i18n/useI18nStore";
+import { DefaultForm } from "../default-form/default-form";
 
 type IntervalFormProps = {
   submitType: "CREATE" | "UPDATE";
@@ -53,8 +54,6 @@ export const IntervalForm = ({
   const hourInputRef = useRef<TextInput | null>(null);
   const minuteInputRef = useRef<TextInput | null>(null);
   const remedyNameInputRef = useRef<TextInput | null>(null);
-  const DoseNameInputRef = useRef<TextInput | null>(null);
-  const insctructionsRef = useRef<TextInput | null>(null);
 
   const { loading, createAlerts, updateAlerts } = useAlertStore();
 
@@ -180,77 +179,14 @@ export const IntervalForm = ({
         />
       </HStack>
 
-      <Controller
+      <DefaultForm
         control={control}
-        name="title"
-        render={({ field: { onChange, onBlur, value = "" } }) => (
-          <InputForm
-            ref={remedyNameInputRef}
-            Label={i18n.t("FROMS.DEFAULT.NAME")}
-            ErrorText={errors.title?.message}
-            InputProps={{
-              onBlur: () => onBlur(),
-              onChangeText: (text) => onChange(text),
-              value,
-              placeholder: initialValue?.title ?? "Dipirona",
-              blurOnSubmit: false,
-              returnKeyType: "next",
-              onSubmitEditing: () => DoseNameInputRef.current?.focus(),
-              type: "text",
-            }}
-            FormControlProps={{
-              isInvalid: !!errors.title,
-            }}
-          />
-        )}
+        errors={errors}
+        initialValue={initialValue}
+        onSubmitEditing={handleSubmit(onSubmit)}
+        remedyNameInputRef={remedyNameInputRef}
       />
 
-      <Controller
-        control={control}
-        name="subtitle"
-        render={({ field: { onChange, onBlur, value = "" } }) => (
-          <InputForm
-            ref={DoseNameInputRef}
-            Label={i18n.t("FROMS.DEFAULT.DOSE")}
-            ErrorText={errors.subtitle?.message}
-            FormControlProps={{ isInvalid: !!errors.subtitle }}
-            InputProps={{
-              blurOnSubmit: false,
-              returnKeyType: "next",
-              onSubmitEditing: () => insctructionsRef.current?.focus(),
-              type: "text",
-              placeholder: initialValue?.subtitle ?? "1 pill",
-              onChangeText: (text) => onChange(text),
-              onBlur: () => onBlur,
-              value: value,
-            }}
-          />
-        )}
-      />
-
-      <Controller
-        control={control}
-        name="body"
-        render={({ field: { onChange, onBlur, value = "" } }) => (
-          <InputForm
-            ref={insctructionsRef}
-            Label={i18n.t("FROMS.DEFAULT.INSTRUCTIONS")}
-            ErrorText={errors.body?.message}
-            FormControlProps={{
-              isInvalid: !!errors.body,
-            }}
-            InputProps={{
-              returnKeyType: "done",
-              onSubmitEditing: () => handleSubmit(onSubmit),
-              type: "text",
-              placeholder: initialValue?.body ?? "Take before breakfast",
-              onChangeText: (text) => onChange(text),
-              onBlur: () => onBlur,
-              value: value,
-            }}
-          />
-        )}
-      />
       <Button
         size="md"
         variant="solid"
