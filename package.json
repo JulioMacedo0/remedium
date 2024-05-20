@@ -38,6 +38,7 @@
     "expo-system-ui": "~2.9.3",
     "expo-web-browser": "~12.8.2",
     "i18n-js": "^4.3.2",
+    "lottie-react-native": "6.5.1",
     "lucide-react-native": "^0.331.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
