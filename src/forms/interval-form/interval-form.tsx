@@ -14,16 +14,7 @@ type IntervalFormProps = {
   submitType: "CREATE" | "UPDATE";
   alertId?: string;
   setAlertType?: (value: string) => void;
-  initialValue?: {
-    id: string;
-    createdAt: string;
-    updatedAt: string;
-    userId: string;
-    trigger: {
-      id: string;
-      alertId: string;
-    };
-  } & IntervalSchemaType;
+  initialValue?: IntervalSchemaType;
 };
 
 export const IntervalForm = ({
