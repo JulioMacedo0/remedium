@@ -1,13 +1,22 @@
-import { Control, Controller, FieldErrors } from "react-hook-form";
+import { Control, Controller, FieldErrors, FieldValues } from "react-hook-form";
 import { useI18nStore } from "@/stores/i18n/useI18nStore";
 import { InputForm } from "@/components";
 import { useRef } from "react";
 import { TextInput } from "react-native";
-import { CreateAlertType, DailySchemaType, IntervalSchemaType } from "@/schema";
-import { baseSchemaType } from "@/schema/alert-schema";
+import {
+  baseSchemaType,
+  IntervalSchemaType,
+  DailySchemaType,
+  DateSchemaType,
+  WeeklySchemaType,
+} from "@/schema/alert-schema";
+
+type TControl = Control<
+  IntervalSchemaType | DailySchemaType | DateSchemaType | WeeklySchemaType
+>;
 
 type DefaultfomrProps = {
-  control: Control<IntervalSchemaType>;
+  control: TControl;
   errors: FieldErrors<baseSchemaType>;
   initialValue?: baseSchemaType;
   remedyNameInputRef: React.MutableRefObject<TextInput | null>;

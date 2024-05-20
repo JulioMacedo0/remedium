@@ -20,6 +20,7 @@ import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput, TouchableOpacity } from "react-native";
 import { format } from "date-fns";
+import { DefaultForm } from "../default-form/default-form";
 
 type DailyFormProps = {
   submitType: "CREATE" | "UPDATE";
@@ -155,131 +156,14 @@ export const DailyForm = ({
         )}
       />
 
-      <Controller
+      <DefaultForm
         control={control}
-        name="title"
-        render={({
-          field: { onChange, onBlur, value = initialValue?.title ?? "" },
-        }) => (
-          <FormControl
-            size="md"
-            isDisabled={false}
-            isInvalid={!!errors.title}
-            isReadOnly={false}
-            isRequired={true}
-          >
-            <FormControlLabel>
-              <FormControlLabelText>Remedy name</FormControlLabelText>
-            </FormControlLabel>
-            <Input>
-              <InputField
-                ref={remedyNameInputRef}
-                blurOnSubmit={false}
-                returnKeyType="next"
-                onSubmitEditing={() => DoseNameInputRef.current?.focus()}
-                type="text"
-                placeholder={initialValue?.title ?? "Dipirona"}
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-              />
-            </Input>
-            <FormControlError>
-              {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-              <FormControlErrorText>
-                {errors.title?.message}
-              </FormControlErrorText>
-            </FormControlError>
-          </FormControl>
-        )}
+        errors={errors}
+        initialValue={initialValue}
+        onSubmitEditing={handleSubmit(onSubmit)}
+        remedyNameInputRef={remedyNameInputRef}
       />
 
-      <Controller
-        control={control}
-        name="subtitle"
-        render={({
-          field: { onChange, onBlur, value = initialValue?.subtitle ?? "" },
-        }) => (
-          <FormControl
-            size="md"
-            isDisabled={false}
-            isInvalid={!!errors.subtitle}
-            isReadOnly={false}
-            isRequired={true}
-          >
-            <FormControlLabel>
-              <FormControlLabelText>Dose</FormControlLabelText>
-            </FormControlLabel>
-            <Input>
-              <InputField
-                ref={DoseNameInputRef}
-                blurOnSubmit={false}
-                returnKeyType="next"
-                onSubmitEditing={() => insctructionsRef.current?.focus()}
-                type="text"
-                placeholder={initialValue?.subtitle ?? "1 pill"}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-              />
-            </Input>
-            {/* <FormControlHelper>
-          <FormControlHelperText>
-            Must be at least 6 characters.
-          </FormControlHelperText>
-        </FormControlHelper> */}
-            <FormControlError>
-              {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-              <FormControlErrorText>
-                {errors.subtitle?.message}
-              </FormControlErrorText>
-            </FormControlError>
-          </FormControl>
-        )}
-      />
-
-      <Controller
-        control={control}
-        name="body"
-        render={({
-          field: { onChange, onBlur, value = initialValue?.body ?? "" },
-        }) => (
-          <FormControl
-            size="md"
-            isDisabled={false}
-            isInvalid={!!errors.body}
-            isReadOnly={false}
-            isRequired={true}
-          >
-            <FormControlLabel>
-              <FormControlLabelText>Instructions</FormControlLabelText>
-            </FormControlLabel>
-            <Input>
-              <InputField
-                ref={insctructionsRef}
-                returnKeyType="done"
-                onSubmitEditing={handleSubmit(onSubmit)}
-                type="text"
-                placeholder={initialValue?.body ?? "Take before breakfast"}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-              />
-            </Input>
-            {/* <FormControlHelper>
-          <FormControlHelperText>
-            Must be at least 6 characters.
-          </FormControlHelperText>
-        </FormControlHelper> */}
-            <FormControlError>
-              {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-              <FormControlErrorText>
-                {errors.body?.message}
-              </FormControlErrorText>
-            </FormControlError>
-          </FormControl>
-        )}
-      />
       <Button
         size="md"
         variant="solid"
