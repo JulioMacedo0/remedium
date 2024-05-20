@@ -107,3 +107,4 @@ export type IntervalSchemaType = z.infer<typeof intervalSchema>;
 export type DateSchemaType = z.infer<typeof dateSchema>;
 export type WeeklySchemaType = z.infer<typeof weeklySchema>;
 export type DailySchemaType = z.infer<typeof dailySchema>;
+export type baseSchemaType = z.infer<typeof baseSchema>;
