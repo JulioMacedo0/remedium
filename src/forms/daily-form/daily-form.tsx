@@ -25,16 +25,7 @@ type DailyFormProps = {
   submitType: "CREATE" | "UPDATE";
   alertId?: string;
   setAlertType?: (value: string) => void;
-  initialValue?: {
-    id: string;
-    createdAt: string;
-    updatedAt: string;
-    userId: string;
-    trigger: {
-      id: string;
-      alertId: string;
-    };
-  } & DailySchemaType;
+  initialValue?: DailySchemaType;
 };
 
 export const DailyForm = ({
