@@ -3,17 +3,13 @@ import { useI18nStore } from "@/stores/i18n/useI18nStore";
 import { InputForm } from "@/components";
 import { useRef } from "react";
 import { TextInput } from "react-native";
-
-type DefaultFormValues = {
-  title: string;
-  body: string;
-  subtitle: string;
-};
+import { CreateAlertType, DailySchemaType, IntervalSchemaType } from "@/schema";
+import { baseSchemaType } from "@/schema/alert-schema";
 
 type DefaultfomrProps = {
-  control: Control<DefaultFormValues>;
-  errors: FieldErrors<DefaultFormValues>;
-  initialValue: DefaultFormValues;
+  control: Control<IntervalSchemaType>;
+  errors: FieldErrors<baseSchemaType>;
+  initialValue?: baseSchemaType;
   remedyNameInputRef: React.MutableRefObject<TextInput | null>;
   onSubmitEditing: () => void;
 };
