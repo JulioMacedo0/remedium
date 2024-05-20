@@ -124,7 +124,6 @@ export const WeeklyForm = ({
               borderWidth={1}
               isInvalid={!!errors.trigger?.week}
               value={value}
-              mb={12}
               flexDirection="row"
               onChange={onChange}
             >
@@ -386,18 +385,6 @@ export const WeeklyForm = ({
         onSubmitEditing={handleSubmit(onSubmit)}
         remedyNameInputRef={remedyNameInputRef}
       />
-
-      <Button
-        size="md"
-        variant="solid"
-        action="primary"
-        isDisabled={false}
-        isFocusVisible={false}
-        onPress={handleSubmit(onSubmit)}
-        mt={8}
-      >
-        <ButtonText>{loading ? loadingText : "Scheluder Alert"}</ButtonText>
-      </Button>
     </>
   );
 };

@@ -46,7 +46,7 @@ export const IntervalForm = ({
   const minuteInputRef = useRef<TextInput | null>(null);
   const remedyNameInputRef = useRef<TextInput | null>(null);
 
-  const { loading, createAlerts, updateAlerts } = useAlertStore();
+  const { createAlerts, updateAlerts } = useAlertStore();
 
   const onSubmit = async (data: IntervalSchemaType) => {
     if (submitType == "CREATE") {
@@ -56,9 +56,6 @@ export const IntervalForm = ({
       updateAlerts(data, reset, alertId);
     }
   };
-
-  const loadingText =
-    submitType == "CREATE" ? "Creating alert..." : "Updateing alert...";
 
   const i18n = useI18nStore((state) => state.i18n);
 
@@ -124,7 +121,7 @@ export const IntervalForm = ({
           }}
         />
 
-        <VStack space="md" mt={8}>
+        <VStack space="md">
           <Box width={10} height={10} rounded="$full" bgColor="#333" />
           <Box width={10} height={10} rounded="$full" bgColor="#333" />
         </VStack>
@@ -177,20 +174,6 @@ export const IntervalForm = ({
         onSubmitEditing={handleSubmit(onSubmit)}
         remedyNameInputRef={remedyNameInputRef}
       />
-
-      <Button
-        size="md"
-        variant="solid"
-        action="primary"
-        isDisabled={false}
-        isFocusVisible={false}
-        onPress={handleSubmit(onSubmit)}
-        mt={8}
-      >
-        <ButtonText>
-          {loading ? loadingText : i18n.t("FROMS.BUTTON")}
-        </ButtonText>
-      </Button>
     </>
   );
 };

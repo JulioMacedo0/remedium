@@ -1,10 +1,8 @@
 import { DateSchemaType, dateSchema } from "@/schema";
 import { useAlertStore } from "@/stores/alert/use-alert-store";
 import { format } from "date-fns";
-import { Select } from "@/components";
+import { Select, Button } from "@/components";
 import {
-  Button,
-  ButtonText,
   FormControl,
   FormControlError,
   FormControlErrorText,
@@ -168,17 +166,6 @@ export const DateForm = ({
         onSubmitEditing={handleSubmit(onSubmit)}
         remedyNameInputRef={remedyNameInputRef}
       />
-      <Button
-        size="md"
-        variant="solid"
-        action="primary"
-        isDisabled={false}
-        isFocusVisible={false}
-        onPress={handleSubmit(onSubmit)}
-        mt={8}
-      >
-        <ButtonText>{loading ? loadingText : "Scheluder Alert"}</ButtonText>
-      </Button>
     </>
   );
 };

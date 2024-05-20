@@ -1,9 +1,7 @@
 import { DailySchemaType, dailySchema } from "@/schema";
 import { useAlertStore } from "@/stores/alert/use-alert-store";
-import { Select } from "@/components";
+import { Select, Button } from "@/components";
 import {
-  Button,
-  ButtonText,
   FormControl,
   FormControlError,
   FormControlErrorText,
@@ -61,8 +59,7 @@ export const DailyForm = ({
   });
 
   const remedyNameInputRef = useRef<TextInput | null>(null);
-  const DoseNameInputRef = useRef<TextInput | null>(null);
-  const insctructionsRef = useRef<TextInput | null>(null);
+
   const { loading, createAlerts, updateAlerts } = useAlertStore();
 
   const onSubmit = async (data: DailySchemaType) => {
@@ -74,9 +71,6 @@ export const DailyForm = ({
       updateAlerts(data, reset, alertId);
     }
   };
-
-  const loadingText =
-    submitType == "CREATE" ? "Creating alert..." : "Updateing alert...";
 
   return (
     <>
@@ -163,18 +157,6 @@ export const DailyForm = ({
         onSubmitEditing={handleSubmit(onSubmit)}
         remedyNameInputRef={remedyNameInputRef}
       />
-
-      <Button
-        size="md"
-        variant="solid"
-        action="primary"
-        isDisabled={false}
-        isFocusVisible={false}
-        onPress={handleSubmit(onSubmit)}
-        mt={8}
-      >
-        <ButtonText>{loading ? loadingText : "Scheluder Alert"}</ButtonText>
-      </Button>
     </>
   );
 };
