@@ -1,6 +1,6 @@
 import { Control, Controller, FieldErrors, FieldValues } from "react-hook-form";
 import { useI18nStore } from "@/stores/i18n/useI18nStore";
-import { InputForm } from "@/components";
+import { InputForm, Button } from "@/components";
 import { useRef } from "react";
 import { TextInput } from "react-native";
 import {
@@ -10,6 +10,7 @@ import {
   DateSchemaType,
   WeeklySchemaType,
 } from "@/schema/alert-schema";
+import { useAlertStore } from "@/stores/alert/use-alert-store";
 
 type TControl = Control<
   IntervalSchemaType | DailySchemaType | DateSchemaType | WeeklySchemaType
@@ -31,6 +32,8 @@ export const DefaultForm = ({
   onSubmitEditing,
 }: DefaultfomrProps) => {
   const i18n = useI18nStore((state) => state.i18n);
+
+  const { loading } = useAlertStore();
 
   const DoseNameInputRef = useRef<TextInput | null>(null);
   const insctructionsRef = useRef<TextInput | null>(null);
@@ -107,6 +110,11 @@ export const DefaultForm = ({
             }}
           />
         )}
+      />
+      <Button
+        text={"Scheluder Alert"}
+        onPress={onSubmitEditing}
+        loading={loading}
       />
     </>
   );
