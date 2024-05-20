@@ -37,16 +37,7 @@ type WeeklyFormProps = {
   submitType: "CREATE" | "UPDATE";
   alertId?: string;
   setAlertType?: (value: string) => void;
-  initialValue?: {
-    id: string;
-    createdAt: string;
-    updatedAt: string;
-    userId: string;
-    trigger: {
-      id: string;
-      alertId: string;
-    };
-  } & WeeklySchemaType;
+  initialValue?: WeeklySchemaType;
 };
 
 export const WeeklyForm = ({
