@@ -18,11 +18,11 @@ import { useI18nStore } from "@/stores/i18n/useI18nStore";
 interface SelectProps extends ComponentProps<typeof DefaultSelect> {}
 export const Select = ({ ...props }: SelectProps) => {
   const theme = useTheme<Theme>();
-  const { text, tabBackground } = theme.colors;
+  const { text, tabBackground, brandColor } = theme.colors;
   const i18n = useI18nStore((state) => state.i18n);
   return (
     <DefaultSelect rounded={"$full"} bg={tabBackground} {...props}>
-      <SelectTrigger variant="rounded" size="md" pr={6}>
+      <SelectTrigger variant="rounded" size="md">
         <SelectInput
           placeholder={i18n.t("ADD.FREQUENCYDROPDOWN.PLACEHOLDER")}
           placeholderTextColor={text}
@@ -37,6 +37,7 @@ export const Select = ({ ...props }: SelectProps) => {
             <SelectDragIndicator bg={text} />
           </SelectDragIndicatorWrapper>
           <SelectItem
+            borderColor={brandColor}
             label={i18n.t("ADD.FREQUENCYDROPDOWN.INTERVAL")}
             value="INTERVAL"
           />
