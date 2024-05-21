@@ -71,7 +71,13 @@
       "DROPDOWN": "Semanal",
       "DATE": "Data",
       "WEEK_SELECT": {
-        "MON": "Seg"
+        "MON": "Seg",
+        "TUE": "Ter",
+        "WED": "Qua",
+        "THU": "Qui",
+        "FRI": "Sex",
+        "SAT": "Sáb",
+        "SUN": "Dom"
       }
     }
   }
