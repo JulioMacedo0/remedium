@@ -76,7 +76,7 @@ export const IntervalForm = ({
               onChange(value);
             }}
             onClose={onBlur}
-            selectedValue={i18n.t("FROMS.INTERVAL.DROPDOWN")}
+            selectedValue={i18n.t("FORMS.INTERVAL.DROPDOWN")}
           />
         )}
       />
@@ -89,7 +89,7 @@ export const IntervalForm = ({
             return (
               <InputForm
                 ref={hourInputRef}
-                HelperText={i18n.t("FROMS.INTERVAL.HOUR")}
+                HelperText={i18n.t("FORMS.INTERVAL.HOUR")}
                 ErrorText={errors.trigger?.hours?.message}
                 FormControlProps={{
                   isRequired: false,
@@ -132,7 +132,7 @@ export const IntervalForm = ({
             return (
               <InputForm
                 ref={minuteInputRef}
-                HelperText={i18n.t("FROMS.INTERVAL.MINUTE")}
+                HelperText={i18n.t("FORMS.INTERVAL.MINUTE")}
                 ErrorText={errors.trigger?.minutes?.message}
                 FormControlProps={{
                   isInvalid: !!errors.trigger?.minutes,
