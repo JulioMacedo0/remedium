@@ -52,7 +52,7 @@
     "ACTIVE": "Active",
     "DISABLED": "Disabled"
   },
-  "FROMS": {
+  "FORMS": {
     "BUTTON": "Scheluder alert",
     "DEFAULT": {
       "NAME": "Nome do remédio",
@@ -66,6 +66,19 @@
       "DROPDOWN": "Intervalo",
       "HOUR": "Hora",
       "MINUTE": "Minuto"
+    },
+    "WEEKLY": {
+      "DROPDOWN": "Weekly",
+      "DATE": "Date",
+      "WEEK_SELECT": {
+        "MON": "Mon",
+        "TUE": "Tue",
+        "WED": "Wed",
+        "THU": "Thu",
+        "FRI": "Fri",
+        "SAT": "Sat",
+        "SUN": "Sun"
+      }
     }
   }
 }

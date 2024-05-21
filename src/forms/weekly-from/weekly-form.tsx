@@ -33,6 +33,7 @@ import { useAlertStore } from "@/stores/alert/use-alert-store";
 import { TextInput, TouchableOpacity } from "react-native";
 import { format } from "date-fns";
 import { DefaultForm } from "../default-form/default-form";
+import { useI18nStore } from "@/stores/i18n/useI18nStore";
 
 type WeeklyFormProps = {
   submitType: "CREATE" | "UPDATE";
@@ -91,6 +92,7 @@ export const WeeklyForm = ({
   const loadingText =
     submitType == "CREATE" ? "Creating alert..." : "Updateing alert...";
 
+  const i18n = useI18nStore((state) => state.i18n);
   return (
     <>
       <Controller
@@ -108,7 +110,7 @@ export const WeeklyForm = ({
               onChange(value);
             }}
             onClose={onBlur}
-            selectedValue={value}
+            selectedValue={i18n.t("FORMS.WEEKLY.DROPDOWN")}
           />
         )}
       />
@@ -117,7 +119,7 @@ export const WeeklyForm = ({
         control={control}
         name="trigger.week"
         render={({ field: { onChange, value = [] } }) => (
-          <VStack>
+          <VStack mb={12}>
             <CheckboxGroup
               overflow="hidden"
               rounded="$full"
@@ -148,7 +150,7 @@ export const WeeklyForm = ({
                       : "$coolGray500"
                   }
                 >
-                  Mon
+                  {i18n.t("FORMS.WEEKLY.WEEK_SELECT.MON")}
                 </CheckboxLabel>
               </Checkbox>
               <Checkbox
@@ -334,7 +336,9 @@ export const WeeklyForm = ({
             isRequired={true}
           >
             <FormControlLabel>
-              <FormControlLabelText>Date</FormControlLabelText>
+              <FormControlLabelText>
+                {i18n.t("FORMS.WEEKLY.DATE")}
+              </FormControlLabelText>
             </FormControlLabel>
             <DatePicker
               modal

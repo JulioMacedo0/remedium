@@ -52,7 +52,7 @@
     "ACTIVE": "Ativo",
     "DISABLED": "Desativado"
   },
-  "FROMS": {
+  "FORMS": {
     "BUTTON": "Agendar alerta",
     "DEFAULT": {
       "NAME": "Nome do remédio",
@@ -66,6 +66,13 @@
       "DROPDOWN": "Intervalo",
       "HOUR": "Hora",
       "MINUTE": "Minuto"
+    },
+    "WEEKLY": {
+      "DROPDOWN": "Semanal",
+      "DATE": "Data",
+      "WEEK_SELECT": {
+        "MON": "Seg"
+      }
     }
   }
 }
