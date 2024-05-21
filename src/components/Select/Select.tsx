@@ -21,7 +21,7 @@ export const Select = ({ ...props }: SelectProps) => {
   const { text, tabBackground, brandColor } = theme.colors;
   const i18n = useI18nStore((state) => state.i18n);
   return (
-    <DefaultSelect rounded={"$full"} bg={tabBackground} {...props}>
+    <DefaultSelect rounded={"$full"} bg={tabBackground} mb={12} {...props}>
       <SelectTrigger variant="rounded" size="md">
         <SelectInput
           placeholder={i18n.t("ADD.FREQUENCYDROPDOWN.PLACEHOLDER")}
