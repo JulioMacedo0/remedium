@@ -56,8 +56,11 @@
     "BUTTON": "Agendar alerta",
     "DEFAULT": {
       "NAME": "Nome do remédio",
+      "NAME_PLACEHOLDER": "Dipirona",
       "DOSE": "Dosagem",
-      "INSTRUCTIONS": "Instruções"
+      "DOSE_PLACEHOLDER": "1 comprimido",
+      "INSTRUCTIONS": "Instruções",
+      "INSTRUCTIONS_PLACEHOLDER": "Tomar antes do café da manhã"
     },
     "INTERVAL": {
       "DROPDOWN": "Intervalo",

@@ -51,5 +51,21 @@
     "NOTIFICATION": "Notification",
     "ACTIVE": "Active",
     "DISABLED": "Disabled"
+  },
+  "FROMS": {
+    "BUTTON": "Scheluder alert",
+    "DEFAULT": {
+      "NAME": "Nome do remédio",
+      "NAME_PLACEHOLDER": "Dipirona",
+      "DOSE": "Dosagem",
+      "DOSE_PLACEHOLDER": "1 pill",
+      "INSTRUCTIONS": "Instruções",
+      "INSTRUCTIONS_PLACEHOLDER": "Take before breakfast"
+    },
+    "INTERVAL": {
+      "DROPDOWN": "Intervalo",
+      "HOUR": "Hora",
+      "MINUTE": "Minuto"
+    }
   }
 }

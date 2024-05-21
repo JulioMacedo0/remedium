@@ -52,7 +52,8 @@ export const DefaultForm = ({
               onBlur: () => onBlur(),
               onChangeText: (text) => onChange(text),
               value,
-              placeholder: initialValue?.title ?? "Dipirona",
+              placeholder:
+                initialValue?.title ?? i18n.t("FROMS.DEFAULT.NAME_PLACEHOLDER"),
               blurOnSubmit: false,
               returnKeyType: "next",
               onSubmitEditing: () => DoseNameInputRef.current?.focus(),
@@ -79,7 +80,9 @@ export const DefaultForm = ({
               returnKeyType: "next",
               onSubmitEditing: () => insctructionsRef.current?.focus(),
               type: "text",
-              placeholder: initialValue?.subtitle ?? "1 pill",
+              placeholder:
+                initialValue?.subtitle ??
+                i18n.t("FROMS.DEFAULT.DOSE_PLACEHOLDER"),
               onChangeText: (text) => onChange(text),
               onBlur: () => onBlur,
               value: value,
@@ -103,7 +106,9 @@ export const DefaultForm = ({
               returnKeyType: "done",
               onSubmitEditing: () => onSubmitEditing(),
               type: "text",
-              placeholder: initialValue?.body ?? "Take before breakfast",
+              placeholder:
+                initialValue?.body ??
+                i18n.t("FROMS.DEFAULT.INSTRUCTIONS_PLACEHOLDER"),
               onChangeText: (text) => onChange(text),
               onBlur: () => onBlur,
               value: value,
