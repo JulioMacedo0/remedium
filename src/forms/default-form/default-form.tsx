@@ -46,14 +46,14 @@ export const DefaultForm = ({
         render={({ field: { onChange, onBlur, value = "" } }) => (
           <InputForm
             ref={remedyNameInputRef}
-            Label={i18n.t("FROMS.DEFAULT.NAME")}
+            Label={i18n.t("FORMS.DEFAULT.NAME")}
             ErrorText={errors.title?.message}
             InputProps={{
               onBlur: () => onBlur(),
               onChangeText: (text) => onChange(text),
               value,
               placeholder:
-                initialValue?.title ?? i18n.t("FROMS.DEFAULT.NAME_PLACEHOLDER"),
+                initialValue?.title ?? i18n.t("FORMS.DEFAULT.NAME_PLACEHOLDER"),
               blurOnSubmit: false,
               returnKeyType: "next",
               onSubmitEditing: () => DoseNameInputRef.current?.focus(),
@@ -72,7 +72,7 @@ export const DefaultForm = ({
         render={({ field: { onChange, onBlur, value = "" } }) => (
           <InputForm
             ref={DoseNameInputRef}
-            Label={i18n.t("FROMS.DEFAULT.DOSE")}
+            Label={i18n.t("FORMS.DEFAULT.DOSE")}
             ErrorText={errors.subtitle?.message}
             FormControlProps={{ isInvalid: !!errors.subtitle }}
             InputProps={{
@@ -82,7 +82,7 @@ export const DefaultForm = ({
               type: "text",
               placeholder:
                 initialValue?.subtitle ??
-                i18n.t("FROMS.DEFAULT.DOSE_PLACEHOLDER"),
+                i18n.t("FORMS.DEFAULT.DOSE_PLACEHOLDER"),
               onChangeText: (text) => onChange(text),
               onBlur: () => onBlur,
               value: value,
@@ -97,7 +97,7 @@ export const DefaultForm = ({
         render={({ field: { onChange, onBlur, value = "" } }) => (
           <InputForm
             ref={insctructionsRef}
-            Label={i18n.t("FROMS.DEFAULT.INSTRUCTIONS")}
+            Label={i18n.t("FORMS.DEFAULT.INSTRUCTIONS")}
             ErrorText={errors.body?.message}
             FormControlProps={{
               isInvalid: !!errors.body,
@@ -108,7 +108,7 @@ export const DefaultForm = ({
               type: "text",
               placeholder:
                 initialValue?.body ??
-                i18n.t("FROMS.DEFAULT.INSTRUCTIONS_PLACEHOLDER"),
+                i18n.t("FORMS.DEFAULT.INSTRUCTIONS_PLACEHOLDER"),
               onChangeText: (text) => onChange(text),
               onBlur: () => onBlur,
               value: value,
@@ -117,7 +117,7 @@ export const DefaultForm = ({
         )}
       />
       <Button
-        text={"Scheluder Alert"}
+        text={i18n.t("FORMS.BUTTON")}
         onPress={onSubmitEditing}
         loading={loading}
       />
