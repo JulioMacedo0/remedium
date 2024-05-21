@@ -43,6 +43,7 @@ export const InputForm = forwardRef<TextInput, InputFormProps>(
       isDisabled={false}
       isReadOnly={false}
       isRequired={true}
+      mb={12}
       {...FormControlProps}
     >
       <FormControlLabel>
