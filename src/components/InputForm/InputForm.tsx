@@ -1,3 +1,4 @@
+import { Theme } from "@/constants";
 import {
   GluestackFormControlProps,
   GluestackInpuProps,
@@ -14,6 +15,7 @@ import {
   Input,
   InputField,
 } from "@gluestack-ui/themed";
+import { useTheme } from "@shopify/restyle";
 import { forwardRef } from "react";
 import { TextInput } from "react-native";
 
@@ -37,33 +39,38 @@ export const InputForm = forwardRef<TextInput, InputFormProps>(
       InputContainerProps,
     },
     ref
-  ) => (
-    <FormControl
-      size="md"
-      isDisabled={false}
-      isReadOnly={false}
-      isRequired={true}
-      mb={12}
-      {...FormControlProps}
-    >
-      <FormControlLabel>
-        <FormControlLabelText>{Label}</FormControlLabelText>
-      </FormControlLabel>
-      <Input {...InputContainerProps}>
-        <InputField ref={ref} {...InputProps} />
-      </Input>
+  ) => {
+    const theme = useTheme<Theme>();
+    const { text, tabBackground, brandColor } = theme.colors;
 
-      {HelperText && (
-        <FormControlHelper>
-          <FormControlHelperText>{HelperText}</FormControlHelperText>
-        </FormControlHelper>
-      )}
+    return (
+      <FormControl
+        size="md"
+        isDisabled={false}
+        isReadOnly={false}
+        isRequired={true}
+        mb={12}
+        {...FormControlProps}
+      >
+        <FormControlLabel>
+          <FormControlLabelText color={text}>{Label}</FormControlLabelText>
+        </FormControlLabel>
+        <Input bg={tabBackground} {...InputContainerProps}>
+          <InputField ref={ref} {...InputProps} />
+        </Input>
 
-      {ErrorText && (
-        <FormControlError>
-          <FormControlErrorText>{ErrorText}</FormControlErrorText>
-        </FormControlError>
-      )}
-    </FormControl>
-  )
+        {HelperText && (
+          <FormControlHelper>
+            <FormControlHelperText>{HelperText}</FormControlHelperText>
+          </FormControlHelper>
+        )}
+
+        {ErrorText && (
+          <FormControlError>
+            <FormControlErrorText>{ErrorText}</FormControlErrorText>
+          </FormControlError>
+        )}
+      </FormControl>
+    );
+  }
 );
