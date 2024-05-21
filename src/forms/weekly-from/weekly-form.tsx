@@ -34,6 +34,8 @@ import { TextInput, TouchableOpacity } from "react-native";
 import { format } from "date-fns";
 import { DefaultForm } from "../default-form/default-form";
 import { useI18nStore } from "@/stores/i18n/useI18nStore";
+import { useTheme } from "@shopify/restyle";
+import { Theme } from "@/constants";
 
 type WeeklyFormProps = {
   submitType: "CREATE" | "UPDATE";
@@ -71,11 +73,9 @@ export const WeeklyForm = ({
     },
     resolver: zodResolver(weeklySchema),
   });
-  const { loading, createAlerts, updateAlerts } = useAlertStore();
+  const { createAlerts, updateAlerts } = useAlertStore();
 
   const remedyNameInputRef = useRef<TextInput | null>(null);
-  const DoseNameInputRef = useRef<TextInput | null>(null);
-  const insctructionsRef = useRef<TextInput | null>(null);
 
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
@@ -89,8 +89,8 @@ export const WeeklyForm = ({
     }
   };
 
-  const loadingText =
-    submitType == "CREATE" ? "Creating alert..." : "Updateing alert...";
+  const theme = useTheme<Theme>();
+  const { text, tabBackground, brandColor } = theme.colors;
 
   const i18n = useI18nStore((state) => state.i18n);
   return (
@@ -121,9 +121,11 @@ export const WeeklyForm = ({
         render={({ field: { onChange, value = [] } }) => (
           <VStack mb={12}>
             <CheckboxGroup
+              bg={tabBackground}
               overflow="hidden"
               rounded="$full"
               borderWidth={1}
+              borderColor={text}
               isInvalid={!!errors.trigger?.week}
               value={value}
               flexDirection="row"
@@ -146,7 +148,7 @@ export const WeeklyForm = ({
                 <CheckboxLabel
                   color={
                     !!value.find((value) => value == "MONDAY")
-                      ? "$white"
+                      ? text
                       : "$coolGray500"
                   }
                 >
@@ -167,9 +169,6 @@ export const WeeklyForm = ({
                     : "transparent"
                 }
               >
-                {/* <CheckboxIndicator mr="$2">
-                <AntDesign name="close" size={24} color="black" />
-              </CheckboxIndicator> */}
                 <CheckboxLabel
                   color={
                     !!value.find((value) => value == "TUESDAY")
@@ -177,7 +176,7 @@ export const WeeklyForm = ({
                       : "$coolGray500"
                   }
                 >
-                  Tue
+                  {i18n.t("FORMS.WEEKLY.WEEK_SELECT.TUE")}
                 </CheckboxLabel>
               </Checkbox>
               <Checkbox
@@ -194,9 +193,6 @@ export const WeeklyForm = ({
                     : "transparent"
                 }
               >
-                {/* <CheckboxIndicator mr="$2">
-                <AntDesign name="close" size={24} color="black" />
-              </CheckboxIndicator> */}
                 <CheckboxLabel
                   color={
                     !!value.find((value) => value == "WEDNESDAY")
@@ -204,7 +200,7 @@ export const WeeklyForm = ({
                       : "$coolGray500"
                   }
                 >
-                  Wed
+                  {i18n.t("FORMS.WEEKLY.WEEK_SELECT.WED")}
                 </CheckboxLabel>
               </Checkbox>
               <Checkbox
@@ -221,9 +217,6 @@ export const WeeklyForm = ({
                     : "transparent"
                 }
               >
-                {/* <CheckboxIndicator mr="$2">
-                <AntDesign name="close" size={24} color="black" />
-              </CheckboxIndicator> */}
                 <CheckboxLabel
                   color={
                     !!value.find((value) => value == "THURSDAY")
@@ -231,7 +224,7 @@ export const WeeklyForm = ({
                       : "$coolGray500"
                   }
                 >
-                  Thu
+                  {i18n.t("FORMS.WEEKLY.WEEK_SELECT.THU")}
                 </CheckboxLabel>
               </Checkbox>
               <Checkbox
@@ -248,9 +241,6 @@ export const WeeklyForm = ({
                     : "transparent"
                 }
               >
-                {/* <CheckboxIndicator mr="$2">
-                <AntDesign name="close" size={24} color="black" />
-              </CheckboxIndicator> */}
                 <CheckboxLabel
                   color={
                     !!value.find((value) => value == "FRIDAY")
@@ -258,7 +248,7 @@ export const WeeklyForm = ({
                       : "$coolGray500"
                   }
                 >
-                  Fri
+                  {i18n.t("FORMS.WEEKLY.WEEK_SELECT.FRI")}
                 </CheckboxLabel>
               </Checkbox>
               <Checkbox
@@ -275,9 +265,6 @@ export const WeeklyForm = ({
                     : "transparent"
                 }
               >
-                {/* <CheckboxIndicator mr="$2">
-                <AntDesign name="close" size={24} color="black" />
-              </CheckboxIndicator> */}
                 <CheckboxLabel
                   color={
                     !!value.find((value) => value == "SATURDAY")
@@ -285,7 +272,7 @@ export const WeeklyForm = ({
                       : "$coolGray500"
                   }
                 >
-                  Sat
+                  {i18n.t("FORMS.WEEKLY.WEEK_SELECT.SAT")}
                 </CheckboxLabel>
               </Checkbox>
               <Checkbox
@@ -298,13 +285,10 @@ export const WeeklyForm = ({
                 isDisabled={false}
                 bgColor={
                   !!value.find((value) => value == "SUNDAY")
-                    ? "$green400"
+                    ? "#2f95dc"
                     : "transparent"
                 }
               >
-                {/* <CheckboxIndicator mr="$2">
-                <AntDesign name="close" size={24} color="black" />
-              </CheckboxIndicator> */}
                 <CheckboxLabel
                   color={
                     !!value.find((value) => value == "SUNDAY")
@@ -312,12 +296,12 @@ export const WeeklyForm = ({
                       : "$coolGray500"
                   }
                 >
-                  Sun
+                  {i18n.t("FORMS.WEEKLY.WEEK_SELECT.SUN")}
                 </CheckboxLabel>
               </Checkbox>
             </CheckboxGroup>
             {!!errors.trigger?.week?.message && (
-              <Text color="$red600" fontSize="$sm">
+              <Text color="$red600" fontSize="$sm" mt={6}>
                 {errors.trigger?.week?.message}
               </Text>
             )}
