@@ -141,14 +141,14 @@ export const WeeklyForm = ({
                 p={4}
                 bgColor={
                   !!value.find((value) => value == "MONDAY")
-                    ? "$green400"
+                    ? brandColor
                     : "transparent"
                 }
               >
                 <CheckboxLabel
                   color={
                     !!value.find((value) => value == "MONDAY")
-                      ? text
+                      ? "$white"
                       : "$coolGray500"
                   }
                 >
@@ -165,7 +165,7 @@ export const WeeklyForm = ({
                 isDisabled={false}
                 bgColor={
                   !!value.find((value) => value == "TUESDAY")
-                    ? "$green400"
+                    ? brandColor
                     : "transparent"
                 }
               >
@@ -189,7 +189,7 @@ export const WeeklyForm = ({
                 isDisabled={false}
                 bgColor={
                   !!value.find((value) => value == "WEDNESDAY")
-                    ? "$green400"
+                    ? brandColor
                     : "transparent"
                 }
               >
@@ -213,7 +213,7 @@ export const WeeklyForm = ({
                 isDisabled={false}
                 bgColor={
                   !!value.find((value) => value == "THURSDAY")
-                    ? "$green400"
+                    ? brandColor
                     : "transparent"
                 }
               >
@@ -237,7 +237,7 @@ export const WeeklyForm = ({
                 isDisabled={false}
                 bgColor={
                   !!value.find((value) => value == "FRIDAY")
-                    ? "$green400"
+                    ? brandColor
                     : "transparent"
                 }
               >
@@ -261,7 +261,7 @@ export const WeeklyForm = ({
                 isDisabled={false}
                 bgColor={
                   !!value.find((value) => value == "SATURDAY")
-                    ? "$green400"
+                    ? brandColor
                     : "transparent"
                 }
               >
@@ -285,7 +285,7 @@ export const WeeklyForm = ({
                 isDisabled={false}
                 bgColor={
                   !!value.find((value) => value == "SUNDAY")
-                    ? "#2f95dc"
+                    ? brandColor
                     : "transparent"
                 }
               >
