@@ -103,7 +103,7 @@ const SignIn = () => {
                     onChangeText: (text) => onChange(text),
                     onBlur: () => onBlur(),
                     value,
-                    onSubmitEditing: () => handleSubmit(onSubmit),
+                    onSubmitEditing: handleSubmit(onSubmit),
                   }}
                 />
               )}
