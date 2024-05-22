@@ -83,6 +83,14 @@
     "DAILY": {
       "DROPDOWN": "Diário",
       "DATE": "Data"
+    },
+    "DATE": {
+      "DROPDOWN": "Data",
+      "DATE": "Data"
+    },
+    "ONE_TIME": {
+      "DROPDOWN": "Uma vez",
+      "DATE": "Data"
     }
   }
 }

@@ -1,7 +1,7 @@
 import { DateSchemaType, dateSchema } from "@/schema";
 import { useAlertStore } from "@/stores/alert/use-alert-store";
 import { format } from "date-fns";
-import { Select, Button } from "@/components";
+import { InputForm, Select } from "@/components";
 import {
   FormControl,
   FormControlError,
@@ -18,6 +18,7 @@ import { Controller, useForm } from "react-hook-form";
 import { TouchableOpacity } from "react-native";
 import { TextInput } from "react-native";
 import { DefaultForm } from "../default-form/default-form";
+import { useI18nStore } from "@/stores/i18n/useI18nStore";
 
 type DateFormProps = {
   submitType: "CREATE" | "UPDATE";
@@ -62,7 +63,7 @@ export const DateForm = ({
     resolver: zodResolver(dateSchema),
   });
 
-  const { loading, createAlerts, updateAlerts } = useAlertStore();
+  const { createAlerts, updateAlerts } = useAlertStore();
 
   const onSubmit = async (data: DateSchemaType) => {
     if (submitType == "CREATE") {
@@ -74,21 +75,18 @@ export const DateForm = ({
   };
 
   const remedyNameInputRef = useRef<TextInput | null>(null);
-  const DoseNameInputRef = useRef<TextInput | null>(null);
-  const insctructionsRef = useRef<TextInput | null>(null);
 
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
 
-  const loadingText =
-    submitType == "CREATE" ? "Creating alert..." : "Updateing alert...";
+  const i18n = useI18nStore((state) => state.i18n);
 
   return (
     <>
       <Controller
         control={control}
         name="trigger.alertType"
-        render={({ field: { onChange, onBlur, value = "INTERVAL" } }) => (
+        render={({ field: { onChange, onBlur, value = "DATE" } }) => (
           <Select
             isRequired
             isInvalid={!!errors.trigger?.alertType?.message}
@@ -100,7 +98,7 @@ export const DateForm = ({
               onChange(value);
             }}
             onClose={onBlur}
-            selectedValue={value}
+            selectedValue={i18n.t("FORMS.ONE_TIME.DROPDOWN")}
           />
         )}
       />
@@ -109,16 +107,7 @@ export const DateForm = ({
         control={control}
         name="trigger.date"
         render={({ field: { onChange, onBlur, value } }) => (
-          <FormControl
-            size="md"
-            isDisabled={false}
-            isInvalid={!!errors.trigger?.date}
-            isReadOnly={false}
-            isRequired={true}
-          >
-            <FormControlLabel>
-              <FormControlLabelText>Date</FormControlLabelText>
-            </FormControlLabel>
+          <TouchableOpacity onPress={() => setOpen(true)}>
             <DatePicker
               modal
               open={open}
@@ -133,30 +122,27 @@ export const DateForm = ({
                 setOpen(false);
               }}
             />
+            <InputForm
+              ref={remedyNameInputRef}
+              Label={i18n.t("FORMS.ONE_TIME.DATE")}
+              ErrorText={errors.trigger?.date?.message}
+              FormControlProps={{
+                isInvalid: !!errors.trigger?.date,
+                isRequired: true,
+              }}
+              InputProps={{
+                editable: false,
+                type: "text",
+                placeholder: !!initialValue?.trigger.date
+                  ? format(initialValue?.trigger.date, "Pp")
+                  : "Date",
 
-            <TouchableOpacity onPress={() => setOpen(true)}>
-              <Input pointerEvents="none">
-                <InputField
-                  editable={false}
-                  type="text"
-                  placeholder={
-                    !!initialValue?.trigger.date
-                      ? format(initialValue?.trigger.date, "Pp")
-                      : "Date"
-                  }
-                  value={format(value, "Pp")}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                />
-              </Input>
-            </TouchableOpacity>
-            <FormControlError>
-              {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-              <FormControlErrorText>
-                {errors.trigger?.date?.message}
-              </FormControlErrorText>
-            </FormControlError>
-          </FormControl>
+                value: format(value, "Pp"),
+                onChangeText: () => onChange(),
+                onBlur: () => onBlur(),
+              }}
+            />
+          </TouchableOpacity>
         )}
       />
       <DefaultForm
