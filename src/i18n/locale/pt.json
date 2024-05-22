@@ -10,6 +10,19 @@
     "BUTTON": "Entrar",
     "DONTACC": "Não tem conta? Clique aqui"
   },
+
+  "SIGN-UP": {
+    "FORM": {
+      "NAME": "Nome",
+      "NAME_PLACEHOLDER": "Digite seu nome",
+      "EMAIL": "Email",
+      "EMAIL_PLACEHOLDER": "Digite seu emaill",
+      "PASSWORD": "Senha",
+      "PASSWORD_PLACEHOLDER": "Digite sua senha"
+    },
+    "BUTTON": "Criar conta",
+    "HAVEACC": "Ja tem uma conta? Clique aqui"
+  },
   "ADD": {
     "TITLEPAGE": "Adicionar",
     "FREQUENCY": "Qual frequencia?",

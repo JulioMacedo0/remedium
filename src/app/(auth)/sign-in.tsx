@@ -2,11 +2,7 @@ import { Button, InputForm, Screen } from "@/components";
 import { Theme } from "@/constants";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useI18nStore } from "@/stores/i18n/useI18nStore";
-import {
-  Heading,
-  KeyboardAvoidingView,
-  ScrollView,
-} from "@gluestack-ui/themed";
+import { KeyboardAvoidingView, ScrollView } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTheme } from "@shopify/restyle";
 import { Link } from "expo-router";

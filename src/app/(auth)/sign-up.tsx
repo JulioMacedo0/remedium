@@ -1,45 +1,48 @@
+import { Button, InputForm, Screen } from "@/components";
+import { Theme } from "@/constants";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { useI18nStore } from "@/stores/i18n/useI18nStore";
 import {
-  Button,
-  ButtonText,
   FormControl,
   FormControlError,
   FormControlErrorText,
   FormControlLabel,
   FormControlLabelText,
-  Heading,
   Input,
   InputField,
   KeyboardAvoidingView,
   ScrollView,
 } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTheme } from "@shopify/restyle";
 import { Link, router } from "expo-router";
 import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
-const SignUp = () => {
-  const signUpSchema = z.object({
-    username: z
-      .string({ required_error: "field name is required" })
-      .min(1, { message: "field name is required" })
-      .trim(),
-    email: z
-      .string({ required_error: "field email is required" })
-      .email({
-        message: "Invalid email",
-      })
-      .toLowerCase()
-      .trim(),
-    password: z
-      .string({ required_error: "field password is required" })
-      .min(8, { message: "the password must contain at least 8 characters" })
-      .trim(),
-  });
 
-  type SignUpSchemaType = z.infer<typeof signUpSchema>;
+const signUpSchema = z.object({
+  username: z
+    .string({ required_error: "field name is required" })
+    .min(1, { message: "field name is required" })
+    .trim(),
+  email: z
+    .string({ required_error: "field email is required" })
+    .email({
+      message: "Invalid email",
+    })
+    .toLowerCase()
+    .trim(),
+  password: z
+    .string({ required_error: "field password is required" })
+    .min(8, { message: "the password must contain at least 8 characters" })
+    .trim(),
+});
+
+type SignUpSchemaType = z.infer<typeof signUpSchema>;
+
+const SignUp = () => {
   const {
     control,
     handleSubmit,
@@ -63,143 +66,115 @@ const SignUp = () => {
   const onSubmit = async (data: SignUpSchemaType) => {
     signUp(data, succesCallback);
   };
+
+  const theme = useTheme<Theme>();
+  const { brandColor } = theme.colors;
+  const i18n = useI18nStore((state) => state.i18n);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <KeyboardAvoidingView style={{ flex: 1 }} p={8}>
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-        >
-          <Heading textAlign="center">Sign up</Heading>
-          <Controller
-            control={control}
-            name="username"
-            render={({ field: { onChange, onBlur, value = "" } }) => (
-              <FormControl
-                size="md"
-                isDisabled={false}
-                isInvalid={!!errors.username}
-                isReadOnly={false}
-                isRequired={true}
-              >
-                <FormControlLabel mb="$1">
-                  <FormControlLabelText>Name</FormControlLabelText>
-                </FormControlLabel>
-                <Input>
-                  <InputField
-                    ref={nameInputRef}
-                    returnKeyType="next"
-                    blurOnSubmit={false}
-                    onSubmitEditing={() => emailInputRef.current?.focus()}
-                    type="text"
-                    placeholder="Put your name"
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                  />
-                </Input>
-                <FormControlError>
-                  <FormControlErrorText>
-                    {errors.username?.message}
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
-            )}
-          />
-          <Controller
-            control={control}
-            name="email"
-            render={({ field: { onChange, onBlur, value = "" } }) => (
-              <FormControl
-                size="md"
-                isDisabled={false}
-                isInvalid={!!errors.email}
-                isReadOnly={false}
-                isRequired={true}
-              >
-                <FormControlLabel mb="$1">
-                  <FormControlLabelText>Email</FormControlLabelText>
-                </FormControlLabel>
-                <Input>
-                  <InputField
-                    ref={emailInputRef}
-                    returnKeyType="next"
-                    blurOnSubmit={false}
-                    onSubmitEditing={() => passwordInputRef.current?.focus()}
-                    type="text"
-                    placeholder="Put your email"
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                  />
-                </Input>
-                <FormControlError>
-                  <FormControlErrorText>
-                    {errors.email?.message}
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="password"
-            render={({ field: { onChange, onBlur, value = "" } }) => (
-              <FormControl
-                size="md"
-                isDisabled={false}
-                isInvalid={!!errors.password?.message}
-                isReadOnly={false}
-                isRequired={true}
-              >
-                <FormControlLabel mb="$1">
-                  <FormControlLabelText>Password</FormControlLabelText>
-                </FormControlLabel>
-                <Input>
-                  <InputField
-                    ref={passwordInputRef}
-                    returnKeyType="done"
-                    blurOnSubmit={false}
-                    type="password"
-                    placeholder="Put your password"
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    onSubmitEditing={handleSubmit(onSubmit)}
-                  />
-                </Input>
-                <FormControlError>
-                  <FormControlErrorText>
-                    {errors.password?.message}
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
-            )}
-          />
-
-          <Button
-            size="md"
-            variant="solid"
-            action="primary"
-            isDisabled={false}
-            isFocusVisible={false}
-            onPress={handleSubmit(onSubmit)}
-            mt={20}
+      <Screen>
+        <KeyboardAvoidingView style={{ flex: 1 }}>
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
           >
-            <ButtonText>{loading ? "Loading..." : "sig up"}</ButtonText>
-          </Button>
-          <Link
-            style={{
-              textAlign: "right",
-              color: "blue",
-            }}
-            replace
-            href="/sign-in"
-          >
-            have account?
-          </Link>
-        </ScrollView>
-      </KeyboardAvoidingView>
+            <Controller
+              control={control}
+              name="username"
+              render={({ field: { onChange, onBlur, value = "" } }) => (
+                <InputForm
+                  ref={nameInputRef}
+                  Label={i18n.t("SIGN-UP.FORM.NAME")}
+                  ErrorText={errors.username?.message}
+                  FormControlProps={{
+                    isInvalid: !!errors.username,
+                    isRequired: true,
+                  }}
+                  InputProps={{
+                    returnKeyType: "next",
+                    blurOnSubmit: false,
+                    onSubmitEditing: () => emailInputRef.current?.focus(),
+                    type: "text",
+                    placeholder: i18n.t("SIGN-UP.FORM.NAME_PLACEHOLDER"),
+                    onChangeText: (text) => onChange(text),
+                    onBlur: () => onBlur(),
+                    value: value,
+                  }}
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="email"
+              render={({ field: { onChange, onBlur, value = "" } }) => (
+                <InputForm
+                  ref={emailInputRef}
+                  Label={i18n.t("SIGN-UP.FORM.EMAIL")}
+                  ErrorText={errors.email?.message}
+                  FormControlProps={{
+                    isInvalid: !!errors.email,
+                    isRequired: true,
+                  }}
+                  InputProps={{
+                    returnKeyType: "next",
+                    blurOnSubmit: false,
+                    onSubmitEditing: () => emailInputRef.current?.focus(),
+                    type: "text",
+                    placeholder: i18n.t("SIGN-UP.FORM.EMAIL_PLACEHOLDER"),
+                    onChangeText: (text) => onChange(text),
+                    onBlur: () => onBlur(),
+                    value: value,
+                  }}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { onChange, onBlur, value = "" } }) => (
+                <InputForm
+                  ref={passwordInputRef}
+                  Label={i18n.t("SIGN-UP.FORM.PASSWORD")}
+                  ErrorText={errors.password?.message}
+                  FormControlProps={{
+                    isInvalid: !!errors.password,
+                    isRequired: true,
+                  }}
+                  InputProps={{
+                    returnKeyType: "next",
+                    blurOnSubmit: false,
+                    onSubmitEditing: () => emailInputRef.current?.focus(),
+                    type: "text",
+                    placeholder: i18n.t("SIGN-UP.FORM.PASSWORD_PLACEHOLDER"),
+                    onChangeText: (text) => onChange(text),
+                    onBlur: () => onBlur(),
+                    value: value,
+                    onSubmitEditing: () => handleSubmit(onSubmit),
+                  }}
+                />
+              )}
+            />
+
+            <Button
+              loading={loading}
+              text={i18n.t("SIGN-UP.BUTTON")}
+              onPress={handleSubmit(onSubmit)}
+            />
+            <Link
+              style={{
+                textAlign: "right",
+                color: brandColor,
+                marginTop: 12,
+              }}
+              replace
+              href="/sign-in"
+            >
+              {i18n.t("SIGN-UP.HAVEACC")}
+            </Link>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </Screen>
     </SafeAreaView>
   );
 };
