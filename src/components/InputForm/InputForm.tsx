@@ -56,7 +56,7 @@ export const InputForm = forwardRef<TextInput, InputFormProps>(
           <FormControlLabelText color={text}>{Label}</FormControlLabelText>
         </FormControlLabel>
         <Input bg={tabBackground} {...InputContainerProps}>
-          <InputField ref={ref} {...InputProps} />
+          <InputField ref={ref} color={text} {...InputProps} />
         </Input>
 
         {HelperText && (
