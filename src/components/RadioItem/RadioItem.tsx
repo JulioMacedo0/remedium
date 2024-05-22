@@ -51,7 +51,7 @@ export const RadioItem = ({
       >
         {isSelected ? (
           <Box
-            bg="text"
+            bg="brandColor"
             flex={1}
             style={{
               borderRadius: 999,
