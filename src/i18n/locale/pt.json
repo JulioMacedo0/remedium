@@ -79,6 +79,10 @@
         "SAT": "Sáb",
         "SUN": "Dom"
       }
+    },
+    "DAILY": {
+      "DROPDOWN": "Diário",
+      "DATE": "Data"
     }
   }
 }

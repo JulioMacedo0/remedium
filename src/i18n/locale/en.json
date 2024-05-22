@@ -55,7 +55,7 @@
   "FORMS": {
     "BUTTON": "Scheluder alert",
     "DEFAULT": {
-      "NAME": "Nome do remédio",
+      "NAME": "Remedy name",
       "NAME_PLACEHOLDER": "Dipirona",
       "DOSE": "Dosagem",
       "DOSE_PLACEHOLDER": "1 pill",
@@ -63,9 +63,9 @@
       "INSTRUCTIONS_PLACEHOLDER": "Take before breakfast"
     },
     "INTERVAL": {
-      "DROPDOWN": "Intervalo",
-      "HOUR": "Hora",
-      "MINUTE": "Minuto"
+      "DROPDOWN": "Interval",
+      "HOUR": "Hour",
+      "MINUTE": "Minute"
     },
     "WEEKLY": {
       "DROPDOWN": "Weekly",
@@ -79,6 +79,10 @@
         "SAT": "Sat",
         "SUN": "Sun"
       }
+    },
+    "DAILY": {
+      "DROPDOWN": "Daily",
+      "DATE": "Date"
     }
   }
 }
