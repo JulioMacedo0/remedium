@@ -1,6 +1,15 @@
 {
   "HOME": {},
-
+  "SIGN-IN": {
+    "FORM": {
+      "EMAIL": "Email",
+      "EMAIL_PLACEHOLDER": "Put your email",
+      "PASSWORD": "Password",
+      "PASSWORD_PLACEHOLDER": "Put your password"
+    },
+    "BUTTON": "Sign in",
+    "DONTACC": "Don't have accout? Click here"
+  },
   "ADD": {
     "TITLEPAGE": "Add",
     "FREQUENCY": "Hows frequency?",

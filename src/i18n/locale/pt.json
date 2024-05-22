@@ -1,6 +1,15 @@
 {
   "HOME": {},
-
+  "SIGN-IN": {
+    "FORM": {
+      "EMAIL": "Email",
+      "EMAIL_PLACEHOLDER": "Digite seu email",
+      "PASSWORD": "Senha",
+      "PASSWORD_PLACEHOLDER": "Digite sua senha"
+    },
+    "BUTTON": "Entrar",
+    "DONTACC": "Não tem conta? Clique aqui"
+  },
   "ADD": {
     "TITLEPAGE": "Adicionar",
     "FREQUENCY": "Qual frequencia?",
