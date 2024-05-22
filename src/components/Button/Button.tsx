@@ -15,7 +15,7 @@ export const Button = ({ text, loading, ...rest }: ButtonProps) => {
 
   return (
     <UiButton {...rest} disabled={loading} bg={brandColor}>
-      {loading ? (
+      {!loading ? (
         <ButtonText>{text}</ButtonText>
       ) : (
         <LottieView
