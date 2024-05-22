@@ -9,6 +9,8 @@ import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native";
 import { useI18nStore } from "@/stores/i18n/useI18nStore";
 import { DefaultForm } from "../default-form/default-form";
+import { useTheme } from "@shopify/restyle";
+import { Theme } from "@/constants";
 
 type IntervalFormProps = {
   submitType: "CREATE" | "UPDATE";
@@ -59,6 +61,8 @@ export const IntervalForm = ({
 
   const i18n = useI18nStore((state) => state.i18n);
 
+  const theme = useTheme<Theme>();
+  const { brandColor } = theme.colors;
   return (
     <>
       <Controller
@@ -122,9 +126,10 @@ export const IntervalForm = ({
         />
 
         <VStack space="md">
-          <Box width={10} height={10} rounded="$full" bgColor="#333" />
-          <Box width={10} height={10} rounded="$full" bgColor="#333" />
+          <Box width={10} height={10} rounded="$full" bgColor={brandColor} />
+          <Box width={10} height={10} rounded="$full" bgColor={brandColor} />
         </VStack>
+
         <Controller
           control={control}
           name="trigger.minutes"
