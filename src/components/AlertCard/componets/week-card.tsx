@@ -11,7 +11,7 @@ export const WeekCard = ({ weekName, active }: WeekCardProps) => {
       alignItems="center"
       justifyContent="center"
       bgColor={active ? "#008000" : "#1222"}
-      p={4}
+      px={4}
     >
       <Text color="#fff">{weekName}</Text>
     </View>
