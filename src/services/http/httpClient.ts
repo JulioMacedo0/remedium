@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import { storageService } from "../storage/storageService";
 import { STORAGE_KEYS } from "../storage/storegesKeys";
 
-const baseURL = "http://192.168.100.176:3000";
+const baseURL = process.env.EXPO_PUBLIC_API_URL;
 
 export const client = axios.create({
   baseURL: `${baseURL}/api/v1/`,
