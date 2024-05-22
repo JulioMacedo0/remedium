@@ -118,7 +118,7 @@ const SignUp = () => {
                   InputProps={{
                     returnKeyType: "next",
                     blurOnSubmit: false,
-                    onSubmitEditing: () => emailInputRef.current?.focus(),
+                    onSubmitEditing: () => passwordInputRef.current?.focus(),
                     type: "text",
                     placeholder: i18n.t("SIGN-UP.FORM.EMAIL_PLACEHOLDER"),
                     onChangeText: (text) => onChange(text),
@@ -142,15 +142,14 @@ const SignUp = () => {
                     isRequired: true,
                   }}
                   InputProps={{
-                    returnKeyType: "next",
+                    returnKeyType: "done",
                     blurOnSubmit: false,
-                    onSubmitEditing: () => emailInputRef.current?.focus(),
-                    type: "text",
+                    type: "password",
                     placeholder: i18n.t("SIGN-UP.FORM.PASSWORD_PLACEHOLDER"),
                     onChangeText: (text) => onChange(text),
                     onBlur: () => onBlur(),
                     value: value,
-                    onSubmitEditing: () => handleSubmit(onSubmit),
+                    onSubmitEditing: handleSubmit(onSubmit),
                   }}
                 />
               )}
