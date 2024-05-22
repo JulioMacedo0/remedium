@@ -48,10 +48,10 @@ const SignIn = () => {
   };
 
   const theme = useTheme<Theme>();
-  const { brandColor } = theme.colors;
+  const { brandColor, mainBackground } = theme.colors;
   const i18n = useI18nStore((state) => state.i18n);
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: mainBackground }}>
       <Screen>
         <KeyboardAvoidingView style={{ flex: 1 }}>
           <ScrollView

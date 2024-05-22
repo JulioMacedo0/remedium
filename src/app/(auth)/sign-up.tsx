@@ -68,11 +68,11 @@ const SignUp = () => {
   };
 
   const theme = useTheme<Theme>();
-  const { brandColor } = theme.colors;
+  const { brandColor, mainBackground } = theme.colors;
   const i18n = useI18nStore((state) => state.i18n);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: mainBackground }}>
       <Screen>
         <KeyboardAvoidingView style={{ flex: 1 }}>
           <ScrollView
@@ -160,6 +160,7 @@ const SignUp = () => {
               text={i18n.t("SIGN-UP.BUTTON")}
               onPress={handleSubmit(onSubmit)}
             />
+
             <Link
               style={{
                 textAlign: "right",
