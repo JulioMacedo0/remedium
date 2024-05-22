@@ -11,16 +11,16 @@ const palette = {
   greenPrimary: "#0ECD9D",
   greenDark: "#0A906E",
 
-  black: "#000",
-  blackLight: "#111827",
-  white: "#ffff",
-  whiteDark: "#F8F8FF",
+  black: "#1a202c",
+  blackLight: "#2d3748",
+  white: "#fff",
+  whiteDark: "#f6f6fb",
 };
 
 export const theme = createTheme({
   colors: {
-    mainBackground: palette.white,
-    tabBackground: palette.whiteDark,
+    mainBackground: palette.whiteDark,
+    tabBackground: palette.white,
     text: palette.black,
     brandColor: palette.purpleDark,
     inactiveTabBarIcon: palette.gray,
