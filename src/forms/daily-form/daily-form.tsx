@@ -1,6 +1,6 @@
 import { DailySchemaType, dailySchema } from "@/schema";
 import { useAlertStore } from "@/stores/alert/use-alert-store";
-import { Select, Button } from "@/components";
+import { Select, Button, InputForm } from "@/components";
 import {
   FormControl,
   FormControlError,
@@ -19,6 +19,7 @@ import { Controller, useForm } from "react-hook-form";
 import { TextInput, TouchableOpacity } from "react-native";
 import { format } from "date-fns";
 import { DefaultForm } from "../default-form/default-form";
+import { useI18nStore } from "@/stores/i18n/useI18nStore";
 
 type DailyFormProps = {
   submitType: "CREATE" | "UPDATE";
@@ -60,7 +61,9 @@ export const DailyForm = ({
 
   const remedyNameInputRef = useRef<TextInput | null>(null);
 
-  const { loading, createAlerts, updateAlerts } = useAlertStore();
+  const { createAlerts, updateAlerts } = useAlertStore();
+
+  const i18n = useI18nStore((state) => state.i18n);
 
   const onSubmit = async (data: DailySchemaType) => {
     if (submitType == "CREATE") {
@@ -89,7 +92,7 @@ export const DailyForm = ({
               onChange(value);
             }}
             onClose={onBlur}
-            selectedValue={value}
+            selectedValue={i18n.t("FORMS.DAILY.DROPDOWN")}
           />
         )}
       />
@@ -98,16 +101,7 @@ export const DailyForm = ({
         control={control}
         name="trigger.date"
         render={({ field: { onChange, onBlur, value } }) => (
-          <FormControl
-            size="md"
-            isDisabled={false}
-            isInvalid={!!errors.trigger?.date}
-            isReadOnly={false}
-            isRequired={true}
-          >
-            <FormControlLabel>
-              <FormControlLabelText>Date</FormControlLabelText>
-            </FormControlLabel>
+          <TouchableOpacity onPress={() => setOpen(true)}>
             <DatePicker
               modal
               mode="time"
@@ -123,30 +117,76 @@ export const DailyForm = ({
                 setOpen(false);
               }}
             />
+            <InputForm
+              ref={remedyNameInputRef}
+              Label={i18n.t("FORMS.DAILY.DATE")}
+              ErrorText={errors.trigger?.date?.message}
+              FormControlProps={{
+                isInvalid: !!errors.trigger?.date,
+                isRequired: true,
+              }}
+              InputProps={{
+                editable: false,
+                type: "text",
+                placeholder: !!initialValue?.trigger.date
+                  ? format(initialValue?.trigger.date, "p")
+                  : "Date",
 
-            <TouchableOpacity onPress={() => setOpen(true)}>
-              <Input pointerEvents="none">
-                <InputField
-                  editable={false}
-                  type="text"
-                  placeholder={
-                    !!initialValue?.trigger.date
-                      ? format(initialValue?.trigger.date, "p")
-                      : "Date"
-                  }
-                  value={format(value, "p")}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                />
-              </Input>
-            </TouchableOpacity>
-            <FormControlError>
-              {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-              <FormControlErrorText>
-                {errors.trigger?.date?.message}
-              </FormControlErrorText>
-            </FormControlError>
-          </FormControl>
+                value: format(value, "p"),
+                onChangeText: () => onChange(),
+                onBlur: () => onBlur(),
+              }}
+            />
+          </TouchableOpacity>
+          // <FormControl
+          //   size="md"
+          //   isDisabled={false}
+          //   isInvalid={!!errors.trigger?.date}
+          //   isReadOnly={false}
+          //   isRequired={true}
+          // >
+          //   <FormControlLabel>
+          //     <FormControlLabelText>Date</FormControlLabelText>
+          //   </FormControlLabel>
+          //   <DatePicker
+          //     modal
+          //     mode="time"
+          //     open={open}
+          //     date={date}
+          //     onConfirm={(date) => {
+          //       onChange(date.toISOString());
+          //       setOpen(false);
+          //       setDate(date);
+          //       remedyNameInputRef.current?.focus();
+          //     }}
+          //     onCancel={() => {
+          //       setOpen(false);
+          //     }}
+          //   />
+
+          //   <TouchableOpacity onPress={() => setOpen(true)}>
+          //     <Input pointerEvents="none">
+          //       <InputField
+          //         editable={false}
+          //         type="text"
+          //         placeholder={
+          //           !!initialValue?.trigger.date
+          //             ? format(initialValue?.trigger.date, "p")
+          //             : "Date"
+          //         }
+          //         value={format(value, "p")}
+          //         onChangeText={onChange}
+          //         onBlur={onBlur}
+          //       />
+          //     </Input>
+          //   </TouchableOpacity>
+          //   <FormControlError>
+          //     {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
+          //     <FormControlErrorText>
+          //       {errors.trigger?.date?.message}
+          //     </FormControlErrorText>
+          //   </FormControlError>
+          // </FormControl>
         )}
       />
 
