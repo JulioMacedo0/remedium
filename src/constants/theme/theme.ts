@@ -4,7 +4,7 @@ const palette = {
   purpleLight: "#8C6FF7",
   purplePrimary: "#5A31F4",
   purpleDark: "#3F22AB",
-
+  banrdColor: "#276ed8",
   gray: "#ccc",
 
   greenLight: "#56DCBA",
@@ -22,7 +22,7 @@ export const theme = createTheme({
     mainBackground: palette.whiteDark,
     tabBackground: palette.white,
     text: palette.black,
-    brandColor: palette.purpleDark,
+    brandColor: palette.banrdColor,
     inactiveTabBarIcon: palette.gray,
   },
   spacing: {
