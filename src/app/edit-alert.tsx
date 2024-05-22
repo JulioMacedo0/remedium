@@ -1,3 +1,4 @@
+import { Screen } from "@/components";
 import { DailyForm } from "@/forms/daily-form/daily-form";
 import { DateForm } from "@/forms/date-form/date-form";
 import { IntervalForm } from "@/forms/interval-form/interval-form";
@@ -54,8 +55,10 @@ export default function EditAlert() {
   };
 
   return (
-    <KeyboardAvoidingView px={10} py={10} style={{ flex: 1, zIndex: 999 }}>
-      <ScrollView>{renderForms()}</ScrollView>
-    </KeyboardAvoidingView>
+    <Screen>
+      <KeyboardAvoidingView style={{ flex: 1, zIndex: 999 }}>
+        <ScrollView>{renderForms()}</ScrollView>
+      </KeyboardAvoidingView>
+    </Screen>
   );
 }
