@@ -1,28 +1,10 @@
 import { WeeklySchemaType, weeklySchema } from "@/schema";
-import { MaterialIcons } from "@expo/vector-icons";
 import DatePicker from "react-native-date-picker";
-import { Select } from "@/components";
+import { InputForm, Select } from "@/components";
 import {
-  Button,
-  ButtonText,
   Checkbox,
   CheckboxGroup,
   CheckboxLabel,
-  FormControl,
-  FormControlError,
-  FormControlErrorText,
-  FormControlLabel,
-  FormControlLabelText,
-  Input,
-  InputField,
-  SelectBackdrop,
-  SelectContent,
-  SelectDragIndicator,
-  SelectDragIndicatorWrapper,
-  SelectInput,
-  SelectItem,
-  SelectPortal,
-  SelectTrigger,
   Text,
   VStack,
 } from "@gluestack-ui/themed";
@@ -312,18 +294,7 @@ export const WeeklyForm = ({
         control={control}
         name="trigger.date"
         render={({ field: { onChange, onBlur, value } }) => (
-          <FormControl
-            size="md"
-            isDisabled={false}
-            isInvalid={!!errors.trigger?.date}
-            isReadOnly={false}
-            isRequired={true}
-          >
-            <FormControlLabel>
-              <FormControlLabelText>
-                {i18n.t("FORMS.WEEKLY.DATE")}
-              </FormControlLabelText>
-            </FormControlLabel>
+          <TouchableOpacity onPress={() => setOpen(true)}>
             <DatePicker
               modal
               mode="time"
@@ -339,30 +310,27 @@ export const WeeklyForm = ({
                 setOpen(false);
               }}
             />
+            <InputForm
+              ref={remedyNameInputRef}
+              Label={i18n.t("FORMS.WEEKLY.DATE")}
+              ErrorText={errors.trigger?.date?.message}
+              FormControlProps={{
+                isRequired: true,
+                isInvalid: !!errors.trigger?.date,
+              }}
+              InputProps={{
+                editable: false,
+                type: "text",
+                placeholder: !!initialValue?.trigger.date
+                  ? format(initialValue?.trigger.date, "p")
+                  : "Date",
 
-            <TouchableOpacity onPress={() => setOpen(true)}>
-              <Input pointerEvents="none">
-                <InputField
-                  editable={false}
-                  type="text"
-                  placeholder={
-                    !!initialValue?.trigger.date
-                      ? format(initialValue?.trigger.date, "p")
-                      : "Date"
-                  }
-                  value={format(value, "p")}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                />
-              </Input>
-            </TouchableOpacity>
-            <FormControlError>
-              {/* <FormControlErrorIcon as={AlertCircleIcon} /> */}
-              <FormControlErrorText>
-                {errors.trigger?.date?.message}
-              </FormControlErrorText>
-            </FormControlError>
-          </FormControl>
+                value: format(value, "p"),
+                onChangeText: () => onChange(),
+                onBlur: () => onBlur(),
+              }}
+            />
+          </TouchableOpacity>
         )}
       />
 
