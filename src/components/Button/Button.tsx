@@ -15,7 +15,7 @@ export const Button = ({ text, loading, ...rest }: ButtonProps) => {
 
   return (
     <UiButton {...rest} disabled={loading} bg={brandColor}>
-      {!loading ? (
+      {loading ? (
         <ButtonText>{text}</ButtonText>
       ) : (
         <LottieView
@@ -23,6 +23,12 @@ export const Button = ({ text, loading, ...rest }: ButtonProps) => {
             width: 200,
             height: 200,
           }}
+          colorFilters={[
+            { keypath: "Shape Layer 1", color: "#fff" },
+            { keypath: "Shape Layer 2", color: "#fff" },
+            { keypath: "Shape Layer 3", color: "#fff" },
+            { keypath: "Shape Layer 4", color: "#fff" },
+          ]}
           autoPlay
           source={require("@lotties/loading.json")}
         />
