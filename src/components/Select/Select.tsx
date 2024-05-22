@@ -22,7 +22,7 @@ export const Select = ({ ...props }: SelectProps) => {
   const i18n = useI18nStore((state) => state.i18n);
   return (
     <DefaultSelect rounded={"$full"} bg={tabBackground} mb={12} {...props}>
-      <SelectTrigger variant="rounded" size="md">
+      <SelectTrigger variant="rounded" size="md" pr={12}>
         <SelectInput
           placeholder={i18n.t("ADD.FREQUENCYDROPDOWN.PLACEHOLDER")}
           placeholderTextColor={text}
