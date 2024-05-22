@@ -1,42 +1,38 @@
+import { Button, InputForm, Screen } from "@/components";
+import { Theme } from "@/constants";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { useI18nStore } from "@/stores/i18n/useI18nStore";
 import {
-  Button,
-  ButtonText,
-  FormControl,
-  FormControlError,
-  FormControlErrorText,
-  FormControlLabel,
-  FormControlLabelText,
   Heading,
-  Input,
-  InputField,
   KeyboardAvoidingView,
   ScrollView,
 } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTheme } from "@shopify/restyle";
 import { Link } from "expo-router";
 import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
+
+const signInSchema = z.object({
+  email: z
+    .string({ required_error: "field email is required" })
+    .email({
+      message: "Invalid email",
+    })
+    .toLowerCase()
+    .trim(),
+  password: z
+    .string({ required_error: "field password is required" })
+    .min(1, { message: "field password is required" })
+    .trim(),
+});
+
+type SignInSchemaType = z.infer<typeof signInSchema>;
+
 const SignIn = () => {
-  const signInSchema = z.object({
-    email: z
-      .string({ required_error: "field email is required" })
-      .email({
-        message: "Invalid email",
-      })
-      .toLowerCase()
-      .trim(),
-    password: z
-      .string({ required_error: "field password is required" })
-      .min(1, { message: "field password is required" })
-      .trim(),
-  });
-
-  type SignInSchemaType = z.infer<typeof signInSchema>;
-
   const {
     control,
     handleSubmit,
@@ -54,110 +50,89 @@ const SignIn = () => {
   const onSubmit = async (data: SignInSchemaType) => {
     signIn(data, reset);
   };
+
+  const theme = useTheme<Theme>();
+  const { brandColor } = theme.colors;
+  const i18n = useI18nStore((state) => state.i18n);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <KeyboardAvoidingView style={{ flex: 1 }} p={8}>
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-        >
-          <Heading textAlign="center">Sign in</Heading>
-
-          <Controller
-            control={control}
-            name="email"
-            render={({ field: { onChange, onBlur, value = "" } }) => (
-              <FormControl
-                size="md"
-                isDisabled={false}
-                isInvalid={!!errors.email}
-                isReadOnly={false}
-                isRequired={true}
-              >
-                <FormControlLabel mb="$1">
-                  <FormControlLabelText>Email</FormControlLabelText>
-                </FormControlLabel>
-                <Input>
-                  <InputField
-                    ref={emailInputRef}
-                    returnKeyType="next"
-                    blurOnSubmit={false}
-                    onSubmitEditing={() => passwordInputRef.current?.focus()}
-                    type="text"
-                    placeholder="Put your email"
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                  />
-                </Input>
-                <FormControlError>
-                  <FormControlErrorText>
-                    {errors.email?.message}
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="password"
-            render={({ field: { onChange, onBlur, value = "" } }) => (
-              <FormControl
-                size="md"
-                isDisabled={false}
-                isInvalid={!!errors.password?.message}
-                isReadOnly={false}
-                isRequired={true}
-              >
-                <FormControlLabel mb="$1">
-                  <FormControlLabelText>Password</FormControlLabelText>
-                </FormControlLabel>
-                <Input>
-                  <InputField
-                    ref={passwordInputRef}
-                    blurOnSubmit={false}
-                    type="password"
-                    placeholder="Put your password"
-                    returnKeyType="done"
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    onSubmitEditing={handleSubmit(onSubmit)}
-                  />
-                </Input>
-                <FormControlError>
-                  <FormControlErrorText>
-                    {errors.password?.message}
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
-            )}
-          />
-
-          <Button
-            size="md"
-            variant="solid"
-            action="primary"
-            isDisabled={false}
-            isFocusVisible={false}
-            onPress={handleSubmit(onSubmit)}
-            mt={20}
+      <Screen>
+        <KeyboardAvoidingView style={{ flex: 1 }}>
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
           >
-            <ButtonText>{loading ? "Loading..." : "login"}</ButtonText>
-          </Button>
+            <Controller
+              control={control}
+              name="email"
+              render={({ field: { onChange, onBlur, value = "" } }) => (
+                <InputForm
+                  ref={emailInputRef}
+                  Label={i18n.t("SIGN-IN.FORM.EMAIL")}
+                  ErrorText={errors.email?.message}
+                  FormControlProps={{
+                    isInvalid: !!errors.email,
+                    isRequired: true,
+                  }}
+                  InputProps={{
+                    returnKeyType: "next",
+                    blurOnSubmit: false,
+                    onSubmitEditing: () => passwordInputRef.current?.focus(),
+                    type: "text",
+                    placeholder: i18n.t("SIGN-IN.FORM.EMAIL_PLACEHOLDER"),
+                    onChangeText: (text) => onChange(text),
+                    onBlur: () => onBlur(),
+                    value: value,
+                  }}
+                />
+              )}
+            />
 
-          <Link
-            style={{
-              textAlign: "right",
-              color: "blue",
-            }}
-            replace
-            href="/sign-up"
-          >
-            Dont have account?
-          </Link>
-        </ScrollView>
-      </KeyboardAvoidingView>
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { onChange, onBlur, value = "" } }) => (
+                <InputForm
+                  ref={passwordInputRef}
+                  Label={i18n.t("SIGN-IN.FORM.PASSWORD")}
+                  ErrorText={errors.password?.message}
+                  FormControlProps={{
+                    isInvalid: !!errors.password?.message,
+                    isRequired: true,
+                  }}
+                  InputProps={{
+                    blurOnSubmit: false,
+                    type: "password",
+                    placeholder: i18n.t("SIGN-IN.FORM.PASSWORD_PLACEHOLDER"),
+                    returnKeyType: "done",
+                    onChangeText: (text) => onChange(text),
+                    onBlur: () => onBlur(),
+                    value,
+                    onSubmitEditing: () => handleSubmit(onSubmit),
+                  }}
+                />
+              )}
+            />
+
+            <Button
+              loading={loading}
+              text={i18n.t("SIGN-IN.BUTTON")}
+              onPress={handleSubmit(onSubmit)}
+            />
+
+            <Link
+              style={{
+                textAlign: "right",
+                color: brandColor,
+                marginTop: 12,
+              }}
+              replace
+              href="/sign-up"
+            >
+              {i18n.t("SIGN-IN.DONTACC")}
+            </Link>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </Screen>
     </SafeAreaView>
   );
 };
