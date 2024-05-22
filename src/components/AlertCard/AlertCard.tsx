@@ -109,10 +109,6 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
       case "WEEKLY":
         return (
           <HStack space="xs">
-            <Text color="#fff" fontWeight="$bold" mx={8}>
-              Every Week
-            </Text>
-
             <WeekCard
               weekName="Mon"
               active={!!alert.trigger.week.find((week) => week == "MONDAY")}
@@ -126,6 +122,10 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
               active={!!alert.trigger.week.find((week) => week == "WEDNESDAY")}
             />
             <WeekCard
+              weekName="Thu"
+              active={!!alert.trigger.week.find((week) => week == "THURSDAY")}
+            />
+            <WeekCard
               weekName="Fri"
               active={!!alert.trigger.week.find((week) => week == "FRIDAY")}
             />
@@ -134,7 +134,7 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
               active={!!alert.trigger.week.find((week) => week == "SATURDAY")}
             />
             <WeekCard
-              weekName="sun"
+              weekName="Sun"
               active={!!alert.trigger.week.find((week) => week == "SUNDAY")}
             />
           </HStack>
