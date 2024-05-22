@@ -2,14 +2,19 @@ import { ButtonText, Button as UiButton } from "@gluestack-ui/themed";
 
 import { ComponentProps } from "react";
 import LottieView from "lottie-react-native";
+import { useTheme } from "@shopify/restyle";
+import { Theme } from "@/constants";
 type ButtonProps = {
   text: string;
   loading: boolean;
 } & ComponentProps<typeof UiButton>;
 
 export const Button = ({ text, loading, ...rest }: ButtonProps) => {
+  const theme = useTheme<Theme>();
+  const { brandColor } = theme.colors;
+
   return (
-    <UiButton {...rest} disabled={loading}>
+    <UiButton {...rest} disabled={loading} bg={brandColor}>
       {!loading ? (
         <ButtonText>{text}</ButtonText>
       ) : (
