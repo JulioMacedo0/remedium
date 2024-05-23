@@ -5,7 +5,7 @@ import { STORAGE_KEYS } from "../storage/storegesKeys";
 const baseURL = process.env.EXPO_PUBLIC_API_URL;
 
 export const client = axios.create({
-  baseURL: `${baseURL}api/v1/`,
+  baseURL: `${baseURL}/api/v1/`,
   timeout: 30000,
 });
 
@@ -16,6 +16,7 @@ client.interceptors.request.use(
     return config;
   },
   function (error) {
+    console.log(error);
     // Do something with request error
     return Promise.reject(error);
   }
