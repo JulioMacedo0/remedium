@@ -1,6 +1,6 @@
 import { client } from "@/services/http/httpClient";
 import { create } from "zustand";
-import { isAxiosError } from "axios";
+import Constants from "expo-constants";
 import Toast from "react-native-toast-message";
 import * as Notifications from "expo-notifications";
 import { storageService } from "@/services/storage/storageService";
@@ -95,9 +95,16 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
     const { languageTag } = Localization.getLocales()[0];
     const { timeZone } = Localization.getCalendars()[0];
 
+    const projectId =
+      Constants?.expoConfig?.extra?.eas?.projectId ??
+      Constants?.easConfig?.projectId;
+
+    if (!projectId) {
+      throw new Error("Project ID not found");
+    }
     const expo_token = (
       await Notifications.getExpoPushTokenAsync({
-        projectId: "0e830c18-6f43-4321-9330-c85a1c4acdb0",
+        projectId,
       })
     ).data;
 
@@ -123,9 +130,16 @@ export const useAuthStore = create<UseAuthStoreType>((set) => ({
     return signUpResponse.status;
   },
   updateExpoToken: async () => {
+    const projectId =
+      Constants?.expoConfig?.extra?.eas?.projectId ??
+      Constants?.easConfig?.projectId;
+
+    if (!projectId) {
+      throw new Error("Project ID not found");
+    }
     const expo_token = (
       await Notifications.getExpoPushTokenAsync({
-        projectId: "0e830c18-6f43-4321-9330-c85a1c4acdb0",
+        projectId,
       })
     ).data;
     const user = storageService.getItem<UserType>(STORAGE_KEYS.USER);
