@@ -1,7 +1,7 @@
 import { createBox, createText, createTheme } from "@shopify/restyle";
 
 const palette = {
-  purpleLight: "#8C6FF7",
+  purpleLight: "#9871E5",
   purplePrimary: "#5A31F4",
   purpleDark: "#3F22AB",
   banrdColor: "#276ed8",
@@ -24,6 +24,7 @@ export const theme = createTheme({
     text: palette.black,
     brandColor: palette.banrdColor,
     inactiveTabBarIcon: palette.gray,
+    notificationCard: palette.purpleLight,
   },
   spacing: {
     xs: 4,
