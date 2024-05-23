@@ -1,4 +1,4 @@
-import { CreateAlertType } from "@/schema/alert-schema";
+import { CreateAlertType, TDayOfWeek } from "@/schema/alert-schema";
 import { useAlertStore } from "@/stores/alert/use-alert-store";
 import { Heading, HStack, Text, VStack } from "@gluestack-ui/themed";
 import { format } from "date-fns";
@@ -14,6 +14,9 @@ import Animated, {
 } from "react-native-reanimated";
 import { WeekCard } from "./componets/week-card";
 import { Timer } from "./componets/timer";
+import { useTheme } from "@shopify/restyle";
+import { Theme } from "@/constants";
+import { useI18nStore } from "@/stores/i18n/useI18nStore";
 
 type AlertCardProps = {
   alert: CreateAlertType & {
@@ -24,7 +27,15 @@ type AlertCardProps = {
   index: number;
 };
 
+type Weeks = {
+  name: string;
+  value: TDayOfWeek;
+};
+
 export const AlertCard = ({ alert, index }: AlertCardProps) => {
+  const theme = useTheme<Theme>();
+  const { notificationCard } = theme.colors;
+  const i18n = useI18nStore((state) => state.i18n);
   const router = useRouter();
 
   const fade = useSharedValue(0);
@@ -59,8 +70,8 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
     opacity: fade.value,
     height: height.value,
     padding: padding.value,
-    backgroundColor: "#b6a3f5",
-    borderRadius: 12,
+    backgroundColor: notificationCard,
+    borderRadius: 22,
     marginBottom: mb.value,
   }));
 
@@ -104,39 +115,39 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
     }
   };
 
+  const weeks: Weeks[] = [
+    { name: i18n.t("FORMS.WEEKLY.WEEK_SELECT.MON"), value: TDayOfWeek.MONDAY },
+    { name: i18n.t("FORMS.WEEKLY.WEEK_SELECT.TUE"), value: TDayOfWeek.TUESDAY },
+    {
+      name: i18n.t("FORMS.WEEKLY.WEEK_SELECT.WED"),
+      value: TDayOfWeek.WEDNESDAY,
+    },
+    {
+      name: i18n.t("FORMS.WEEKLY.WEEK_SELECT.THU"),
+      value: TDayOfWeek.THURSDAY,
+    },
+    { name: i18n.t("FORMS.WEEKLY.WEEK_SELECT.FRI"), value: TDayOfWeek.FRIDAY },
+    {
+      name: i18n.t("FORMS.WEEKLY.WEEK_SELECT.SAT"),
+      value: TDayOfWeek.SATURDAY,
+    },
+    { name: i18n.t("FORMS.WEEKLY.WEEK_SELECT.SUN"), value: TDayOfWeek.SUNDAY },
+  ];
+
   const renderFooterCard = () => {
     switch (alert.trigger.alertType) {
       case "WEEKLY":
         return (
-          <HStack space="xs">
-            <WeekCard
-              weekName="Mon"
-              active={!!alert.trigger.week.find((week) => week == "MONDAY")}
-            />
-            <WeekCard
-              weekName="Tue"
-              active={!!alert.trigger.week.find((week) => week == "TUESDAY")}
-            />
-            <WeekCard
-              weekName="Wed"
-              active={!!alert.trigger.week.find((week) => week == "WEDNESDAY")}
-            />
-            <WeekCard
-              weekName="Thu"
-              active={!!alert.trigger.week.find((week) => week == "THURSDAY")}
-            />
-            <WeekCard
-              weekName="Fri"
-              active={!!alert.trigger.week.find((week) => week == "FRIDAY")}
-            />
-            <WeekCard
-              weekName="Sat"
-              active={!!alert.trigger.week.find((week) => week == "SATURDAY")}
-            />
-            <WeekCard
-              weekName="Sun"
-              active={!!alert.trigger.week.find((week) => week == "SUNDAY")}
-            />
+          <HStack space="xs" ml={12} mt={6}>
+            {weeks.map((weekValue) => (
+              <WeekCard
+                key={weekValue.name}
+                weekName={weekValue.name}
+                active={
+                  !!alert.trigger.week.find((week) => week == weekValue.value)
+                }
+              />
+            ))}
           </HStack>
         );
       case "DAILY":
@@ -170,22 +181,24 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
   };
 
   return (
-    <Animated.View style={style}>
-      <TouchableOpacity
-        activeOpacity={0.6}
-        onPress={() => {
-          router.push(`/edit-alert?id=${alert.id}`);
-        }}
-      >
+    <TouchableOpacity
+      activeOpacity={0.6}
+      onPress={() => {
+        router.push(`/edit-alert?id=${alert.id}`);
+      }}
+    >
+      <Animated.View style={style}>
         <VStack alignItems="stretch">
-          <Heading color="#fff" size="sm">
-            {alert.title}
-          </Heading>
+          <HStack>
+            <Heading color="#fff" size="sm" ml={12}>
+              {alert.title}
+            </Heading>
+          </HStack>
 
           {renderTitleAlert()}
           {renderFooterCard()}
         </VStack>
-      </TouchableOpacity>
-    </Animated.View>
+      </Animated.View>
+    </TouchableOpacity>
   );
 };
