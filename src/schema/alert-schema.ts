@@ -7,7 +7,7 @@ export const AlertType = {
   DATE: "DATE",
 } as const;
 
-const DayOfWeek = {
+export const DayOfWeek = {
   SUNDAY: "SUNDAY",
   MONDAY: "MONDAY",
   TUESDAY: "TUESDAY",
@@ -16,6 +16,16 @@ const DayOfWeek = {
   FRIDAY: "FRIDAY",
   SATURDAY: "SATURDAY",
 } as const;
+
+export enum TDayOfWeek {
+  SUNDAY = "SUNDAY",
+  MONDAY = "MONDAY",
+  TUESDAY = "TUESDAY",
+  WEDNESDAY = "WEDNESDAY",
+  THURSDAY = "THURSDAY",
+  FRIDAY = "FRIDAY",
+  SATURDAY = "SATURDAY",
+}
 
 const unitOfMeasurament = {
   g: "g",
@@ -108,3 +118,4 @@ export type DateSchemaType = z.infer<typeof dateSchema>;
 export type WeeklySchemaType = z.infer<typeof weeklySchema>;
 export type DailySchemaType = z.infer<typeof dailySchema>;
 export type baseSchemaType = z.infer<typeof baseSchema>;
+export type TDayOfweeks = z.infer<typeof DayOfWeek>;
