@@ -55,17 +55,6 @@ function RootLayoutNav() {
       },
       async function (error) {
         if (error instanceof AxiosError) {
-          if (!error.response) {
-            Toast.show({
-              type: "error",
-              text1: "Connection error, try later",
-            });
-          } else {
-            Toast.show({
-              type: "error",
-              text1: error.response.data.message,
-            });
-          }
           if (error.response?.status == 401) {
             storageService.removeItem(STORAGE_KEYS.TOKEN);
             // router.replace("/sign-in");
@@ -91,8 +80,16 @@ function RootLayoutNav() {
       router.replace("/home");
       // await SplashScreen.hideAsync();
     } else if (!authenticated && !authenticating) {
+      const viewOnboroaring = storageService.getItem<boolean>(
+        STORAGE_KEYS.VIEWONBOARING
+      );
       console.log("Replace route to login");
-      router.replace("/sign-in");
+      if (viewOnboroaring) {
+        router.replace("/onboaring");
+      } else {
+        router.replace("/sign-in");
+      }
+
       // await SplashScreen.hideAsync();
     }
   };
