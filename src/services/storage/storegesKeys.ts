@@ -3,4 +3,5 @@ export const STORAGE_KEYS = {
   TOKEN: "TOKEN",
   LOCALE: "LOCALE",
   THEME: "THEME",
+  VIEWONBOARING: "VIEWONBOARING",
 } as const;
