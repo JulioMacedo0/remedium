@@ -12,7 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.juliomacedo0.remedium",
@@ -44,7 +46,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "0e830c18-6f43-4321-9330-c85a1c4acdb0"
+        "projectId": "00ab85d8-a8dd-45df-b50c-ee9f5141d4bc"
       }
     }
   }
