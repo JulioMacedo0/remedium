@@ -11,3 +11,4 @@ export * from "@components/Select";
 export * from "@components/LanguageSelect";
 export * from "@components/InputForm";
 export * from "@components/Button";
+export * from "@components/OnboaringItem";
