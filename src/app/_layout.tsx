@@ -95,7 +95,7 @@ function RootLayoutNav() {
         STORAGE_KEYS.VIEWONBOARING
       );
       console.log("Replace route to login");
-      if (viewOnboroaring) {
+      if (!viewOnboroaring) {
         router.replace("/onboaring");
       } else {
         router.replace("/sign-in");
@@ -132,6 +132,10 @@ function RootLayoutNav() {
       />
       <Stack.Screen
         name="index"
+        options={{ headerShown: false, animation: "fade_from_bottom" }}
+      />
+      <Stack.Screen
+        name="onboaring"
         options={{ headerShown: false, animation: "fade_from_bottom" }}
       />
     </Stack>
