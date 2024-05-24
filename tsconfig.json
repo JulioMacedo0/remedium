@@ -6,8 +6,16 @@
     "paths": {
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
-      "@lotties/*": ["assets/lotties/*"]
+      "@contants/*": ["src/constants"],
+      "@lotties/*": ["assets/lotties/*"],
+      "@images/*": ["assets/images/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "png.d.ts"
+  ]
 }
