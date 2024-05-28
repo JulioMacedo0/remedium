@@ -1,8 +1,10 @@
+import { opacity } from "@shopify/restyle";
 import { ArrowRight } from "lucide-react-native";
 import { ComponentProps } from "react";
 import {
   StyleSheet,
-  TouchableWithoutFeedback,
+  Pressable,
+  Text,
   View,
   useWindowDimensions,
 } from "react-native";
@@ -16,7 +18,7 @@ import Animated, {
 
 type OnboaringButtonProps = {
   buttonVal: SharedValue<number>;
-} & ComponentProps<typeof TouchableWithoutFeedback>;
+} & ComponentProps<typeof Pressable>;
 
 export const OnboaringButton = ({
   buttonVal,
@@ -26,7 +28,7 @@ export const OnboaringButton = ({
     const backgroundColor = interpolateColor(
       buttonVal.value,
       [0, 1, 2],
-      ["#f8dac2", "#097969", "#fff"]
+      ["#f8dac2", "#097969", "#5473C4"]
     );
 
     return {
@@ -41,14 +43,58 @@ export const OnboaringButton = ({
     };
   });
 
+  const arrowAnimationStyle = useAnimatedStyle(() => {
+    return {
+      opacity:
+        buttonVal.value == 2
+          ? withTiming(0, { duration: 1000 })
+          : withTiming(1),
+      transform: [
+        {
+          translateX:
+            buttonVal.value == 2
+              ? withTiming(100, { duration: 1000 })
+              : withTiming(0),
+        },
+      ],
+    };
+  });
+
+  const textAnimationStyle = useAnimatedStyle(() => {
+    return {
+      opacity:
+        buttonVal.value == 2
+          ? withTiming(1, { duration: 1000 })
+          : withTiming(0),
+      transform: [
+        {
+          translateX:
+            buttonVal.value == 2
+              ? withTiming(0, { duration: 1000 })
+              : withTiming(-100),
+        },
+      ],
+    };
+  });
+
+  const AnimatedArrowRight = Animated.createAnimatedComponent(ArrowRight);
+  const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
   return (
-    <TouchableWithoutFeedback {...rest}>
-      <Animated.View
-        style={[styles.container, animatedColor, buttomAnimationStyle]}
-      >
-        <ArrowRight width={45} height={45} color={"#000"} />
-      </Animated.View>
-    </TouchableWithoutFeedback>
+    <AnimatedPressable
+      style={[styles.container, animatedColor, buttomAnimationStyle]}
+      {...rest}
+    >
+      <Animated.Text style={[styles.textButton, textAnimationStyle]}>
+        Get Started
+      </Animated.Text>
+      <AnimatedArrowRight
+        style={arrowAnimationStyle}
+        width={45}
+        height={45}
+        color={"#000"}
+      />
+    </AnimatedPressable>
   );
 };
 
@@ -61,5 +107,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
+  },
+  textButton: {
+    color: "#fff",
+    fontSize: 20,
+    position: "absolute",
   },
 });
