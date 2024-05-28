@@ -25,7 +25,7 @@ export const OnboaringButton = ({
     const backgroundColor = interpolateColor(
       buttonVal.value,
       [0, 1, 2],
-      ["#f8dac2", " #097969", "#fff"]
+      ["#f8dac2", "#097969", "#fff"]
     );
 
     return {
