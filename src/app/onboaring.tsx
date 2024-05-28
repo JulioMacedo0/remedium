@@ -1,5 +1,6 @@
 import { OnboaringItem } from "@/components";
 import { OnboaringButton } from "@/components/OnboaringButton/OnboaringButton";
+import { Pagination } from "@/components/Pagination/Pagination";
 import { onBoaringData } from "@/constants";
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
@@ -28,6 +29,7 @@ export default function Onboaring() {
           );
         })}
       </View>
+      <Pagination data={onBoaringData} buttonVal={buttonVal} />
       <OnboaringButton onPress={() => handlePress()} buttonVal={buttonVal} />
     </View>
   );
@@ -38,5 +40,8 @@ const style = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  pagination: {
+    position: "absolute",
   },
 });
