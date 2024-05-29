@@ -39,7 +39,7 @@ export const OnboaringButton = ({
   const buttomAnimationStyle = useAnimatedStyle(() => {
     return {
       width: buttonVal.value === 2 ? withSpring(260) : withSpring(120),
-      height: buttonVal.value === 2 ? withSpring(80) : withTiming(120),
+      height: buttonVal.value === 2 ? withSpring(80) : withSpring(120),
     };
   });
 
