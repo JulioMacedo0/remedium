@@ -91,7 +91,7 @@ function RootLayoutNav() {
       router.replace("/home");
       // await SplashScreen.hideAsync();
     } else if (!authenticated && !authenticating) {
-      const viewOnboroaring = storageService.getItem<boolean>(
+      const viewOnboroaring = storageService.getItem<string>(
         STORAGE_KEYS.VIEWONBOARING
       );
       console.log("Replace route to login");
