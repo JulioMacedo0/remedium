@@ -5,11 +5,18 @@ import { format } from "date-fns";
 import { useRouter } from "expo-router";
 
 import { useEffect } from "react";
-import { TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Animated, {
+  Easing,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
+  withRepeat,
   withTiming,
 } from "react-native-reanimated";
 import { WeekCard } from "./componets/week-card";
@@ -17,6 +24,7 @@ import { Timer } from "./componets/timer";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants";
 import { useI18nStore } from "@/stores/i18n/useI18nStore";
+import { Trash2 } from "lucide-react-native";
 
 type AlertCardProps = {
   alert: CreateAlertType & {
@@ -33,8 +41,10 @@ type Weeks = {
 };
 
 export const AlertCard = ({ alert, index }: AlertCardProps) => {
+  const { deleteAlert, loading } = useAlertStore((set) => set);
+
   const theme = useTheme<Theme>();
-  const { notificationCard } = theme.colors;
+  const { notificationCard, brandColor } = theme.colors;
   const i18n = useI18nStore((state) => state.i18n);
   const router = useRouter();
 
@@ -65,21 +75,21 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
     fade.value = withTiming(1);
   };
 
-  const style = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-    opacity: fade.value,
-    height: height.value,
-    padding: padding.value,
-    backgroundColor: notificationCard,
-    borderRadius: 22,
-    marginBottom: mb.value,
-  }));
+  const style = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+      opacity: fade.value,
+      height: height.value,
+      padding: padding.value,
+      backgroundColor: loading ? notificationCard + 40 : notificationCard,
+      borderRadius: 22,
+      marginBottom: mb.value,
+    };
+  });
 
   const iconContainer = useAnimatedStyle(() => ({
     opacity: fade.value,
   }));
-
-  const { deleteAlert } = useAlertStore((set) => set);
 
   const renderTitleAlert = () => {
     switch (alert.trigger.alertType) {
@@ -188,11 +198,24 @@ export const AlertCard = ({ alert, index }: AlertCardProps) => {
       }}
     >
       <Animated.View style={style}>
+        {loading && (
+          <ActivityIndicator
+            style={[StyleSheet.absoluteFillObject, { bottom: 70 }]}
+            size={"large"}
+            color={brandColor}
+          />
+        )}
         <VStack alignItems="stretch">
-          <HStack>
+          <HStack justifyContent="space-between">
             <Heading color="#fff" size="sm" ml={12}>
               {alert.title}
             </Heading>
+            <TouchableOpacity
+              disabled={loading}
+              onPress={() => deleteAlert(alert.id)}
+            >
+              <Trash2 color={"#fff"} width={26} />
+            </TouchableOpacity>
           </HStack>
 
           {renderTitleAlert()}
