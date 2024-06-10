@@ -46,17 +46,7 @@ export default function Onboaring() {
           );
         })}
       </View>
-      {overlay && (
-        <Canvas style={StyleSheet.absoluteFillObject} pointerEvents="none">
-          <Image
-            image={overlay}
-            x={0}
-            y={0}
-            width={overlay.width() / pd}
-            height={overlay.height() / pd}
-          />
-        </Canvas>
-      )}
+
       <Pagination data={onBoaringData} buttonVal={buttonVal} />
       <OnboaringButton onPress={() => handlePress()} buttonVal={buttonVal} />
     </View>
