@@ -1,1 +1,0 @@
-export { OnboaringItem } from "./OnboaringItem";
